@@ -127,7 +127,7 @@ console.log("sidy");
  })  */
 const addProductFormContainer = document.getElementById('contentformProduct');
 /*   function afficherPopup(){
-
+ 
     addProductFormContainer?.classList.remove('hidden');
   }
 
@@ -166,12 +166,61 @@ document.getElementById("limiteCargaison")?.addEventListener("change", function 
         }
     }
 });
-// Fonction pour afficher les cargaisons
-function afficherCargaisons() {
+// ===============================Fonction pour afficher les cargaisons============================
+/*  function afficherCargaisons(): void {
+  fetch('../data.json')
+    .then(response => response.json())
+    .then(data => {
+      const cargaisons: Cargaison[] = data.cargaisons;
+      const cargaisonList = document.getElementById('bodyCargaison');
+      if (!cargaisonList) return;
+      cargaisonList.innerHTML = '';
+      cargaisons.forEach(cargaison => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="px-6 py-4 ">${cargaison.numero}</td>
+          <td class="px-6 py-4 ">${cargaison.type}</td>
+          <td class="px-6 py-4 ">${cargaison.pointDepart}</td>
+          <td class="px-6 py-4 ">${cargaison.pointArrive}</td>
+          <td class="px-6 py-4 ">${cargaison.poidsMax}</td>
+          <td class="px-6 py-4 ">${cargaison.distance}</td>
+          <td class="px-6 py-4 "><button class="bg-blue-500 text-white px-6 py-4 rounded btn-view" type="button" data-id="${cargaison.numero}">Details</button></td>
+        `;
+        cargaisonList.appendChild(row);
+      });
+
+      // Ajouter des événements aux boutons "voir"
+      document.querySelectorAll('.btn-view').forEach(button => {
+        button.addEventListener('click', (event) => {
+          const target = event.target as HTMLElement;
+          const cargaisonId = target.getAttribute('data-id');
+          afficherDetailsCargaison(cargaisonId);
+        });
+      });
+    })
+  /* .catch(error => console.error('Erreur:', error)); */
+/* }  */
+/* ================affiche et filtre================================ */
+function afficherCargaisons111(filtre) {
     fetch('../data.json')
         .then(response => response.json())
         .then(data => {
-        const cargaisons = data.cargaisons;
+        let cargaisons = data.cargaisons;
+        // Filtrer les cargaisons selon les critères fournis
+        if (filtre) {
+            if (filtre.numero) {
+                cargaisons = cargaisons.filter(cargaison => cargaison.numero.includes(filtre.numero));
+            }
+            if (filtre.pointDepart) {
+                cargaisons = cargaisons.filter(cargaison => cargaison.pointDepart.includes(filtre.pointDepart));
+            }
+            if (filtre.type) {
+                cargaisons = cargaisons.filter(cargaison => cargaison.type.includes(filtre.type));
+            }
+            if (filtre.pointArrive) {
+                cargaisons = cargaisons.filter(cargaison => cargaison.pointArrive.includes(filtre.pointArrive));
+            }
+        }
         const cargaisonList = document.getElementById('bodyCargaison');
         if (!cargaisonList)
             return;
@@ -198,8 +247,17 @@ function afficherCargaisons() {
             });
         });
     });
-    /* .catch(error => console.error('Erreur:', error)); */
 }
+document.getElementById('filterBtn')?.addEventListener('click', () => {
+    console.log("filtrer par ::::::::::::");
+    const filtre = {
+        numero: document.getElementById('filterNumero').value,
+        pointDepart: document.getElementById('filterPointDepart').value,
+        type: document.getElementById('filterType').value,
+        pointArrive: document.getElementById('filterPointArrive').value,
+    };
+    afficherCargaisons111(filtre);
+});
 // Fonction pour afficher les détails d'une cargaison (vide pour le moment)
 function afficherDetailsCargaison(cargaisonId) {
     console.log('Afficher les détails pour la cargaison:', cargaisonId);
@@ -212,7 +270,9 @@ document.getElementById('addCargoForm')?.addEventListener('submit', (event) => {
     const poidsCargaison = parseFloat(document.getElementById('poidsCargaison').value);
     const pointDepart = document.getElementById('pointDepart').value;
     const pointArrive = document.getElementById('pointArrive').value;
-    const cargaison = new Cargaison('addCargaison', numero, poidsCargaison, pointDepart, pointArrive, distance, typeCargaison);
+    const dateDepart = document.getElementById('dateDepart').value;
+    const dateArrive = document.getElementById('dateArrive').value;
+    const cargaison = new Cargaison('addCargaison', numero, poidsCargaison, pointDepart, pointArrive, dateDepart, dateArrive, distance, typeCargaison);
     console.log(cargaison);
     fetch('../api.php', {
         method: 'POST',
@@ -235,8 +295,142 @@ document.getElementById('addCargoForm')?.addEventListener('submit', (event) => {
         console.error('Erreur:', error);
     });
 });
-;
 document.getElementById('valider')?.addEventListener('click', () => {
     afficherCargaisons();
 });
 afficherCargaisons();
+document.getElementById('addCargoForm')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const typeCargaison = document.getElementById('type').value;
+    const distance = parseFloat(document.getElementById('distance').value);
+    const numero = "CRG" + Math.floor(Math.random() * 1000); // Générer un numéro aléatoire pour la cargaison
+    const poidsCargaison = parseFloat(document.getElementById('poidsCargaison').value);
+    const pointDepart = document.getElementById('pointDepart').value;
+    const pointArrive = document.getElementById('pointArrive').value;
+    const dateDepart = document.getElementById('dateDepart').value;
+    const dateArrive = document.getElementById('dateArrive').value;
+    if (validerFormulaire()) {
+        const cargaison = new Cargaison('addCargaison', numero, poidsCargaison, pointDepart, pointArrive, dateDepart, dateArrive, distance, typeCargaison);
+        console.log(cargaison);
+        fetch('../api.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(cargaison),
+        })
+            .then(response => response.json())
+            .then(result => {
+            console.log(result);
+            if (result.status === 'success') {
+                alert(result.message);
+            }
+            else {
+                alert('Erreur lors de l\'ajout de la cargaison');
+            }
+        })
+            .catch(error => {
+            console.error('Erreur:', error);
+        });
+    }
+});
+/* ===============valider button===================== */
+document.getElementById('valider')?.addEventListener('click', () => {
+    afficherCargaisons();
+});
+afficherCargaisons();
+/* ========================valider formulaire========================= */
+function validerFormulaire() {
+    // Récupérer les valeurs des champs du formulaire
+    const numero = document.getElementById('codeCargaison').value;
+    const poidsMax = parseInt(document.getElementById('poidsCargaison').value);
+    /*  const prixTotal = parseInt((<HTMLInputElement>document.getElementById('prix')).value); */
+    const depart = document.getElementById('pointDepart').value;
+    const arrivee = document.getElementById('pointArrive').value;
+    const distance = parseInt(document.getElementById('distance').value);
+    const type = document.getElementById('type').value;
+    /*   const statut = (<HTMLSelectElement>document.getElementById('statut')).value;
+      const etat = (<HTMLSelectElement>document.getElementById('etat')).value; */
+    const dateArrive = document.getElementById('dateArrive').value;
+    const dateDepart = document.getElementById('dateDepart').value;
+    // Valider chaque champ du formulaire
+    if (!numero || !poidsMax || !depart || !arrivee || !distance || !type || !statut || !dateArrive || !dateDepart) {
+        alert('Veuillez remplir tous les champs du formulaire.');
+        return false;
+    }
+    // Valider les champs spécifiques selon vos critères
+    if (poidsMax <= 0 || distance <= 0) {
+        alert('Les valeurs des champs "Poids maximum", "Prix total" et "Distance" doivent être supérieures à zéro.');
+        return false;
+    }
+    // Si tout est valide, retourner true
+    return true;
+}
+/* ========================fonction de pagination==================== */
+const cargaisonsParPage = 7; // Définir le nombre de cargaisons par page
+function afficherCargaisons(page = 1) {
+    fetch('../data.json')
+        .then(response => response.json())
+        .then(data => {
+        const cargaisons = data.cargaisons;
+        const cargaisonList = document.getElementById('bodyCargaison');
+        if (!cargaisonList)
+            return;
+        cargaisonList.innerHTML = '';
+        // Calculer l'index de début et de fin pour la page actuelle
+        const debutIndex = (page - 1) * cargaisonsParPage;
+        const finIndex = debutIndex + cargaisonsParPage;
+        // Afficher les cargaisons pour la page actuelle
+        const cargaisonsPage = cargaisons.slice(debutIndex, finIndex);
+        cargaisonsPage.forEach(cargaison => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+          <td class="px-4 py-4 ">${cargaison.numero}</td>
+          <td class="px-6 py-4 ">${cargaison.type}</td>
+          <td class="px-6 py-4 ">${cargaison.dateDepart}</td>
+          <td class="px-6 py-4 ">${cargaison.dateArrive}</td>
+          <td class="px-6 py-4 ">${cargaison.pointDepart}</td>
+          <td class="px-6 py-4 ">${cargaison.pointArrive}</td>
+          <td class="px-6 py-4 ">${cargaison.poidsMax}</td>
+          <td class="px-6 py-4 ">${cargaison.distance}</td>
+          <td class="px-6 py-4 data-id="${cargaison.numero}"> <i class="fas fa-plus"  style="font-size:48px;color:blue;">+</i></td>
+          <td class="px-6 py-4 "><button class=" bg-blue-500 px-6 py-4 rounded btn-view" type="button" data-id="${cargaison.numero}">Details</button></td>
+        `;
+            cargaisonList.appendChild(row);
+        });
+        // Ajouter des événements aux boutons "voir"
+        document.querySelectorAll('.btn-view').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const target = event.target;
+                const cargaisonId = target.getAttribute('data-id');
+                afficherDetailsCargaison(cargaisonId);
+            });
+        });
+        // Afficher la pagination
+        afficherPagination(cargaisons.length, page);
+    })
+        .catch(error => console.error('Erreur:', error));
+}
+const buttonClasses = [
+    'py-1 px-3 bg-gray-300 rounded',
+    'py-1 px-3 bg-blue-500 text-white rounded',
+    'py-1 px-3 bg-blue-300 rounded',
+];
+function afficherPagination(totalCargaisons, page) {
+    const pagination = document.getElementById('pagination');
+    if (!pagination)
+        return;
+    pagination.innerHTML = '';
+    const totalPages = Math.ceil(totalCargaisons / cargaisonsParPage);
+    // Ajouter les boutons de pagination
+    for (let i = 1; i <= totalPages; i++) {
+        const button = document.createElement('button');
+        button.innerText = i.toString();
+        /*  button.className = i === page ? 'active' : ''; */
+        /*  button.className =  `py-1 px-3 bg-gray-300 rounded ${i === page ? 'active' : ''}`; */
+        const randomIndex = Math.floor(Math.random() * buttonClasses.length);
+        button.className = `${buttonClasses[randomIndex]} ${i === page ? 'active' : ''}`;
+        button.addEventListener('click', () => afficherCargaisons(i));
+        pagination.appendChild(button);
+    }
+}

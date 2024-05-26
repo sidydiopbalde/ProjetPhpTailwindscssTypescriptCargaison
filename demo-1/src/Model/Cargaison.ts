@@ -37,6 +37,8 @@
     poidsMax: number;
     pointDepart: string;
     pointArrive: string;
+    dateDepart:string;
+    dateArrive:string;
     distance: number;
     type: string;
   
@@ -46,6 +48,8 @@
       poidsMax: number,
       pointDepart: string,
       pointArrive: string,
+      dateDepart:string,
+      dateArrive:string,
       distance: number,
       type: string
     ) {
@@ -54,6 +58,8 @@
       this.poidsMax = poidsMax;
       this.pointDepart = pointDepart;
       this.pointArrive = pointArrive;
+      this.dateDepart=dateDepart;
+      this.dateArrive=dateArrive;
       this.distance = distance;
       this.type = type;
     }

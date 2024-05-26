@@ -35,14 +35,18 @@ class Cargaison {
     poidsMax;
     pointDepart;
     pointArrive;
+    dateDepart;
+    dateArrive;
     distance;
     type;
-    constructor(action, numero, poidsMax, pointDepart, pointArrive, distance, type) {
+    constructor(action, numero, poidsMax, pointDepart, pointArrive, dateDepart, dateArrive, distance, type) {
         this.action = action;
         this.numero = numero;
         this.poidsMax = poidsMax;
         this.pointDepart = pointDepart;
         this.pointArrive = pointArrive;
+        this.dateDepart = dateDepart;
+        this.dateArrive = dateArrive;
         this.distance = distance;
         this.type = type;
     }

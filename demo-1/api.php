@@ -97,10 +97,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $newCargaison = [
             "idcargo" => uniqid(),
             "numero" => $data['numero'],
-            "poids_max" => $data['poidsMax'],
-            "lieu_depart" => $data['pointDepart'],
-            "lieu_arrivee" => $data['pointArrive'],
-            "distance_km" => $data['distance'],
+            "poidsMax" => $data['poidsMax'],
+            "pointDepart" => $data['pointDepart'],
+            "pointArrive" => $data['pointArrive'],
+            "distance" => $data['distance'],
             "type" => $data['type']
         ];
 
