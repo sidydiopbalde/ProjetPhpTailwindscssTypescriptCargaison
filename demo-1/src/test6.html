@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carte avec Distance</title>
+  <link rel="stylesheet" href="tailwind.css">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.11.1/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <style>
+    #map {
+      width: 100%;
+      height: 300px;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <div class="flex">
+    <div id="map" class="mb-4"></div>
+    <button type="button" id="select-points" class="btn bg-primary w-full text-white hover:bg-secondary-dark hover:text-primary mb-4">Sélectionner les points sur la carte</button>
+    <input type="text" id="start-location" placeholder="Lieu de départ" readonly class="mb-2 p-2 border">
+    <input type="text" id="end-location" placeholder="Lieu d'arrivée" readonly class="mb-2 p-2 border">
+    <input type="text" id="distance" placeholder="Distance (km)" readonly class="p-2 border">
+  </div>
+  <script type="module" src="../dist/test.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="../ts/modelJs/test.js"></script>
+  <script>
+    let map, startMarker, endMarker;
+    let startPoint, endPoint;
+
+    // Initialisation de la carte
+    map = L.map('map').setView([0, 0], 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    // Sélection de points sur la carte
+    document.getElementById('select-points').addEventListener('click', function() {
+      map.on('click', onMapClick);
+    });
+
+    function onMapClick(e) {
+      if (!startPoint) {
+        startPoint = e.latlng;
+        startMarker = L.marker(startPoint).addTo(map);
+        reverseGeocode(startPoint, 'start-location');
+      } else if (!endPoint) {
+        endPoint = e.latlng;
+        endMarker = L.marker(endPoint).addTo(map);
+        reverseGeocode(endPoint, 'end-location');
+        calculateDistance();
+        map.off('click', onMapClick);
+      }
+    }
+
+    // Géocodage inversé pour obtenir les informations de localisation
+    function reverseGeocode(latlng, elementId) {
+      fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latlng.lat}&lon=${latlng.lng}`)
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById(elementId).value = data.address.city || data.address.town || data.address.village || data.address.country;
+        });
+    }
+
+    // Calcul de la distance entre deux points
+    function calculateDistance() {
+      if (startPoint && endPoint) {
+        const distance = map.distance(startPoint, endPoint) / 1000; // Conversion en km
+        document.getElementById('distance').value = distance.toFixed(2);
+      }
+    }
+
+    // Réinitialisation de la carte et des marqueurs
+    function resetMap() {
+      if (startMarker) map.removeLayer(startMarker);
+      if (endMarker) map.removeLayer(endMarker);
+      startPoint = null;
+      endPoint = null;
+      document.getElementById('start-location').value = '';
+      document.getElementById('end-location').value = '';
+      document.getElementById('distance').value = '';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+{
+    "cargaisons": [
+        {
+            "idcargo": 1,
+            "numero": "CRG001",
+            "poids_max": 5000,
+            "prix_total": 30000,
+            "lieu_depart": "Paris",
+            "lieu_arrivee": "Londres",
+            "distance_km": 350,
+            "type": "maritime",
+            "etat_avancement": "en cours",
+            "etat_globale": "ouvert"
+        },
+        {
+            "idcargo": 2,
+            "numero": "CRG002",
+            "poids_max": 8000,
+            "prix_total": 45000,
+            "lieu_depart": "New York",
+            "lieu_arrivee": "Los Angeles",
+            "distance_km": 3900,
+            "type": "a\u00e9rien",
+            "etat_avancement": "arriv\u00e9",
+            "etat_globale": "ferm\u00e9"
+        },
+        {
+            "idcargo": "6650bad98bdab",
+            "numero": "CRG488",
+            "poids_max": "1",
+            "prix_total": "10",
+            "lieu_depart": "Paris",
+            "lieu_arrivee": "Londres",
+            "distance_km": "350",
+            "type": "CargaisonRouti\u00e8re",
+            "etat_avancement": "en cours",
+            "etat_globale": "ouvert"
+        },
+        {
+            "idcargo": "6650bd2ba4040",
+            "numero": "CRG177",
+            "poids_max": "34",
+            "prix_total": "340",
+            "lieu_depart": "Paris",
+            "lieu_arrivee": "Londres",
+            "distance_km": "350",
+            "type": "CargaisonMaritime",
+            "etat_avancement": "en cours",
+            "etat_globale": "ouvert"
+        },
+        {
+            "idcargo": "6650c65d3a07d",
+            "numero": "CRG107",
+            "poids_max": "46",
+            "prix_total": "460",
+            "lieu_depart": "Paris",
+            "lieu_arrivee": "Londres",
+            "distance_km": "350",
+            "type": "CargaisonRouti\u00e8re",
+            "etat_avancement": "en cours",
+            "etat_globale": "ouvert"
+        },
+        {
+            "idcargo": "6650c7d567c35",
+            "numero": "CRG326",
+            "poids_max": "79",
+            "prix_total": "790",
+            "lieu_depart": "Paris",
+            "lieu_arrivee": "Londres",
+            "distance_km": "350",
+            "type": "CargaisonA\u00e9rienne",
+            "etat_avancement": "en cours",
+            "etat_globale": "ouvert"
+        }
+    ]
+}
