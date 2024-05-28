@@ -1,36 +1,6 @@
 // import { Produit } from "./Produit.js";
 
 
-/* class Cargaison {
-  idcargo: string;
-  numero: string;
-  poidsMax: number;
-  lieu_depart: string;
-  lieu_arrivee: string;
-  distance_km: number;
-  type: string;
-
-  private cargaisons: Cargaison[] = [];
-
-  constructor(
-    idcargo: string,
-    numero: string,
-    poidsMax: number,
-    lieu_depart: string,
-    lieu_arrivee: string,
-    distance_km: number,
-    type: string,
-  
-  ) {
-    this.idcargo = idcargo;
-    this.numero = Cargaison.generateRandomNumero()
-    this.poidsMax = poidsMax;
-    this.lieu_depart = lieu_depart;
-    this.lieu_arrivee = lieu_arrivee;
-    this.distance_km = distance_km;
-    this.type = type;
-   
-  } */
   class Cargaison {
     action: string;
     numero: string;
@@ -41,7 +11,9 @@
     dateArrive:string;
     distance: number;
     type: string;
-  
+    etatGlobal:string;
+    etatAvancement:string;
+    produit:[]
     constructor(
       action: string,
       numero: string,
@@ -51,7 +23,10 @@
       dateDepart:string,
       dateArrive:string,
       distance: number,
-      type: string
+      type: string,
+      etatGlobal:string,
+      etatAvancement:string,
+      produit:[]
     ) {
       this.action = action;
       this.numero = numero;
@@ -62,6 +37,9 @@
       this.dateArrive=dateArrive;
       this.distance = distance;
       this.type = type;
+      this.etatGlobal=etatGlobal;
+      this.etatAvancement=etatAvancement;
+      this.produit=produit;
     }
   }
 
@@ -80,9 +58,8 @@
   }
 } */
 
-
-
-
-
 export { Cargaison };
 
+class maritime extends Cargaison{
+  
+}

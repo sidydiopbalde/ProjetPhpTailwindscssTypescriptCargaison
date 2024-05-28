@@ -1,4 +1,3 @@
-
 <div class="mb-4">
         <ul class="flex space-x-4">
           <li><a href="#" class="font-bold text-blue-500">All Cargaisons</a></li>
@@ -9,50 +8,37 @@
         </ul>
       </div>
       <div>
-      <!--   <button class="bg-blue-500 px-4 py-3 text-blue-50 rounded-lg">Rechercher</button> -->
+        <button class="bg-blue-500 px-4 py-3 text-blue-50 rounded-lg">Rechercher</button>
       </div>
-       <!-- <button class="btn" onclick="my_modal_1.showModal()">open modal</button>  -->
-          <dialog id="my_modal_1" class="modal">
-            <div class="modal-box">
-              <h3 class="font-bold text-lg">Hello!</h3>
-              <p class="py-4">Press ESC key or click the button below to close</p>
-              <div class="modal-action">
-                <form method="dialog">
-                  <!-- if there is a button in form, it will close the modal -->
-                  <button class="btn">Close</button>
-                </form>
-              </div>
-            </div>
-          </dialog>
   <div id="blockfiltrer" class="py-4 m-[20%] flex justify-between" >
     <div class="">
-      <label for="filterNumero" class="text-blue-500">Filtrer par Code</label>
-    <input type="text" class="py-4 rounded" id="filterNumero" style="padding:0.5rem" placeholder="Filtrer par numéro">
+      <label for="filterNumero">Filtrer par Code</label>
+    <input type="text" class="py-4" id="filterNumero" placeholder="Filtrer par numéro">
     </div>
     <div>
 
-      <label for="filterPointDepart" class="text-blue-500">filtrer depart</label>
-      <input type="text" id="filterPointDepart" style="padding:0.5rem"  placeholder="Filtrer par point de départ">
+      <label for="filterPointDepart">filtrer depart</label>
+      <input type="text" id="filterPointDepart" placeholder="Filtrer par point de départ">
     </div>
     <div>
 
-      <label for="filtrer Arrivée" class="text-blue-500">point Arrivé</label>
-    <input type="text" id="filterPointArrive" style="padding:0.5rem" placeholder="Filtrer par point d'arrivée">
+      <label for="filtrer Arrivée">point Arrivé</label>
+    <input type="text" id="filterPointArrive" placeholder="Filtrer par point d'arrivée">
     </div>
     <div>
 
-      <label for="filterType" class="text-blue-500">filtrer type</label>
-    <input type="text" id="filterType" style="padding:0.5rem" placeholder="Filtrer par type">
+      <label for="filterType">filtrer type</label>
+    <input type="text" id="filterType" placeholder="Filtrer par type">
     </div>
     <div>
 
-<label for="filterPointDepart" class="text-blue-500">filtrer date dpt</label>
-<input type="text" id="filterdateDepart" style="padding:0.5rem" placeholder="Filtrer par point de départ">
+<label for="filterPointDepart">filtrer date dpt</label>
+<input type="text" id="filterdateDepart" placeholder="Filtrer par point de départ">
 </div>
 <div>
 
-<label for="filtrer Arrivée" class="text-blue-500">point date  Arrivé</label>
-<input type="text" id="filterdateArrive" style="padding:0.5rem" placeholder="Filtrer par point d'arrivée">
+<label for="filtrer Arrivée">point date  Arrivé</label>
+<input type="text" id="filterdateArrive" placeholder="Filtrer par point d'arrivée">
 </div>
   <button id="filterBtn" class="bg-blue-500 rounded-lg text-white">Filtrer</button>
 </div>
@@ -64,9 +50,14 @@
               <button id="close" class="btn">Close</button>
             </form>
           </div>
-          <!-- formulaire ajout cargaison -->
           <h2 class="text-lg font-semibold text-blue-500 mb-4 text-center">Ajouter Cargaison</h2>
           <form id="addCargoForm">
+         <!--  <input type="hidden" name="action" value="addCargaison"> -->
+           <!--  <div class="mb-4">
+              <label for="codeCargaison" class="block text-gray-700">Code Cargo</label>
+              <input type="text" id="codeCargaison" name="numero"
+              class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div> -->
             <div class="mb-4">
               <label for="type" class="block text-gray-700">Type de cargaison</label>
               <select id="type" name="type" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -156,14 +147,9 @@
             <th class="py-2 px-4">Détails</th>
           </tr>
         </thead>
-                            <?php
-                            // Lire le fichier JSON
-                            $donneesJson = file_get_contents('../data.json');
-                            $cargaisons = json_decode($donneesJson, true)['cargaisons'];
-                            ?>
         <tbody id="bodyCargaison">
-     
-         <!--  <tr class="hover-scale transition transform duration-300 bg-blue-100 hover:bg-blue-200 cursor-pointer">
+          <!-- Example row -->
+          <tr class="hover-scale transition transform duration-300 bg-blue-100 hover:bg-blue-200 cursor-pointer">
             <td class="py-2 px-4">#2633</td>
             <td class="py-2 px-4 flex items-center">
               <img src="https://via.placeholder.com/30" alt="Avatar" class="rounded-full mr-2">
@@ -179,9 +165,9 @@
             <td class="py-2 px-4">
               <button class="">Details</button>
             </td>
-          </tr> -->
+          </tr>
           <!-- Other rows -->
-         <!--  <tr class="hover-scale transition transform duration-300">
+          <tr class="hover-scale transition transform duration-300">
             <td class="py-2 px-4">#2634</td>
             <td class="py-2 px-4 flex items-center">
               <img src="https://via.placeholder.com/30" alt="Avatar" class="rounded-full mr-2">
@@ -197,29 +183,8 @@
             <td class="py-2 px-4">
               <button class="material-icons">Details</button>
             </td>
-          </tr> -->
-          <!-- htmlspecialchars() est utilisé pour s'assurer que les données sont affichées en toute sécurité (protection contre les injections XSS). -->
-          <?php foreach ($cargaisons as $cargaison) : ?>
-            <tr class="hover-scale transition transform duration-300 bg-blue-100 hover:bg-blue-200 cursor-pointer">
-                <td class="py-2 px-4"><?= htmlspecialchars($cargaison['numero']) ?></td>
-                <td class="py-2 px-4"><?= htmlspecialchars($cargaison['type']) ?></td>
-                <td class="py-2 px-4"><?= htmlspecialchars($cargaison['dateDepart']) ?></td>
-                <td class="py-2 px-4"><?= htmlspecialchars($cargaison['dateArrive']) ?></td>
-                <td class="py-2 px-4"><?= htmlspecialchars($cargaison['pointDepart']) ?></td>
-                <td class="py-2 px-4"><?= htmlspecialchars($cargaison['pointArrive']) ?></td>
-                <td class="py-2 px-4"><?= htmlspecialchars($cargaison['poidsMax']) ?></td>
-                <td class="py-2 px-4"><?= htmlspecialchars($cargaison['distance']) ?></td>
-                <td class="py-2 px-4"><?= htmlspecialchars($cargaison['etatGlobal'] ?? 'N/A') ?></td>
-                <td class="py-2 px-4"><?= htmlspecialchars($cargaison['etatAvancement'] ?? 'N/A') ?></td>
-                <td class="py-2 px-4">
-                    <i class="fas fa-plus" style="font-size:48px;color:blue;">+</i>
-                </td>
-                <td class="py-2 px-4">
-                    <button class="material-icons">Details</button>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-         
+          </tr>
+          <!-- Repeat rows as needed -->
         </tbody>
       </table>
       <div class="flex justify-between mt-4">

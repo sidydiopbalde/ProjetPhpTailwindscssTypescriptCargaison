@@ -1,5 +1,3 @@
-/*  import { Cargaison } from "./Model/Cargaisaon.js";  */
-/*==================Instanciation================== */
 import { Cargaison } from "./Model/Cargaison.js";
 /* const terrestre = new Terrestre(5000, []);
 const terrestre1 = new Terrestre(4000, []);
@@ -156,19 +154,11 @@ document.getElementById("limiteCargaison")?.addEventListener("change", function 
                 divPoids.style.display = "none";
             }
         }
-        else {
-            if (divPoids) {
-                divPoids.style.display = "none";
-            }
-            if (divColis) {
-                divColis.style.display = "none";
-            }
-        }
     }
 });
 // ===============================Fonction pour afficher les cargaisons============================
 /*  function afficherCargaisons(): void {
-  fetch('../data.json')
+  fetch('../api.php')
     .then(response => response.json())
     .then(data => {
       const cargaisons: Cargaison[] = data.cargaisons;
@@ -200,13 +190,14 @@ document.getElementById("limiteCargaison")?.addEventListener("change", function 
     })
   /* .catch(error => console.error('Erreur:', error)); */
 /* }  */
-/* ================affiche et filtre================================ */
+/*  let cargaisons: Cargaison[] = data.cargaisons;) */
+/* ================>Fonction pour filtre<================================ */
 function afficherCargaisons111(filtre) {
-    fetch('../data.json')
+    fetch('../api.php')
         .then(response => response.json())
         .then(data => {
         let cargaisons = data.cargaisons;
-        // Filtrer les cargaisons selon les critères fournis
+        // ==============Filtrer les cargaisons selon les critères fournis
         if (filtre) {
             if (filtre.numero) {
                 cargaisons = cargaisons.filter(cargaison => cargaison.numero.includes(filtre.numero));
@@ -217,8 +208,20 @@ function afficherCargaisons111(filtre) {
             if (filtre.type) {
                 cargaisons = cargaisons.filter(cargaison => cargaison.type.includes(filtre.type));
             }
+            if (filtre.dateDepart) {
+                cargaisons = cargaisons.filter(cargaison => cargaison.dateDepart.includes(filtre.dateDepart));
+            }
+            if (filtre.dateArrive) {
+                cargaisons = cargaisons.filter(cargaison => cargaison.dateArrive.includes(filtre.dateArrive));
+            }
             if (filtre.pointArrive) {
                 cargaisons = cargaisons.filter(cargaison => cargaison.pointArrive.includes(filtre.pointArrive));
+            }
+            if (filtre.numero && filtre.pointDepart && filtre.type && filtre.dateDepart && filtre.dateArrive && filtre.pointArrive) {
+                cargaisons = cargaisons.filter(cargaison => (cargaison.numero.includes(filtre.numero)
+                    || cargaison.pointDepart.includes(filtre.pointDepart) || cargaison.type.includes(filtre.type)
+                    || cargaison.dateDepart.includes(filtre.dateDepart) || cargaison.dateArrive.includes(filtre.dateArrive)
+                    || cargaison.pointArrive.includes(filtre.pointArrive)));
             }
         }
         const cargaisonList = document.getElementById('bodyCargaison');
@@ -248,13 +251,16 @@ function afficherCargaisons111(filtre) {
         });
     });
 }
+/* ====================>Click du  button filter<====================== */
 document.getElementById('filterBtn')?.addEventListener('click', () => {
-    console.log("filtrer par ::::::::::::");
+    console.log("filtrer par ::::ALLL::::::::");
     const filtre = {
         numero: document.getElementById('filterNumero').value,
         pointDepart: document.getElementById('filterPointDepart').value,
-        type: document.getElementById('filterType').value,
         pointArrive: document.getElementById('filterPointArrive').value,
+        type: document.getElementById('filterType').value,
+        dateDepart: document.getElementById('filterdateDepart').value,
+        dateArrive: document.getElementById('filterdateArrive').value,
     };
     afficherCargaisons111(filtre);
 });
@@ -262,55 +268,95 @@ document.getElementById('filterBtn')?.addEventListener('click', () => {
 function afficherDetailsCargaison(cargaisonId) {
     console.log('Afficher les détails pour la cargaison:', cargaisonId);
 }
+//=============== Fonction pour afficher un message d'erreur============================
+function showError(elementId, message) {
+    const errorElement = document.getElementById(elementId + 'Error');
+    if (errorElement) {
+        errorElement.textContent = message;
+    }
+}
+/* =====================fonction pour obtenir la date du jour====================== */
+function getCurrentDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const day = today.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+let produit;
+/* =========================Evenement de soumission ============================== */
 document.getElementById('addCargoForm')?.addEventListener('submit', (event) => {
     event.preventDefault();
+    const errorElements = document.querySelectorAll('.text-red-500');
+    errorElements.forEach(el => el.textContent = '');
     const typeCargaison = document.getElementById('type').value;
     const distance = parseFloat(document.getElementById('distance').value);
-    const numero = "CRG" + Math.floor(Math.random() * 1000); // Générer un numéro aléatoire pour la cargaison
+    const numero = "SDB" + Math.floor(Math.random() * 1000); // Générer un numéro aléatoire pour la cargaison
     const poidsCargaison = parseFloat(document.getElementById('poidsCargaison').value);
     const pointDepart = document.getElementById('pointDepart').value;
     const pointArrive = document.getElementById('pointArrive').value;
     const dateDepart = document.getElementById('dateDepart').value;
     const dateArrive = document.getElementById('dateArrive').value;
-    const cargaison = new Cargaison('addCargaison', numero, poidsCargaison, pointDepart, pointArrive, dateDepart, dateArrive, distance, typeCargaison);
-    console.log(cargaison);
-    fetch('../api.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(cargaison),
-    })
-        .then(response => response.json())
-        .then(result => {
-        console.log(result);
-        if (result.status === 'success') {
-            alert(result.message);
-        }
-        else {
-            alert('Erreur lors de l\'ajout de la cargaison');
-        }
-    })
-        .catch(error => {
-        console.error('Erreur:', error);
-    });
-});
-document.getElementById('valider')?.addEventListener('click', () => {
-    afficherCargaisons();
-});
-afficherCargaisons();
-document.getElementById('addCargoForm')?.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const typeCargaison = document.getElementById('type').value;
-    const distance = parseFloat(document.getElementById('distance').value);
-    const numero = "CRG" + Math.floor(Math.random() * 1000); // Générer un numéro aléatoire pour la cargaison
-    const poidsCargaison = parseFloat(document.getElementById('poidsCargaison').value);
-    const pointDepart = document.getElementById('pointDepart').value;
-    const pointArrive = document.getElementById('pointArrive').value;
-    const dateDepart = document.getElementById('dateDepart').value;
-    const dateArrive = document.getElementById('dateArrive').value;
-    if (validerFormulaire()) {
-        const cargaison = new Cargaison('addCargaison', numero, poidsCargaison, pointDepart, pointArrive, dateDepart, dateArrive, distance, typeCargaison);
+    let valid = true;
+    // Valider chaque champ
+    /*  if (!limiteCargaison) {
+       showError('limiteCargaison', 'Type de limitation cargaison est requis');
+       valid = false;
+     } else if (limiteCargaison === 'poids' && !poidsCargaison) {
+       showError('poidsCargaison', 'Poids de la cargaison est requis');
+       valid = false;
+     } else if (limiteCargaison === 'colis' && !nombredeColis) {
+       showError('nombredeColis', 'Nombre de colis est requis');
+       valid = false;
+     } */
+    if (!typeCargaison) {
+        showError('type', 'Type de cargaison est requis');
+        valid = false;
+    }
+    if (!distance) {
+        showError('distance', 'Distance est requise');
+        valid = false;
+    }
+    if (!dateDepart) {
+        showError('dateDepart', 'Date de départ est requise');
+        valid = false;
+    }
+    else if (dateDepart < getCurrentDate()) {
+        showError('dateDepart', 'la date doit etre min égale à la date actuelle');
+        valid = false;
+    }
+    else if (dateDepart > dateArrive) {
+        showError('dateDepart', 'la date doit etre inférieure  à la date d\'arivée');
+        valid = false;
+    }
+    if (!dateArrive) {
+        showError('dateArrive', 'Date d\'arrivée est requise');
+        valid = false;
+    }
+    else if (dateArrive < getCurrentDate()) {
+        showError('dateArrive', 'la date doit etre min égale à la date actuelle');
+        valid = false;
+    }
+    else if (dateArrive < dateDepart) {
+        showError('dateArrive', 'la date doit etre supérieure  à la date de départ');
+        valid = false;
+    }
+    if (!pointDepart) {
+        showError('pointDepart', 'Lieu de départ est requis');
+        valid = false;
+    }
+    if (!pointArrive) {
+        showError('pointArrive', 'Lieu d\'arrivée est requis');
+        valid = false;
+    }
+    if (!poidsCargaison) {
+        showError('poidsCargaison', 'poids est requis');
+        valid = false;
+    }
+    else if (poidsCargaison <= 0) {
+    }
+    if (valid) {
+        const cargaison = new Cargaison('addCargaison', numero, poidsCargaison, pointDepart, pointArrive, dateDepart, dateArrive, distance, typeCargaison, "ouvert", "en attente", produit);
         console.log(cargaison);
         fetch('../api.php', {
             method: 'POST',
@@ -324,6 +370,7 @@ document.getElementById('addCargoForm')?.addEventListener('submit', (event) => {
             console.log(result);
             if (result.status === 'success') {
                 alert(result.message);
+                document.getElementById('addCargoForm').reset();
             }
             else {
                 alert('Erreur lors de l\'ajout de la cargaison');
@@ -335,41 +382,14 @@ document.getElementById('addCargoForm')?.addEventListener('submit', (event) => {
     }
 });
 /* ===============valider button===================== */
-document.getElementById('valider')?.addEventListener('click', () => {
+document.getElementById('addCargoForm')?.addEventListener('submit', () => {
     afficherCargaisons();
 });
-afficherCargaisons();
-/* ========================valider formulaire========================= */
-function validerFormulaire() {
-    // Récupérer les valeurs des champs du formulaire
-    const numero = document.getElementById('codeCargaison').value;
-    const poidsMax = parseInt(document.getElementById('poidsCargaison').value);
-    /*  const prixTotal = parseInt((<HTMLInputElement>document.getElementById('prix')).value); */
-    const depart = document.getElementById('pointDepart').value;
-    const arrivee = document.getElementById('pointArrive').value;
-    const distance = parseInt(document.getElementById('distance').value);
-    const type = document.getElementById('type').value;
-    /*   const statut = (<HTMLSelectElement>document.getElementById('statut')).value;
-      const etat = (<HTMLSelectElement>document.getElementById('etat')).value; */
-    const dateArrive = document.getElementById('dateArrive').value;
-    const dateDepart = document.getElementById('dateDepart').value;
-    // Valider chaque champ du formulaire
-    if (!numero || !poidsMax || !depart || !arrivee || !distance || !type || !statut || !dateArrive || !dateDepart) {
-        alert('Veuillez remplir tous les champs du formulaire.');
-        return false;
-    }
-    // Valider les champs spécifiques selon vos critères
-    if (poidsMax <= 0 || distance <= 0) {
-        alert('Les valeurs des champs "Poids maximum", "Prix total" et "Distance" doivent être supérieures à zéro.');
-        return false;
-    }
-    // Si tout est valide, retourner true
-    return true;
-}
+/* afficherCargaisons();  */
 /* ========================fonction de pagination==================== */
 const cargaisonsParPage = 7; // Définir le nombre de cargaisons par page
 function afficherCargaisons(page = 1) {
-    fetch('../data.json')
+    fetch('../api.php')
         .then(response => response.json())
         .then(data => {
         const cargaisons = data.cargaisons;
@@ -393,44 +413,136 @@ function afficherCargaisons(page = 1) {
           <td class="px-6 py-4 ">${cargaison.pointArrive}</td>
           <td class="px-6 py-4 ">${cargaison.poidsMax}</td>
           <td class="px-6 py-4 ">${cargaison.distance}</td>
-          <td class="px-6 py-4 data-id="${cargaison.numero}"> <i class="fas fa-plus"  style="font-size:48px;color:blue;">+</i></td>
+          <td class="px-6 py-4 text-blue-500">${cargaison.etatGlobal}</td>
+          <td class="px-6 py-4 ">${cargaison.etatAvancement}</td>
+          <td class="px-6 py-4 data-id="${cargaison.numero}"> <i class="fas fa-plus" onclick="ouvrirModal('${cargaison.numero}')"  style="font-size:48px;color:blue;">+</i></td>
           <td class="px-6 py-4 "><button class=" bg-blue-500 px-6 py-4 rounded btn-view" type="button" data-id="${cargaison.numero}">Details</button></td>
         `;
+            row.className = `hover-scale transition transform duration-300 bg-blue-100 hover:bg-blue-200 cursor-pointer`;
             cargaisonList.appendChild(row);
+            let cargaisonIdActuel = null;
+            function ouvrirModal(idcargo) {
+                cargaisonIdActuel = idcargo;
+                const modal = document.getElementById('my_modal_1');
+                if (modal) {
+                    modal.showModal();
+                }
+            }
         });
+        const modal = document.getElementById('my_modal_1');
+        console.log(modal);
         // Ajouter des événements aux boutons "voir"
-        document.querySelectorAll('.btn-view').forEach(button => {
-            button.addEventListener('click', (event) => {
-                const target = event.target;
-                const cargaisonId = target.getAttribute('data-id');
-                afficherDetailsCargaison(cargaisonId);
-            });
-        });
+        /*  document.querySelectorAll('.btn-view').forEach(button => {
+           button.addEventListener('click', (event) => {
+             const target = event.target as HTMLElement;
+             const cargaisonId = target.getAttribute('data-id');
+             afficherDetailsCargaison(cargaisonId);
+           });
+         }); */
         // Afficher la pagination
         afficherPagination(cargaisons.length, page);
     })
         .catch(error => console.error('Erreur:', error));
 }
+/* =========>tableau de class tailwinds des buttons pgt=============== */
 const buttonClasses = [
     'py-1 px-3 bg-gray-300 rounded',
     'py-1 px-3 bg-blue-500 text-white rounded',
     'py-1 px-3 bg-blue-300 rounded',
 ];
+/* ===============>affichage des buttons de paginatiin=================== */
 function afficherPagination(totalCargaisons, page) {
     const pagination = document.getElementById('pagination');
     if (!pagination)
         return;
     pagination.innerHTML = '';
     const totalPages = Math.ceil(totalCargaisons / cargaisonsParPage);
-    // Ajouter les boutons de pagination
     for (let i = 1; i <= totalPages; i++) {
         const button = document.createElement('button');
         button.innerText = i.toString();
-        /*  button.className = i === page ? 'active' : ''; */
-        /*  button.className =  `py-1 px-3 bg-gray-300 rounded ${i === page ? 'active' : ''}`; */
+        //  button.className = i === page ? 'active' : ''; 
+        // button.className =  `py-1 px-3 bg-gray-300 rounded ${i === page ? 'active' : ''}`; 
         const randomIndex = Math.floor(Math.random() * buttonClasses.length);
         button.className = `${buttonClasses[randomIndex]} ${i === page ? 'active' : ''}`;
         button.addEventListener('click', () => afficherCargaisons(i));
         pagination.appendChild(button);
     }
 }
+/* ============fonction pour filtrer=============================== */
+/*function filterCargaisons(cargaisons: Cargaison[], filters: any): Cargaison[] {
+  return cargaisons.filter(cargaison => {
+    return (
+      (!filters.numero || cargaison.numero.includes(filters.numero)) &&
+      (!filters.pointDepart || cargaison.pointDepart.includes(filters.pointDepart)) &&
+      (!filters.pointArrive || cargaison.pointArrive.includes(filters.pointArrive)) &&
+      (!filters.type || cargaison.type.includes(filters.type))
+    );
+  });
+}
+
+
+
+ const pageSize = 5;  // Nombre d'éléments par page
+
+function afficherCargaisons222(page: number = 1): void {
+  fetch('../data.json')
+    .then(response => response.json())
+    .then(data => {
+      const filters = {
+        numero: (document.getElementById('filterNumero') as HTMLInputElement).value,
+        pointDepart: (document.getElementById('filterPointDepart') as HTMLInputElement).value,
+        pointArrive: (document.getElementById('filterPointArrive') as HTMLInputElement).value,
+        type: (document.getElementById('filterType') as HTMLSelectElement).value
+      };
+
+      const cargaisons: Cargaison[] = filterCargaisons(data.cargaisons, filters);
+
+      const paginatedCargaisons = cargaisons.slice((page - 1) * pageSize, page * pageSize);
+
+      const cargaisonList = document.getElementById('bodyCargaison');
+      if (!cargaisonList) return;
+      cargaisonList.innerHTML = '';
+
+      paginatedCargaisons.forEach(cargaison => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="px-6 py-4 ">${cargaison.numero}</td>
+          <td class="px-6 py-4 ">${cargaison.type}</td>
+          <td class="px-6 py-4 ">${cargaison.pointDepart}</td>
+          <td class="px-6 py-4 ">${cargaison.pointArrive}</td>
+          <td class="px-6 py-4 ">${cargaison.poidsMax}</td>
+          <td class="px-6 py-4 ">${cargaison.distance}</td>
+          <td class="px-6 py-4 "><button class="bg-blue-500 text-white px-6 py-4 rounded btn-view" type="button" data-id="${cargaison.numero}">Details</button></td>
+        `;
+        cargaisonList.appendChild(row);
+      });
+
+      // Ajouter des événements aux boutons "voir"
+       document.querySelectorAll('.btn-view').forEach(button => {
+        button.addEventListener('click', (event) => {
+          const target = event.target as HTMLElement;
+          const cargaisonId = target.getAttribute('data-id');
+          afficherDetailsCargaison(cargaisonId);
+        });
+      });
+
+      afficherPagination222(cargaisons.length, page);
+    })
+    .catch(error => console.error('Erreur:', error));
+
+}
+
+function afficherPagination222(totalItems: number, currentPage: number): void {
+  const totalPages = Math.ceil(totalItems / pageSize);
+  const paginationContainer = document.getElementById('pagination');
+  if (!paginationContainer) return;
+  paginationContainer.innerHTML = '';
+
+  for (let i = 1; i <= totalPages; i++) {
+    const button = document.createElement('button');
+    button.className = 'py-1 px-3 rounded ' + (i === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-300');
+    button.innerText = i.toString();
+    button.addEventListener('click', () => afficherCargaisons222(i));
+    paginationContainer.appendChild(button);
+  }
+} */ 

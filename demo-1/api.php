@@ -1,78 +1,7 @@
 <?php
 // api.php
 
-// $filename = 'cargaison.json';
-/* function lireJSON($filename) {
-    $json_data = file_get_contents($filename);
-   
-    return json_decode($json_data, true);
-}
 
-function ecrireJSON($filename, $data) {
-    $json_data = json_encode($data, JSON_PRETTY_PRINT);
-    file_put_contents($filename, $json_data);
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
-    $action = $_POST['action'];
-    if ($action === 'addCargaison') {
-        $newCargaison = [
-            "idcargo" => uniqid(),
-            "numero" => $_POST['numero'],
-            "poids_max" => $_POST['poidsCargaison'],
-            "lieu_depart" => $_POST['pointDepart'],
-            "lieu_arrivee" => $_POST['pointArrive'],
-            "distance_km" => $_POST['distance'],
-            "type" => $_POST['type']
-        ];
-
-        $data = lireJSON('data.json');
-        echo  $data;
-        
-        $data['cargaisons'][] = $newCargaison;
-        ecrireJSON('data.json', $data);
-
-        echo json_encode(["status" => "success", "message" => "Cargaison ajoutée avec succès"]);
-        exit;
-    }
-} */
-
-
-/* function lireJSON($filename) {
-    $json_data = file_get_contents($filename);
-    return json_decode($json_data, true);
-}
-
-function ecrireJSON($filename, $data) {
-    $json_data = json_encode($data, JSON_PRETTY_PRINT);
-    file_put_contents($filename, $json_data);
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = json_decode(file_get_contents('php://input'), true);
-
-    if (isset($data['action']) && $data['action'] === 'addCargaison') {
-        $newCargaison = [
-            "idcargo" => uniqid(),
-            "numero" => $data['numero'],
-            "poids_max" => $data['poidsMax'],
-            "lieu_depart" => $data['pointDepart'],
-            "lieu_arrivee" => $data['pointArrive'],
-            "distance_km" => $data['distance'],
-            "type" => $data['type']
-        ];
-
-        $currentData = lireJSON('data.json');
-        $currentData['cargaisons'][] = $newCargaison;
-        ecrireJSON('data.json', $currentData);
-
-        echo json_encode(["status" => "success", "message" => "Cargaison ajoutée avec succès"]);
-        exit;
-    } else {
-        echo json_encode(["status" => "error", "message" => "Action non reconnue"]);
-        exit;
-    }
-} */
 
 function lireJSON($filename) {
     $json_data = file_get_contents($filename);
@@ -100,8 +29,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "poidsMax" => $data['poidsMax'],
             "pointDepart" => $data['pointDepart'],
             "pointArrive" => $data['pointArrive'],
+            "dateDepart" => $data['dateDepart'],
+            "dateArrive" => $data['dateArrive'],
             "distance" => $data['distance'],
-            "type" => $data['type']
+            "type" => $data['type'],
+            "etatGlobal" =>$data['etatGlobal'],
+            "etatAvancement"=> $data['etatAvancement'],
+            "produit"=>$data['produit']
         ];
 
         error_log("Nouvelle cargaison: " . print_r($newCargaison, true));
@@ -113,7 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-        $currentData['cargaisons'][] = $newCargaison;
+        /* $currentData['cargaisons'][] = $newCargaison; */
+        array_unshift($currentData['cargaisons'], $newCargaison);
         ecrireJSON('data.json', $currentData);
 
         // Re-lire le fichier pour vérifier
@@ -126,4 +61,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(["status" => "error", "message" => "Action non reconnue"]);
         exit;
     }
+} elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $data = lireJSON('data.json');
+    if ($data === null) {
+        echo json_encode(["status" => "error", "message" => "Erreur de lecture des données existantes"]);
+    } else {
+        echo json_encode($data);
+    }
+    exit;
 }
