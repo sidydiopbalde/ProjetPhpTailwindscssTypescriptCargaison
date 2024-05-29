@@ -237,9 +237,11 @@ document.getElementById("limiteCargaison")?.addEventListener("change", function 
 
 
 
- /*  let cargaisons: Cargaison[] = data.cargaisons;) */
+
 /* ================>Fonction pour filtre<================================ */
- function afficherCargaisons111(filtre?:{ numero?: string; pointDepart?: string; type?: string; pointArrive?: string; dateDepart?:string; dateArrive?:string }): void {
+ 
+
+ function filtrerCargaison(filtre?:{ numero?: string; pointDepart?: string; type?: string; pointArrive?: string; dateDepart?:string; dateArrive?:string }): void {
   fetch('../api.php')
     .then(response => response.json())
     .then(data => {
@@ -274,53 +276,36 @@ document.getElementById("limiteCargaison")?.addEventListener("change", function 
         }
       }
 
-      const cargaisonList = document.getElementById('bodyCargaison') as HTMLTableElement;
-      if (!cargaisonList) return;
-      cargaisonList.innerHTML = '';
-      cargaisons.forEach(cargaison => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td class="px-6 py-4 ">${cargaison.numero}</td>
-          <td class="px-6 py-4 ">${cargaison.type}</td>
-          <td class="px-6 py-4 ">${cargaison.pointDepart}</td>
-          <td class="px-6 py-4 ">${cargaison.pointArrive}</td>
-          <td class="px-6 py-4 ">${cargaison.poidsMax}</td>
-          <td class="px-6 py-4 ">${cargaison.distance}</td>
-          <td class="px-6 py-4 "><button class="bg-blue-500 text-white px-6 py-4 rounded btn-view" type="button" data-id="${cargaison.numero}">Details</button></td>
-        `;
-        cargaisonList.appendChild(row);
-      });
-
-      // Ajouter des événements aux boutons "voir"
-       document.querySelectorAll('.btn-view').forEach(button => {
-        button.addEventListener('click', (event) => {
-          const target = event.target as HTMLElement;
-          const cargaisonId = target.getAttribute('data-id');
-          afficherDetailsCargaison(cargaisonId);
-        });
-      });
+     
+      afficherCargaisons(cargaisons,page=1)
+    
+     
     })
+  }  
+
+  document.getElementById('filterBtn')?.addEventListener('click', () => {
+
+    const filtre = {
+      numero: (document.getElementById('filterNumero') as HTMLInputElement).value,
+      pointDepart: (document.getElementById('filterPointDepart') as HTMLInputElement).value,
+      type: (document.getElementById('filterType') as HTMLInputElement).value,
+      pointArrive: (document.getElementById('filterPointArrive') as HTMLInputElement).value,
+      dateDepart:(document.getElementById('filterdateDepart') as HTMLInputElement).value,
+      dateArrive:(document.getElementById('filterdateArrive') as HTMLInputElement).value,
+    };
+
+    filtrerCargaison(filtre);
+  });
   
-}  
+
+
+
 /* ====================>Click du  button filter<====================== */
-document.getElementById('filterBtn')?.addEventListener('click', () => {
-  console.log("filtrer par ::::ALLL::::::::");
-  
-  const filtre = {
-    numero: (document.getElementById('filterNumero') as HTMLInputElement).value,
-    pointDepart: (document.getElementById('filterPointDepart') as HTMLInputElement).value,
-    pointArrive: (document.getElementById('filterPointArrive') as HTMLInputElement).value,
-    type: (document.getElementById('filterType') as HTMLInputElement).value,
-    dateDepart:(document.getElementById('filterdateDepart') as HTMLInputElement).value,
-    dateArrive:(document.getElementById('filterdateArrive') as HTMLInputElement).value,
-  };
-  afficherCargaisons111(filtre);
-});
 
 // Fonction pour afficher les détails d'une cargaison (vide pour le moment)
-function afficherDetailsCargaison(cargaisonId: string | null): void {
+ function afficherDetailsCargaison(cargaisonId: string | null): void {
   console.log('Afficher les détails pour la cargaison:', cargaisonId);
-} 
+}  
 
 
 
@@ -378,10 +363,16 @@ document.getElementById('addCargoForm')?.addEventListener('submit', (event) => {
   if (!typeCargaison) {
     showError('type', 'Type de cargaison est requis');
     valid = false;
+  }else{
+    showError('type',"")
+    valid=true;
   }
   
   if (!distance) {
     showError('distance', 'Distance est requise');
+    valid = false;
+  }else if (!distance) {
+    showError('distance', "");
     valid = false;
   }
 
@@ -394,6 +385,8 @@ document.getElementById('addCargoForm')?.addEventListener('submit', (event) => {
   }else if(dateDepart > dateArrive){
     showError('dateDepart', 'la date doit etre inférieure  à la date d\'arivée');
     valid = false;
+  }else{
+    showError('dateDepart', "");
   }
 
   if (!dateArrive) {
@@ -405,21 +398,31 @@ document.getElementById('addCargoForm')?.addEventListener('submit', (event) => {
   }else if(dateArrive < dateDepart){
     showError('dateArrive', 'la date doit etre supérieure  à la date de départ');
     valid = false;
+  }else{
+    showError('dateArrive',"");
   }
   
   if (!pointDepart) {
     showError('pointDepart', 'Lieu de départ est requis');
     valid = false;
+  }else{
+    showError('pointDepart',"")
   }
+
   if (!pointArrive) {
     showError('pointArrive', 'Lieu d\'arrivée est requis');
     valid = false;
+  }else{
+    showError('pointArrive',"")
   }
+
   if (!poidsCargaison) {
     showError('poidsCargaison', 'poids est requis');
     valid = false;
   }else if(poidsCargaison <= 0){
 
+  }else{
+    showError('poidsCargaison','')
   }
 if(valid){
 
@@ -467,23 +470,20 @@ if(valid){
 
 
 /* ===============valider button===================== */
-document.getElementById('addCargoForm')?.addEventListener('submit', () => {
-  afficherCargaisons();
+ document.getElementById('addCargoForm')?.addEventListener('submit', () => {
+displaydata();
 
 });
 
-/* afficherCargaisons();  */
+  
 
 
 /* ========================fonction de pagination==================== */
 
-const cargaisonsParPage = 7; // Définir le nombre de cargaisons par page
+const cargaisonsParPage = 3; // Définir le nombre de cargaisons par page
  
-function afficherCargaisons(page = 1): void {
-  fetch('../api.php')
-    .then(response => response.json())
-    .then(data => {
-      const cargaisons: Cargaison[] = data.cargaisons;
+function afficherCargaisons(cargaisons:Cargaison[],page = 1): void {
+ 
       const cargaisonList = document.getElementById('bodyCargaison');
       if (!cargaisonList) return;
       cargaisonList.innerHTML = '';
@@ -503,47 +503,73 @@ function afficherCargaisons(page = 1): void {
           <td class="px-6 py-4 ">${cargaison.dateArrive}</td>
           <td class="px-6 py-4 ">${cargaison.pointDepart}</td>
           <td class="px-6 py-4 ">${cargaison.pointArrive}</td>
-          <td class="px-6 py-4 ">${cargaison.poidsMax}</td>
           <td class="px-6 py-4 ">${cargaison.distance}</td>
           <td class="px-6 py-4 text-blue-500">${cargaison.etatGlobal}</td>
           <td class="px-6 py-4 ">${cargaison.etatAvancement}</td>
-          <td class="px-6 py-4 data-id="${cargaison.numero}"> <i class="fas fa-plus" onclick="ouvrirModal('${cargaison.numero}')"  style="font-size:48px;color:blue;">+</i></td>
-          <td class="px-6 py-4 "><button class=" bg-blue-500 px-6 py-4 rounded btn-view" type="button" data-id="${cargaison.numero}">Details</button></td>
+          <td class="px-6 py-4  btn-view" data-id="${cargaison.numero}> <i class="fas fa-plus"    style="font-size:48px;color:blue;">+</i></td>
+          <td class="px-6 py-4 "><button class=" text-blue-500 px-6 py-4 rounded  btn-details " type="button" data-id="${cargaison.numero}">Details</button></td>
         `;
         row.className=`hover-scale transition transform duration-300 bg-blue-100 hover:bg-blue-200 cursor-pointer`;
         cargaisonList.appendChild(row);
 
-
-        let cargaisonIdActuel: string | null = null;
-
-function ouvrirModal(idcargo: string): void {
-  cargaisonIdActuel = idcargo;
-  const modal = document.getElementById('my_modal_1') as HTMLDialogElement;
-  if (modal) {
-    modal.showModal();
-  }
-}
-      });
-
-
-      const modal = document.getElementById('my_modal_1') as HTMLDialogElement;
-
-      console.log(modal);
-      
       // Ajouter des événements aux boutons "voir"
-     /*  document.querySelectorAll('.btn-view').forEach(button => {
+      document.querySelectorAll('.btn-view').forEach(button => {
+        console.log( document.querySelectorAll('.btn-view'));
+        
         button.addEventListener('click', (event) => {
+          console.log(button);
+          
           const target = event.target as HTMLElement;
           const cargaisonId = target.getAttribute('data-id');
-          afficherDetailsCargaison(cargaisonId);
+          console.log(cargaisonId);
+          
+          /* afficherDetailsCargaison(cargaisonId); */
+          ouvrirModal();
         });
-      }); */
+      }); 
 
-      // Afficher la pagination
-      afficherPagination(cargaisons.length, page);
+    
     })
-    .catch(error => console.error('Erreur:', error));
-} 
+  
+    const pagination = document.getElementById('pagination');
+    if (!pagination) return;
+    pagination.innerHTML = '';
+  
+    const totalPages = Math.ceil(cargaisons.length / cargaisonsParPage);
+  
+  
+    for (let i = 1; i <= totalPages; i++) {
+      const button = document.createElement('button');
+      button.innerText = i.toString();
+     //  button.className = i === page ? 'active' : ''; 
+    // button.className =  `py-1 px-3 bg-gray-300 rounded ${i === page ? 'active' : ''}`; 
+    const randomIndex = Math.floor(Math.random() * buttonClasses.length);
+    button.className = `${buttonClasses[randomIndex]} ${i === page ? 'active' : ''}`;
+      button.addEventListener('click', () => afficherCargaisons(cargaisons,i));
+      pagination.appendChild(button);
+    }
+
+
+
+}
+
+/* =================modal ajout produit============================= */
+
+
+const modal = document.getElementById('mymodal1') as HTMLDialogElement;
+console.log(modal);
+
+function ouvrirModal(): void {
+
+  const modal = document.getElementById('mymodal1') as HTMLDialogElement;
+  if (modal) {
+   
+    modal.showModal()
+  }
+}
+
+
+
 
 /* =========>tableau de class tailwinds des buttons pgt=============== */
 const buttonClasses = [
@@ -552,103 +578,30 @@ const buttonClasses = [
   'py-1 px-3 bg-blue-300 rounded',
 ];
 
-/* ===============>affichage des buttons de paginatiin=================== */
-function afficherPagination(totalCargaisons: number, page: number): void {
-  const pagination = document.getElementById('pagination');
-  if (!pagination) return;
-  pagination.innerHTML = '';
-
-  const totalPages = Math.ceil(totalCargaisons / cargaisonsParPage);
 
 
-  for (let i = 1; i <= totalPages; i++) {
-    const button = document.createElement('button');
-    button.innerText = i.toString();
-   //  button.className = i === page ? 'active' : ''; 
-  // button.className =  `py-1 px-3 bg-gray-300 rounded ${i === page ? 'active' : ''}`; 
-  const randomIndex = Math.floor(Math.random() * buttonClasses.length);
-  button.className = `${buttonClasses[randomIndex]} ${i === page ? 'active' : ''}`;
-    button.addEventListener('click', () => afficherCargaisons(i));
-    pagination.appendChild(button);
+
+/* ==============================================FETCH===================================== */
+
+async function fetchCargaisons(): Promise<Cargaison[]> {
+  try {
+    const response = await fetch('../api.php');
+    const data = await response.json();
+    return data.cargaisons;
+  } catch (error) {
+    console.error('Erreur:', error);
+    return [];
   }
-} 
+}
+let page;
+// Utilisation de la fonction fetchCargaisons
 
 
-/* ============fonction pour filtrer=============================== */
-/*function filterCargaisons(cargaisons: Cargaison[], filters: any): Cargaison[] {
-  return cargaisons.filter(cargaison => {
-    return (
-      (!filters.numero || cargaison.numero.includes(filters.numero)) &&
-      (!filters.pointDepart || cargaison.pointDepart.includes(filters.pointDepart)) &&
-      (!filters.pointArrive || cargaison.pointArrive.includes(filters.pointArrive)) &&
-      (!filters.type || cargaison.type.includes(filters.type))
-    );
+function displaydata() {
+  fetchCargaisons().then(cargaisons => {
+
+    afficherCargaisons(cargaisons,page=1)
   });
 }
 
-
-
- const pageSize = 5;  // Nombre d'éléments par page
-
-function afficherCargaisons222(page: number = 1): void {
-  fetch('../data.json')
-    .then(response => response.json())
-    .then(data => {
-      const filters = {
-        numero: (document.getElementById('filterNumero') as HTMLInputElement).value,
-        pointDepart: (document.getElementById('filterPointDepart') as HTMLInputElement).value,
-        pointArrive: (document.getElementById('filterPointArrive') as HTMLInputElement).value,
-        type: (document.getElementById('filterType') as HTMLSelectElement).value
-      };
-
-      const cargaisons: Cargaison[] = filterCargaisons(data.cargaisons, filters);
-
-      const paginatedCargaisons = cargaisons.slice((page - 1) * pageSize, page * pageSize);
-
-      const cargaisonList = document.getElementById('bodyCargaison');
-      if (!cargaisonList) return;
-      cargaisonList.innerHTML = '';
-
-      paginatedCargaisons.forEach(cargaison => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td class="px-6 py-4 ">${cargaison.numero}</td>
-          <td class="px-6 py-4 ">${cargaison.type}</td>
-          <td class="px-6 py-4 ">${cargaison.pointDepart}</td>
-          <td class="px-6 py-4 ">${cargaison.pointArrive}</td>
-          <td class="px-6 py-4 ">${cargaison.poidsMax}</td>
-          <td class="px-6 py-4 ">${cargaison.distance}</td>
-          <td class="px-6 py-4 "><button class="bg-blue-500 text-white px-6 py-4 rounded btn-view" type="button" data-id="${cargaison.numero}">Details</button></td>
-        `;
-        cargaisonList.appendChild(row);
-      });
-
-      // Ajouter des événements aux boutons "voir"
-       document.querySelectorAll('.btn-view').forEach(button => {
-        button.addEventListener('click', (event) => {
-          const target = event.target as HTMLElement;
-          const cargaisonId = target.getAttribute('data-id');
-          afficherDetailsCargaison(cargaisonId);
-        });
-      }); 
-
-      afficherPagination222(cargaisons.length, page);
-    })
-    .catch(error => console.error('Erreur:', error));
-
-}
-
-function afficherPagination222(totalItems: number, currentPage: number): void {
-  const totalPages = Math.ceil(totalItems / pageSize);
-  const paginationContainer = document.getElementById('pagination');
-  if (!paginationContainer) return;
-  paginationContainer.innerHTML = '';
-
-  for (let i = 1; i <= totalPages; i++) {
-    const button = document.createElement('button');
-    button.className = 'py-1 px-3 rounded ' + (i === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-300');
-    button.innerText = i.toString();
-    button.addEventListener('click', () => afficherCargaisons222(i));
-    paginationContainer.appendChild(button);
-  }
-} */
+displaydata();

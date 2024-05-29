@@ -11,20 +11,49 @@
       <div>
       <!--   <button class="bg-blue-500 px-4 py-3 text-blue-50 rounded-lg">Rechercher</button> -->
       </div>
-       <!-- <button class="btn" onclick="my_modal_1.showModal()">open modal</button>  -->
-          <dialog id="my_modal_1" class="modal">
-            <div class="modal-box">
-              <h3 class="font-bold text-lg">Hello!</h3>
-              <p class="py-4">Press ESC key or click the button below to close</p>
+      
+          <dialog id="mymodal1" class="modal"> 
+          
+            <div class="bg-white p-6 rounded-lg shadow-lg border">
+        <h2 class="text-lg font-semibold text-blue-500 mb-4 text-center">Ajouter Produit</h2>
+        <form id="addProductForm" method="" action="">
+          <div class="mb-4">
+            <label for="productName" class="block text-gray-700">Nom du produit</label>
+            <input type="text" id="productName" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          </div>
+          <div class="mb-4">
+            <label for="productType" class="block text-gray-700">Type de produit</label>
+            <select id="productType" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="">Sélectionner</option>
+              <option value="electronic">Électronique</option>
+              <option value="furniture">Mobilier</option>
+              <option value="clothing">Vêtements</option>
+            </select>
+          </div>
+          <div class="mb-4">
+            <label for="productWeight" class="block text-gray-700">Poids</label>
+            <input type="text" id="productWeight" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          </div>
+          <div class="mb-4">
+            <label for="productPrice" class="block text-gray-700">Prix</label>
+            <input type="text" id="productPrice" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          </div>
+          <div class="mb-4">
+            <label for="productPrice" class="block text-gray-700">Prix</label>
+            <input type="text" id="productPrice" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          </div>
+          <button type="button" id="addProduct" class="w-full bg-blue-600 text-blue-500 py-2 rounded-lg">Ajouter</button>
+        </form>
+      </div>
               <div class="modal-action">
                 <form method="dialog">
                   <!-- if there is a button in form, it will close the modal -->
                   <button class="btn">Close</button>
                 </form>
               </div>
-            </div>
-          </dialog>
-  <div id="blockfiltrer" class="py-4 m-[20%] flex justify-between" >
+          
+           </dialog> 
+   <div id="blockfiltrer" class="py-4 m-[20%] flex justify-between" >
     <div class="">
       <label for="filterNumero" class="text-blue-500">Filtrer par Code</label>
     <input type="text" class="py-4 rounded" id="filterNumero" style="padding:0.5rem" placeholder="Filtrer par numéro">
@@ -55,7 +84,7 @@
 <input type="text" id="filterdateArrive" style="padding:0.5rem" placeholder="Filtrer par point d'arrivée">
 </div>
   <button id="filterBtn" class="bg-blue-500 rounded-lg text-white">Filtrer</button>
-</div>
+</div> 
       <!-- Modal -->
       <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
         <div class="bg-white p-6 rounded-lg shadow-lg border min-h-14 overflow-scroll" style="width: 50%;" >
@@ -83,8 +112,8 @@
                 <label for="limiteCargaison" class="block text-gray-700">type de limitation cargaisons</label>
                   <select  id="limiteCargaison" name="limteCargo" class="w-[50%] px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                       
+                    <option value="poids">poids cargaison</option>
                       <option value="colis">nombre de colis</option>
-                      <option value="poids">poids cargaison</option>
                   </select>
               </div>
                <div class="mb-4 " id="divPoids" >
@@ -135,7 +164,7 @@
              </div>
           </div>
              
-            <button type="submit"  id="valider" class="w-full bg-blue-500 text-blue-600">Valider</button> 
+            <button type="submit"  id="valider" class="w-full bg-blue-800 text-blue-600">Valider</button> 
           </form>
         </div>
       </dialog>
@@ -148,7 +177,6 @@
             <th class="py-2 px-4">Date d'arrivée</th>
             <th class="py-2 px-4">lieu départ</th>
             <th class="py-2 px-4">lieu d'arrivée</th>
-            <th class="py-2 px-4">Poids Totale</th>
             <th class="py-2 px-4">Distance</th>
             <th class="py-2 px-4">etat-Global</th>
             <th class="py-2 px-4">etat-Avancement</th>
@@ -199,7 +227,7 @@
             </td>
           </tr> -->
           <!-- htmlspecialchars() est utilisé pour s'assurer que les données sont affichées en toute sécurité (protection contre les injections XSS). -->
-          <?php foreach ($cargaisons as $cargaison) : ?>
+          <!-- <?php foreach ($cargaisons as $cargaison) : ?>
             <tr class="hover-scale transition transform duration-300 bg-blue-100 hover:bg-blue-200 cursor-pointer">
                 <td class="py-2 px-4"><?= htmlspecialchars($cargaison['numero']) ?></td>
                 <td class="py-2 px-4"><?= htmlspecialchars($cargaison['type']) ?></td>
@@ -218,7 +246,7 @@
                     <button class="material-icons">Details</button>
                 </td>
             </tr>
-        <?php endforeach; ?>
+        <?php endforeach; ?> -->
          
         </tbody>
       </table>
