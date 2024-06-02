@@ -1,6 +1,77 @@
 {
     "cargaisons": [
         {
+            "idcargo": "665c4d709aa19",
+            "numero": "SDB109",
+            "poidsMax": 50,
+            "pointDepart": "Manaus",
+            "pointArrive": "Abalessa",
+            "dateDepart": "2024-06-02",
+            "dateArrive": "2024-06-02",
+            "distance": 7415,
+            "type": "terrestre",
+            "etatGlobal": "ferm\u00e9",
+            "etatAvancement": "en attente",
+            "produit": [
+                {
+                    "action": "ajoutProduit",
+                    "numero": "SDBPRO343",
+                    "poids": 23,
+                    "nomProduit": "Obcaecati eaque dolo",
+                    "typeProduit": "alimentaire",
+                    "clientFirstName": "Armand",
+                    "clientLastName": "Stanley",
+                    "clientPhone": 1,
+                    "clientAdress": "Aut sed et voluptate",
+                    "nomDestin": "Et hic fugiat sint a",
+                    "prenomDestin": "Corrupti quam volup",
+                    "addressDestin": "Quo est suscipit sol"
+                }
+            ]
+        },
+        {
+            "idcargo": "66598178d2c56",
+            "numero": "SDB397",
+            "poidsMax": 12,
+            "pointDepart": "Tapau\u00e1",
+            "pointArrive": "Mali",
+            "dateDepart": "2024-05-31",
+            "dateArrive": "2024-05-31",
+            "distance": 6415,
+            "type": "maritime",
+            "etatGlobal": "ouvert",
+            "etatAvancement": "en attente",
+            "produit": []
+        },
+        {
+            "idcargo": "66596daf40cb7",
+            "numero": "SDB696",
+            "poidsMax": 12,
+            "pointDepart": "Niger",
+            "pointArrive": "Soudan",
+            "dateDepart": "2024-05-31",
+            "dateArrive": "2024-06-01",
+            "distance": 10286,
+            "type": "maritime",
+            "etatGlobal": "ferm\u00e9",
+            "etatAvancement": "en attente",
+            "produit": []
+        },
+        {
+            "idcargo": "66575829a9cf3",
+            "numero": "SDB289",
+            "poidsMax": 12000,
+            "pointDepart": "Br\u00e9sil",
+            "pointArrive": "Tchad",
+            "dateDepart": "2024-05-29",
+            "dateArrive": "2024-05-29",
+            "distance": 11197,
+            "type": "aerien",
+            "etatGlobal": "ouvert",
+            "etatAvancement": "en attente",
+            "produit": []
+        },
+        {
             "idcargo": "66574101e77da",
             "numero": "SDB781",
             "poidsMax": 12000,
@@ -11,8 +82,8 @@
             "distance": 7286,
             "type": "terrestre",
             "etatGlobal": "ouvert",
-            "etatAvancement": "en attente",
-            "produit": null
+            "etatAvancement": "en cours",
+            "produit": []
         },
         {
             "idcargo": "66573fcf926f0",
@@ -26,7 +97,7 @@
             "type": "aerien",
             "etatGlobal": "ouvert",
             "etatAvancement": "en attente",
-            "produit": null
+            "produit": []
         },
         {
             "idcargo": "66573d13f1e3b",
@@ -40,7 +111,7 @@
             "type": "aerien",
             "etatGlobal": "ouvert",
             "etatAvancement": "en attente",
-            "produit": null
+            "produit": []
         },
         {
             "idcargo": "66573cdc62f67",
@@ -54,7 +125,7 @@
             "type": "terrestre",
             "etatGlobal": "ouvert",
             "etatAvancement": "en attente",
-            "produit": null
+            "produit": []
         },
         {
             "idcargo": "6656ec6b64dd8",
@@ -68,7 +139,7 @@
             "type": "terrestre",
             "etatGlobal": "ouvert",
             "etatAvancement": "en attente",
-            "produit": null
+            "produit": []
         },
         {
             "idcargo": "6656ec3f0e515",
@@ -82,7 +153,7 @@
             "type": "terrestre",
             "etatGlobal": "ouvert",
             "etatAvancement": "en attente",
-            "produit": null
+            "produit": []
         },
         {
             "idcargo": "6656ec1f9cfa2",
@@ -96,7 +167,7 @@
             "type": "maritime",
             "etatGlobal": "ouvert",
             "etatAvancement": "en attente",
-            "produit": null
+            "produit": []
         },
         {
             "idcargo": "6656c6e57d12f",
@@ -110,7 +181,7 @@
             "type": "aerien",
             "etatGlobal": "ouvert",
             "etatAvancement": "en attente",
-            "produit": null
+            "produit": []
         },
         {
             "idcargo": "6656c38549580",
@@ -124,161 +195,7 @@
             "type": "terrestre",
             "etatGlobal": "ouvert",
             "etatAvancement": "en attente",
-            "produit": null
-        },
-        {
-            "idcargo": "6656c2a7590d9",
-            "numero": "SDB44",
-            "poidsMax": 1,
-            "pointDepart": "Pounouroukou",
-            "pointArrive": "Vallegrande",
-            "dateDepart": "2024-06-12",
-            "dateArrive": "2024-07-18",
-            "distance": 7276,
-            "type": "aerien",
-            "etatGlobal": "ouvert",
-            "etatAvancement": "en attente",
-            "produit": null
-        },
-        {
-            "idcargo": "6656378d12640",
-            "numero": "SDB868",
-            "poidsMax": 12000,
-            "pointDepart": "Br\u00e9sil",
-            "pointArrive": "Tchad",
-            "dateDepart": "2024-05-30",
-            "dateArrive": "2024-05-31",
-            "distance": 8287,
-            "type": "aerien",
-            "etatGlobal": "ouvert",
-            "etatAvancement": "en attente",
-            "produit": null
-        },
-        {
-            "idcargo": "665636a212e77",
-            "numero": "SDB546",
-            "poidsMax": 20,
-            "pointDepart": "B\u00e9nengu\u00e9",
-            "pointArrive": "Breu Branco",
-            "dateDepart": "2024-06-27",
-            "dateArrive": "2025-06-26",
-            "distance": 7638,
-            "type": "aerien",
-            "etatGlobal": "ouvert",
-            "etatAvancement": "en attente",
-            "produit": null
-        },
-        {
-            "idcargo": "665633d75208f",
-            "numero": "SDB160",
-            "poidsMax": 12000,
-            "pointDepart": "Br\u00e9sil",
-            "pointArrive": "Tchad",
-            "dateDepart": "2024-05-29",
-            "dateArrive": "2024-05-30",
-            "distance": 8022,
-            "type": "terrestre",
-            "etatGlobal": "ouvert",
-            "etatAvancement": "en attente",
-            "produit": null
-        },
-        {
-            "idcargo": "665632bdb603c",
-            "numero": "SDB223",
-            "poidsMax": 12000,
-            "pointDepart": "Tangar\u00e1 da Serra",
-            "pointArrive": "R\u00e9publique d\u00e9mocratique du Congo",
-            "dateDepart": "2024-05-30",
-            "dateArrive": "2024-05-30",
-            "distance": 8777,
-            "type": "terrestre",
-            "etatGlobal": "ouvert",
-            "etatAvancement": "en attente",
-            "produit": null
-        },
-        {
-            "idcargo": "66562909e2b77",
-            "numero": "SDB322",
-            "poidsMax": 12000,
-            "pointDepart": "Br\u00e9sil",
-            "pointArrive": "Niger",
-            "dateDepart": "2024-05-30",
-            "dateArrive": "2024-05-30",
-            "distance": 10778,
-            "type": "maritime",
-            "etatGlobal": "ouvert",
-            "etatAvancement": "en attente",
-            "produit": null
-        },
-        {
-            "idcargo": "6656107b56ad9",
-            "numero": "SDB655",
-            "poidsMax": 12000,
-            "pointDepart": "Br\u00e9sil",
-            "pointArrive": "Soudan",
-            "dateDepart": "2024-05-30",
-            "dateArrive": "2024-05-31",
-            "distance": 7709,
-            "type": "maritime",
-            "etatGlobal": "ouvert",
-            "etatAvancement": "en attente",
-            "produit": "poudreMbot"
-        },
-        {
-            "idcargo": "6655f958a3ad9",
-            "numero": "SDB867",
-            "poidsMax": 12,
-            "pointDepart": "Br\u00e9sil",
-            "pointArrive": "Libye",
-            "dateDepart": "2024-05-28",
-            "dateArrive": "2024-05-29",
-            "distance": 9761,
-            "type": "maritime",
-            "etatGlobal": "ouvert",
-            "etatAvancement": "en attente",
-            "produit": null
-        },
-        {
-            "idcargo": "6655f775ea392",
-            "numero": "SDB224",
-            "poidsMax": 12,
-            "pointDepart": "Br\u00e9sil",
-            "pointArrive": "Niger",
-            "dateDepart": "2024-05-31",
-            "dateArrive": "2024-06-06",
-            "distance": 9006,
-            "type": "terrestre",
-            "etatGlobal": "ouvert",
-            "etatAvancement": "en attente",
-            "produit": null
-        },
-        {
-            "idcargo": "6655f5aa01621",
-            "numero": "SDB922",
-            "poidsMax": 12,
-            "pointDepart": "Vilhena",
-            "pointArrive": "Communaut\u00e9 rurale de Pass Koto",
-            "dateDepart": "2024-06-07",
-            "dateArrive": "2024-06-08",
-            "distance": 5888,
-            "type": "maritime",
-            "etatGlobal": "ouvert",
-            "etatAvancement": "en attente",
-            "produit": null
-        },
-        {
-            "idcargo": "6655f57275afe",
-            "numero": "SDB491",
-            "poidsMax": 12,
-            "pointDepart": "S\u00e3o F\u00e9lix do Xingu",
-            "pointArrive": "\u00c9gypte",
-            "dateDepart": "2024-05-29",
-            "dateArrive": "2024-06-06",
-            "distance": 9275,
-            "type": "maritime",
-            "etatGlobal": "ouvert",
-            "etatAvancement": "en attente",
-            "produit": null
+            "produit": []
         }
     ]
 }

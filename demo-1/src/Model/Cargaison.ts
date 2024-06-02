@@ -60,6 +60,55 @@
 
 export { Cargaison };
 
-class maritime extends Cargaison{
+
+ class Produit {
+
+  action: string;
+  numero: string;
+  /* idCargo:string; */
+  poids: number;
+  nomProduit: string;
+  typeProduit: string;
+  clientFirstName:string;
+  clientLastName:string;
+  clientPhone: number;
+  clientAdress: string;
+  nomDestin:string;
+  prenomDestin:string;
+  addressDestin:string;
   
+  constructor(
+    action: string,
+    numero: string,
+ /*    idCargo:string, */
+    poids: number,
+    nomProduit: string,
+    typeProduit: string,
+    clientFirstName:string,
+    clientLastName:string,
+    clientPhone: number,
+    clientAdress: string,
+    nomDestin: string,
+    prenomDestin:string,
+    addressDestin:string,
+    
+  ) {
+    this.action = action;
+    this.numero = numero;
+  /*   this.idCargo=idCargo; */
+    this.poids = poids;
+    this.nomProduit = nomProduit;
+    this.typeProduit = typeProduit;
+    this.clientFirstName=clientFirstName;
+    this.clientLastName=clientLastName;
+    this.clientPhone=clientPhone;
+    this.clientAdress = clientAdress;
+    this.nomDestin = nomDestin;
+    this.prenomDestin=prenomDestin;
+    this.addressDestin=addressDestin;
+   
+  }
 }
+
+
+export {Produit}

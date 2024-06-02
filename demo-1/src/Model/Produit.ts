@@ -19,4 +19,7 @@ export abstract class Produit {
    }
  
    public abstract info(): void;
+
+
+  
  }

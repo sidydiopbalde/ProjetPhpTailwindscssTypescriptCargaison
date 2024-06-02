@@ -11,48 +11,124 @@
       <div>
       <!--   <button class="bg-blue-500 px-4 py-3 text-blue-50 rounded-lg">Rechercher</button> -->
       </div>
-      
-          <dialog id="mymodal1" class="modal"> 
-          
-            <div class="bg-white p-6 rounded-lg shadow-lg border">
-        <h2 class="text-lg font-semibold text-blue-500 mb-4 text-center">Ajouter Produit</h2>
-        <form id="addProductForm" method="" action="">
-          <div class="mb-4">
-            <label for="productName" class="block text-gray-700">Nom du produit</label>
-            <input type="text" id="productName" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-          </div>
-          <div class="mb-4">
-            <label for="productType" class="block text-gray-700">Type de produit</label>
-            <select id="productType" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <option value="">Sélectionner</option>
-              <option value="electronic">Électronique</option>
-              <option value="furniture">Mobilier</option>
-              <option value="clothing">Vêtements</option>
-            </select>
-          </div>
-          <div class="mb-4">
-            <label for="productWeight" class="block text-gray-700">Poids</label>
-            <input type="text" id="productWeight" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-          </div>
-          <div class="mb-4">
-            <label for="productPrice" class="block text-gray-700">Prix</label>
-            <input type="text" id="productPrice" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-          </div>
-          <div class="mb-4">
-            <label for="productPrice" class="block text-gray-700">Prix</label>
-            <input type="text" id="productPrice" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-          </div>
-          <button type="button" id="addProduct" class="w-full bg-blue-600 text-blue-500 py-2 rounded-lg">Ajouter</button>
+      <!-- ajout produit -->
+      <dialog id="mymodal1" class="modal"> 
+    <div class="bg-white p-6 rounded-lg shadow-lg border" style="width:60%">
+        <form method="dialog" class="border-none">
+            <!-- if there is a button in form, it will close the modal -->
+            <button class="btn">Close</button> 
         </form>
-      </div>
-              <div class="modal-action">
-                <form method="dialog">
-                  <!-- if there is a button in form, it will close the modal -->
-                  <button class="btn">Close</button>
-                </form>
-              </div>
-          
-           </dialog> 
+        <h2 class="text-lg font-semibold text-blue-500 mb-4 text-center">Ajouter Produit</h2>
+        <form id="addProductForm" class="" style="width:100%">
+            <div class="flex flex-col space-y-10 gap-3">
+                <!-- Produit Section -->
+                <div>
+                    <h3 class="text-md font-semibold text-gray-800 mb-2">Produit</h3>
+                    <div class="mb-4">
+                        <label for="productName" class="block text-gray-700">Nom du produit</label>
+                        <input type="text" id="nomProduit" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div class="mb-4">
+                        <label for="productType" class="block text-gray-700">Type de produit</label>
+                        <select id="productType" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Sélectionner</option>
+                            <option value="alimentaire">Alimentaire</option>
+                            <option value="chimique">chimique</option>
+                            <option value="incassable">incassable</option>
+                            <option value="fragile">fragile</option>
+                        </select>
+                        <span>ce type de produit</span>
+                    </div>
+                    <div class="mb-4">
+                        <label for="productToxicity" class="block text-gray-700">Toxicity</label>
+                        <input type="text" id="productToxicity" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <span class="error">error</span>
+                    </div>
+                    <div class="mb-4">
+                        <label for="productWeight" class="block text-gray-700">Poids</label>
+                        <input type="text" id="productWeight" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <span class="error">error</span>
+                    </div>
+                    <div class="mb-4">
+                        <label for="productPrice" class="block text-gray-700">Prix</label>
+                        <input type="text" id="productPrice" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <span class="error">error</span>
+                    </div>
+                </div>
+                <!-- Client Section -->
+                <div>
+                    <h3 class="text-md font-semibold text-gray-800 mb-2">Informations du client</h3>
+                    <div class="mb-4">
+                        <label for="clientFirstName" class="block text-gray-700">Nom du client</label>
+                        <input type="text" id="clientFirstName" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <span class="error">error</span>
+                    </div>
+                    <div class="mb-4">
+                        <label for="clientLastName" class="block text-gray-700">Prenom du client</label>
+                        <input type="text" id="clientLastName" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <span class="error">error</span>
+                    </div>
+                    <div class="mb-4">
+                        <label for="clientPhone" class="block text-gray-700">Numero de telephone</label>
+                        <input type="text" id="clientPhone" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div class="mb-4">
+                        <label for="clientAddress" class="block text-gray-700">Adresse</label>
+                        <input type="text" id="clientAddress" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <span class="error">error</span>
+                    </div>
+                </div>
+                <!-- Destinataire Section -->
+                <div>
+                    <h3 class="text-md font-semibold text-gray-800 mb-2">Informations du destinataire</h3>
+                    <div class="mb-4">
+                        <label for="recipientFirstName" class="block text-gray-700">Nom du destinataire</label>
+                        <input type="text" id="nomDestin" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div class="mb-4">
+                        <label for="recipientLastName" class="block text-gray-700">Prenom du destinataire</label>
+                        <input type="text" id="prenomDestin" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div class="mb-4">
+                        <label for="recipientAddress" class="block text-gray-700">Adresse du destinataire</label>
+                        <input type="text" id="addressDestin" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+            </div>
+            <button type="submit" id="addProduct" class="w-full text-blue-600   py-2 rounded-lg mt-6">Ajouter</button>
+        </form>
+    </div>
+</dialog>
+
+<!-- modal details cargaison -->
+<dialog id="mymodal2" class="modal"> 
+    <div class="bg-white p-6 rounded-lg shadow-lg border" style="width:60%">
+        <form method="dialog" class="border-none">
+            <!-- if there is a button in form, it will close the modal -->
+            <button class="btn">Close</button> 
+        </form>
+        <h2 class="text-lg font-semibold text-blue-500 mb-4 text-center">DETAILS CARGAISONS</h2>
+      <table>
+      <thead class="bg-gray-200">
+          <tr>
+            <th class="py-2 px-4">Code</th>
+            <th class="py-2 px-4">Type</th>
+            <th class="py-2 px-4">Poids</th>
+            <th class="py-2 px-4">exp Nom</th>
+            <th class="py-2 px-4">Exp Pren</th>
+            <th class="py-2 px-4">Dest Nom</th>
+            <th class="py-2 px-4">dest Pren</th>
+            <th class="py-2 px-4">Action</th>
+          </tr>
+        </thead>
+        <tbody id="bodyDetailsCargo">
+
+        </tbody>
+      </table>
+     
+    </div>
+</dialog>
+           <!-- filtre -->
    <div id="blockfiltrer" class="py-4 m-[20%] flex justify-between" >
     <div class="">
       <label for="filterNumero" class="text-blue-500">Filtrer par Code</label>
@@ -181,6 +257,7 @@
             <th class="py-2 px-4">etat-Global</th>
             <th class="py-2 px-4">etat-Avancement</th>
             <th class="py-2 px-4">Action</th>
+            <th class="py-2 px-4">Aj-produit</th>
             <th class="py-2 px-4">Détails</th>
           </tr>
         </thead>

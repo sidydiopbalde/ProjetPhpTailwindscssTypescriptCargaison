@@ -1,4 +1,6 @@
+/* import { Produit } from "./Model/Produit.js"; */
 import { Cargaison } from "./Model/Cargaison.js";
+import { Produit } from "./Model/Cargaison.js";
 /* const terrestre = new Terrestre(5000, []);
 const terrestre1 = new Terrestre(4000, []);
 const aerienne = new Aerienne(1000, []);
@@ -45,7 +47,6 @@ document.getElementById("productType")?.addEventListener("change", function (eve
 }); */
 console.log("bonjoursidy");
 const libelleInput = document.getElementById('libelle');
-const bodyProduit = document.getElementById('bodyProduit');
 const bodyCargaison = document.getElementById('bodyCargaison');
 const ajouterBtn = document.getElementById('ajouter');
 const cargaisonsContainer = document.getElementById('cargaisonsContainer');
@@ -91,47 +92,7 @@ console.log("sidy");
       default:
         return;
     }; */
-/* cargaison.ajouterProduit(new Alimentaire('sidy',10)) */
-/*  cargaisonss.push(cargaison); */
-/* appendCargoToTable(cargaisonss,libelleCargaison,typeCargaison,capaciteCargaison);  */
-/*   const tr = document.createElement('tr'); */
-/*  tr.style.border='1px solid blue'; */
-/*  tr.innerHTML = `
- <td class="py-2 px-4">#2633</td>
-   <td class=" py-2 px-4 flex items-center"> <img src="https://via.placeholder.com/30" alt="Avatar" class="rounded-full mr-2
-   ${libelleCargaison}</td>
-   <td class="py-2 px-4">${typeCargaison}</td>
-   <td class="py-2 px-4">${dateDepart?.value}</td>
-   <td class="py-2 px-4">${dateArrivee?.value}</td>
-   <td class="py-2 px-4">${capaciteCargaison}</td>
-   <td class="py-2 px-4 text-red-500">${statut?.value}</td>
-   <td class="">
-       <button id="${cargaisonss.length}"  onclick="afficherPopup()"
-       class=" text-center w-[7.5rem]">Add products
-       </button>
-   </td>
-   <td>
-   <button id="${cargaisonss.length}"  onclick="afficherPopup()"
-   class="">détails
-   </button>
-   </td>
- `;
- bodyCargaison.appendChild(tr); */
-/* }); */
-/*  document.querySelectorAll('td button').forEach((buton)=>{
-     buton.addEventListener("click",()=>{
-         afficherPopup();
-     });
- })  */
 const addProductFormContainer = document.getElementById('contentformProduct');
-/*   function afficherPopup(){
- 
-    addProductFormContainer?.classList.remove('hidden');
-  }
-
-  document.getElementById("fermerProduct")?.addEventListener("click",()=>{
-      addProductFormContainer?.classList.add('hidden')
-    }); */
 const selectedLimites = document.getElementById("limiteCargaison");
 document.getElementById("limiteCargaison")?.addEventListener("change", function (event) {
     const divPoids = document.getElementById("divPoids");
@@ -239,9 +200,6 @@ document.getElementById('filterBtn')?.addEventListener('click', () => {
 });
 /* ====================>Click du  button filter<====================== */
 // Fonction pour afficher les détails d'une cargaison (vide pour le moment)
-function afficherDetailsCargaison(cargaisonId) {
-    console.log('Afficher les détails pour la cargaison:', cargaisonId);
-}
 //=============== Fonction pour afficher un message d'erreur============================
 function showError(elementId, message) {
     const errorElement = document.getElementById(elementId + 'Error');
@@ -272,17 +230,20 @@ document.getElementById('addCargoForm')?.addEventListener('submit', (event) => {
     const dateDepart = document.getElementById('dateDepart').value;
     const dateArrive = document.getElementById('dateArrive').value;
     let valid = true;
+    /*   const errorElements = document.querySelectorAll('.text-red-500');
+    errorElements.forEach(el => el.textContent = '');
+    */
     // Valider chaque champ
     /*  if (!limiteCargaison) {
-       showError('limiteCargaison', 'Type de limitation cargaison est requis');
-       valid = false;
-     } else if (limiteCargaison === 'poids' && !poidsCargaison) {
-       showError('poidsCargaison', 'Poids de la cargaison est requis');
-       valid = false;
-     } else if (limiteCargaison === 'colis' && !nombredeColis) {
-       showError('nombredeColis', 'Nombre de colis est requis');
-       valid = false;
-     } */
+      showError('limiteCargaison', 'Type de limitation cargaison est requis');
+        valid = false;
+       } else if (limiteCargaison === 'poids' && !poidsCargaison) {
+         showError('poidsCargaison', 'Poids de la cargaison est requis');
+        valid = false;
+       } else if (limiteCargaison === 'colis' && !nombredeColis) {
+         showError('nombredeColis', 'Nombre de colis est requis');
+         valid = false;
+       } */
     if (!typeCargaison) {
         showError('type', 'Type de cargaison est requis');
         valid = false;
@@ -353,8 +314,7 @@ document.getElementById('addCargoForm')?.addEventListener('submit', (event) => {
         showError('poidsCargaison', '');
     }
     if (valid) {
-        const cargaison = new Cargaison('addCargaison', numero, poidsCargaison, pointDepart, pointArrive, dateDepart, dateArrive, distance, typeCargaison, "ouvert", "en attente", produit);
-        console.log(cargaison);
+        const cargaison = new Cargaison('addCargaison', numero, poidsCargaison, pointDepart, pointArrive, dateDepart, dateArrive, distance, typeCargaison, "ouvert", "en attente", []);
         fetch('../api.php', {
             method: 'POST',
             headers: {
@@ -383,6 +343,8 @@ document.getElementById('addCargoForm')?.addEventListener('submit', () => {
     displaydata();
 });
 /* ========================fonction de pagination==================== */
+var idCargarg;
+var idDetails;
 const cargaisonsParPage = 3; // Définir le nombre de cargaisons par page
 function afficherCargaisons(cargaisons, page = 1) {
     const cargaisonList = document.getElementById('bodyCargaison');
@@ -397,33 +359,44 @@ function afficherCargaisons(cargaisons, page = 1) {
     cargaisonsPage.forEach(cargaison => {
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td class="px-4 py-4 ">${cargaison.numero}</td>
-          <td class="px-6 py-4 ">${cargaison.type}</td>
-          <td class="px-6 py-4 ">${cargaison.dateDepart}</td>
-          <td class="px-6 py-4 ">${cargaison.dateArrive}</td>
+        <td class="px-4 py-4 ">${cargaison.numero}</td>
+        <td class="px-6 py-4 ">${cargaison.type}</td>
+        <td class="px-6 py-4 ">${cargaison.dateDepart}</td>
+        <td class="px-6 py-4 ">${cargaison.dateArrive}</td>
           <td class="px-6 py-4 ">${cargaison.pointDepart}</td>
           <td class="px-6 py-4 ">${cargaison.pointArrive}</td>
           <td class="px-6 py-4 ">${cargaison.distance}</td>
-          <td class="px-6 py-4 text-blue-500">${cargaison.etatGlobal}</td>
+          <td class="px-6 py-4 text-blue-500" id="etat-${cargaison.numero}">${cargaison.etatGlobal}</td>
           <td class="px-6 py-4 ">${cargaison.etatAvancement}</td>
-          <td class="px-6 py-4  btn-view" data-id="${cargaison.numero}> <i class="fas fa-plus"    style="font-size:48px;color:blue;">+</i></td>
-          <td class="px-6 py-4 "><button class=" text-blue-500 px-6 py-4 rounded  btn-details " type="button" data-id="${cargaison.numero}">Details</button></td>
-        `;
+          <td class="px-6 py-4"><button class="text-red-500 px-6 py-4 rounded toggle-state" style="font-size:30px;color:red;" data-id="${cargaison.numero}" data-state="${cargaison.etatGlobal}">${cargaison.etatGlobal === 'ouvert' ? 'Close' : 'Open'}</button></td>
+          <td class="px-6 py-4  btn-view" data-id='${cargaison.numero}'> <i class="fas fa-plus"    style="font-size:48px;color:blue;">+</i></td>
+          <td class="px-6 py-4 "><button class=" text-blue-500 px-6 py-4 rounded btn-details" type="button" data-id="${cargaison.numero}" ><svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#2854C5"><path d="M453-280h60v-240h-60v240Zm26.98-314q14.02 0 23.52-9.2T513-626q0-14.45-9.48-24.22-9.48-9.78-23.5-9.78t-23.52 9.78Q447-640.45 447-626q0 13.6 9.48 22.8 9.48 9.2 23.5 9.2Zm.29 514q-82.74 0-155.5-31.5Q252-143 197.5-197.5t-86-127.34Q80-397.68 80-480.5t31.5-155.66Q143-709 197.5-763t127.34-85.5Q397.68-880 480.5-880t155.66 31.5Q709-817 763-763t85.5 127Q880-563 880-480.27q0 82.74-31.5 155.5Q817-252 763-197.68q-54 54.31-127 86Q563-80 480.27-80Zm.23-60Q622-140 721-239.5t99-241Q820-622 721.19-721T480-820q-141 0-240.5 98.81T140-480q0 141 99.5 240.5t241 99.5Zm-.5-340Z"/></svg></button></td>
+          `;
         row.className = `hover-scale transition transform duration-300 bg-blue-100 hover:bg-blue-200 cursor-pointer`;
         cargaisonList.appendChild(row);
-        // Ajouter des événements aux boutons "voir"
+        // boutton ++++
         document.querySelectorAll('.btn-view').forEach(button => {
-            console.log(document.querySelectorAll('.btn-view'));
             button.addEventListener('click', (event) => {
-                console.log(button);
                 const target = event.target;
-                const cargaisonId = target.getAttribute('data-id');
-                console.log(cargaisonId);
-                /* afficherDetailsCargaison(cargaisonId); */
+                const parenttarget = target.parentNode;
+                idCargarg = parenttarget.getAttribute('data-id');
+                console.log(idCargarg);
                 ouvrirModal();
             });
         });
+        //button details
+        document.querySelectorAll('.btn-details').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const target = event.target;
+                const parenttarget = target.parentNode;
+                idDetails = target.getAttribute('data-id');
+                console.log(target.getAttribute('data-id'));
+                ouvrirModalDetails();
+                afficherDetailsCargaison(idDetails);
+            });
+        });
     });
+    //pagination
     const pagination = document.getElementById('pagination');
     if (!pagination)
         return;
@@ -432,19 +405,30 @@ function afficherCargaisons(cargaisons, page = 1) {
     for (let i = 1; i <= totalPages; i++) {
         const button = document.createElement('button');
         button.innerText = i.toString();
-        //  button.className = i === page ? 'active' : ''; 
-        // button.className =  `py-1 px-3 bg-gray-300 rounded ${i === page ? 'active' : ''}`; 
         const randomIndex = Math.floor(Math.random() * buttonClasses.length);
         button.className = `${buttonClasses[randomIndex]} ${i === page ? 'active' : ''}`;
         button.addEventListener('click', () => afficherCargaisons(cargaisons, i));
         pagination.appendChild(button);
     }
+    document.querySelectorAll('.toggle-state').forEach(button => {
+        button.addEventListener('click', (event) => {
+            const target = event.target;
+            const idCargo = target.getAttribute('data-id');
+            const etatCourant = target.getAttribute('data-state');
+            console.log(idCargo, etatCourant);
+            ChangerEtatCargo(idCargo, etatCourant);
+        });
+    });
 }
 /* =================modal ajout produit============================= */
-const modal = document.getElementById('mymodal1');
-console.log(modal);
 function ouvrirModal() {
     const modal = document.getElementById('mymodal1');
+    if (modal) {
+        modal.showModal();
+    }
+}
+function ouvrirModalDetails() {
+    const modal = document.getElementById('mymodal2');
     if (modal) {
         modal.showModal();
     }
@@ -468,10 +452,255 @@ async function fetchCargaisons() {
     }
 }
 let page;
-// Utilisation de la fonction fetchCargaisons
+// ========================Utilisation de la fonction fetchCargaisons
 function displaydata() {
     fetchCargaisons().then(cargaisons => {
         afficherCargaisons(cargaisons, page = 1);
     });
 }
 displaydata();
+/* ============fetchProduit=================== */
+async function fetchProduit() {
+    try {
+        const response = await fetch('../api.php');
+        const data = await response.json();
+        // Extraction de tous les produits des cargaisons
+        const produits = data.cargaisons.map((cargaison) => cargaison.produit).flat();
+        return produits;
+    }
+    catch (error) {
+        console.error('Erreur:', error);
+        return [];
+    }
+}
+/* ==========recuperation et fetchage du produit========================== */
+const formProduct = document.getElementById('addProductForm');
+formProduct?.addEventListener('submit', function (event) {
+    const addProduct = document.getElementById('addProduct');
+    const productPoids = parseFloat(document.getElementById('productWeight').value);
+    const productPrice = document.getElementById('productPrice').value;
+    const productType = document.getElementById('productType').value;
+    const codeProduit = "SDBPRO" + Math.floor(Math.random() * 1000);
+    const clientFirstName = document.getElementById('clientFirstName').value;
+    const clientLastName = document.getElementById('clientLastName').value;
+    const clientPhone = document.getElementById('clientPhone').value;
+    const clientAdress = document.getElementById('clientAddress').value;
+    const nomDestin = document.getElementById('nomDestin').value;
+    const prenomDestin = document.getElementById('prenomDestin').value;
+    const addressDestin = document.getElementById('addressDestin').value;
+    const productName = document.getElementById('nomProduit').value;
+    event?.preventDefault();
+    let valid = true;
+    const produit = new Produit('ajoutProduit', codeProduit, productPoids, productName, productType, clientFirstName, clientLastName, parseFloat(clientPhone), clientAdress, nomDestin, prenomDestin, addressDestin);
+    let sommepoids = 0;
+    fetch('../api.php')
+        .then(response => response.json())
+        .then(data => {
+        const cargaisons = data.cargaisons;
+        cargaisons.forEach(cargaison => {
+            if (cargaison.numero == idCargarg) {
+                console.log(cargaison.poidsMax, cargaison.produit);
+                cargaison.produit.forEach((produit) => {
+                    sommepoids += produit.poids;
+                });
+                console.log("somme des poids est :", sommepoids);
+                if (cargaison.poidsMax <= sommepoids) {
+                    valid = false;
+                    alert('la cargaison est pleine');
+                }
+                if (cargaison.type == 'maritime' && productType == 'fragile') {
+                    valid = false;
+                    alert("ce type de produit ne peut etre transporter par cette cargaison");
+                }
+                else if (cargaison.type == 'aerienne' && productType == "chimique") {
+                    valid = false;
+                    alert("ce type de produit ne peut etre transporter par cette cargaison");
+                }
+                else if (cargaison.type == 'terrestre' && productType == "chimique") {
+                    valid = false;
+                    alert("ce type de produit ne peut etre transporter par cette cargaison");
+                }
+                if (cargaison.etatGlobal == 'fermé')
+                    valid = false;
+                alert('cargaison fermé');
+                if (cargaison.etatAvancement == 'en cours')
+                    alert('cargaison en cours');
+                return;
+            }
+        });
+    });
+    const objectProduct = {
+        "produit": produit,
+        "action": "ajoutProduit",
+        "numero": idCargarg
+    };
+    if (valid) {
+        fetcher(objectProduct);
+    }
+});
+/*============================ fonction pour fetcher============ */
+function fetcher(object) {
+    fetch('../api.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(object),
+    })
+        .then(response => response.json())
+        .then(result => {
+        console.log(result);
+        if (result.status === 'success') {
+            alert(result.message);
+            document.getElementById('addProductForm').reset();
+        }
+        else {
+            alert('Erreur lors de l\'ajout de la cargaison');
+        }
+    })
+        .catch(error => {
+        console.error('Erreur:', error);
+    });
+}
+/*======================= changement de l'etat d'une cargaison================ */
+function ChangerEtatCargo(idcargo, currentState) {
+    if (!idcargo || !currentState)
+        return;
+    const newState = currentState === 'ouvert' ? 'fermé' : 'ouvert';
+    fetch('../api.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            action: 'changerEtatCargo',
+            idcargo: idcargo,
+            newState: newState,
+        }),
+    })
+        .then(response => response.json())
+        .then(result => {
+        if (result.status === 'success') {
+            const etatElement = document.getElementById(`etat-${idcargo}`);
+            if (etatElement)
+                etatElement.textContent = newState;
+            const toggleButton = document.querySelector(`.toggle-state[data-id="${idcargo}"]`);
+            if (toggleButton) {
+                toggleButton.textContent = newState === 'ouvert' ? 'Close' : 'Open';
+                toggleButton.setAttribute('data-state', newState);
+            }
+        }
+        else {
+            alert('Erreur lors de la mise à jour de l\'état de la cargaison');
+        }
+    })
+        .catch(error => console.error('Erreur:', error));
+}
+/* ==================fonction pour ajouter des produits============ */
+function afficherProduit(produit, page = 1, tbodyElement, idCargo) {
+    if (!tbodyElement) {
+        console.error('tbodyElement is not defined');
+        return;
+    }
+    tbodyElement.innerHTML = '';
+    const debutIndex = (page - 1) * cargaisonsParPage;
+    const finIndex = debutIndex + cargaisonsParPage;
+    const cargaisonsPage = produit.slice(debutIndex, finIndex);
+    cargaisonsPage.forEach(produit => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+    <td class="px-4 py-4 ">${produit.numero}</td>
+    <td class="px-6 py-4 ">${produit.typeProduit}</td>
+    <td class="px-6 py-4 ">${produit.poids}</td>
+    <td class="px-6 py-4 ">${produit.clientFirstName}</td>
+    <td class="px-6 py-4 ">${produit.clientLastName}</td>
+    <td class="px-6 py-4 ">${produit.nomDestin}</td>
+    <td class="px-6 py-4 ">${produit.prenomDestin}</td>
+    <td class="px-6 py-4  btn-trash" data-id='${produit.numero}'> <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#EA3323"><path d="M261-120q-24.75 0-42.37-17.63Q201-155.25 201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 0h60v-399h-60v399ZM261-750v570-570Z"/></svg></td>
+    `;
+        row.className = `hover-scale transition transform duration-300 bg-blue-100 hover:bg-blue-200 cursor-pointer`;
+        tbodyElement.appendChild(row);
+    });
+    const pagination = document.getElementById('pagination');
+    if (!pagination)
+        return;
+    pagination.innerHTML = '';
+    const totalPages = Math.ceil(produit.length / cargaisonsParPage);
+    for (let i = 1; i <= totalPages; i++) {
+        const button = document.createElement('button');
+        button.innerText = i.toString();
+        const randomIndex = Math.floor(Math.random() * buttonClasses.length);
+        button.className = `${buttonClasses[randomIndex]} ${i === page ? 'active' : ''}`;
+        button.addEventListener('click', () => afficherProduit(produit, i, tbodyElement));
+        pagination.appendChild(button);
+    }
+    document.querySelectorAll('.btn-trash').forEach(button => {
+        button.addEventListener('click', (event) => {
+            const target = event.target;
+            const parentNode = target.parentNode;
+            const idproduit = parentNode.getAttribute('data-id');
+            console.log(idproduit);
+            supprimerProduit(idCargo, idproduit);
+            afficherDetailsCargaison(idCargo);
+        });
+    });
+    /* document.querySelectorAll('.btn-view').forEach(button => {
+      button.addEventListener('click', (event) => {
+        const target = event.currentTarget as HTMLElement;
+        let selectedCargaisonId = target.getAttribute('data-id');
+        ouvrirModal();  // Ouvrir le modal pour ajouter un produit
+      });
+    }); */
+}
+/* ============AFFICHAGE DES PRODUITS============== */
+const bodyProduit = document.getElementById('bodyProduit');
+function displayProduit() {
+    fetchProduit().then(produits => {
+        console.log(produits);
+        afficherProduit(produits, page = 1, bodyProduit);
+    });
+}
+displayProduit();
+/* ===========Afficher details */
+function afficherDetailsCargaison(cargaisonId) {
+    fetch('../api.php')
+        .then(response => response.json())
+        .then(data => {
+        const cargaisons = data.cargaisons;
+        let cargo = null;
+        for (let i = 0; i < cargaisons.length; i++) {
+            if (cargaisons[i].numero === cargaisonId) {
+                cargo = cargaisons[i];
+                break;
+            }
+        }
+        const bodyDetails = document.getElementById('bodyDetailsCargo');
+        console.log(cargo?.produit, cargo?.numero);
+        afficherProduit(cargo.produit, page = 1, bodyDetails, cargo?.numero);
+    });
+}
+/* ================Supression de produit============================= */
+function supprimerProduit(idcargo, codeProduit) {
+    fetch('../api.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            action: 'supprimer-produit',
+            idcargo: idcargo,
+            codeProduit: codeProduit,
+        }),
+    })
+        .then(response => response.json())
+        .then(result => {
+        if (result.status === 'success') {
+            alert(`Produit retiré avec succès`);
+            fetchCargaisons();
+        }
+        else {
+            alert('Erreur lors du retrait du produit');
+        }
+    })
+        .catch(error => console.error('Erreur:', error));
+}
