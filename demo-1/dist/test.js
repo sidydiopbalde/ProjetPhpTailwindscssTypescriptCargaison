@@ -45,7 +45,7 @@ document.getElementById("productType")?.addEventListener("change", function (eve
         toxicityField?.classList.add("hidden");
     }
 }); */
-console.log("bonjoursidy");
+console.log("bonjour Sidy : Que puis je faire pour vous?");
 const libelleInput = document.getElementById('libelle');
 const bodyCargaison = document.getElementById('bodyCargaison');
 const ajouterBtn = document.getElementById('ajouter');
@@ -199,7 +199,6 @@ document.getElementById('filterBtn')?.addEventListener('click', () => {
     filtrerCargaison(filtre);
 });
 /* ====================>Click du  button filter<====================== */
-// Fonction pour afficher les détails d'une cargaison (vide pour le moment)
 //=============== Fonction pour afficher un message d'erreur============================
 function showError(elementId, message) {
     const errorElement = document.getElementById(elementId + 'Error');
@@ -229,6 +228,7 @@ document.getElementById('addCargoForm')?.addEventListener('submit', (event) => {
     const pointArrive = document.getElementById('pointArrive').value;
     const dateDepart = document.getElementById('dateDepart').value;
     const dateArrive = document.getElementById('dateArrive').value;
+    const selectedLimite = document.getElementById("limiteCargaison").value;
     let valid = true;
     /*   const errorElements = document.querySelectorAll('.text-red-500');
     errorElements.forEach(el => el.textContent = '');
@@ -313,8 +313,15 @@ document.getElementById('addCargoForm')?.addEventListener('submit', (event) => {
     else {
         showError('poidsCargaison', '');
     }
+    let limit = '';
+    if (selectedLimite === 'poids') {
+        limit = 'poids';
+    }
+    else if (selectedLimite === 'colis') {
+        limit = 'colis';
+    }
     if (valid) {
-        const cargaison = new Cargaison('addCargaison', numero, poidsCargaison, pointDepart, pointArrive, dateDepart, dateArrive, distance, typeCargaison, "ouvert", "en attente", []);
+        const cargaison = new Cargaison('addCargaison', numero, limit, poidsCargaison, poidsCargaison, pointDepart, pointArrive, dateDepart, dateArrive, distance, typeCargaison, "ouvert", "en attente", []);
         fetch('../api.php', {
             method: 'POST',
             headers: {
@@ -345,7 +352,7 @@ document.getElementById('addCargoForm')?.addEventListener('submit', () => {
 /* ========================fonction de pagination==================== */
 var idCargarg;
 var idDetails;
-const cargaisonsParPage = 3; // Définir le nombre de cargaisons par page
+const cargaisonsParPage = 7; // Définir le nombre de cargaisons par page
 function afficherCargaisons(cargaisons, page = 1) {
     const cargaisonList = document.getElementById('bodyCargaison');
     if (!cargaisonList)
@@ -359,20 +366,31 @@ function afficherCargaisons(cargaisons, page = 1) {
     cargaisonsPage.forEach(cargaison => {
         const row = document.createElement('tr');
         row.innerHTML = `
-        <td class="px-4 py-4 ">${cargaison.numero}</td>
-        <td class="px-6 py-4 ">${cargaison.type}</td>
-        <td class="px-6 py-4 ">${cargaison.dateDepart}</td>
-        <td class="px-6 py-4 ">${cargaison.dateArrive}</td>
-          <td class="px-6 py-4 ">${cargaison.pointDepart}</td>
-          <td class="px-6 py-4 ">${cargaison.pointArrive}</td>
-          <td class="px-6 py-4 ">${cargaison.distance}</td>
-          <td class="px-6 py-4 text-blue-500" id="etat-${cargaison.numero}">${cargaison.etatGlobal}</td>
-          <td class="px-6 py-4 ">${cargaison.etatAvancement}</td>
-          <td class="px-6 py-4"><button class="text-red-500 px-6 py-4 rounded toggle-state" style="font-size:30px;color:red;" data-id="${cargaison.numero}" data-state="${cargaison.etatGlobal}">${cargaison.etatGlobal === 'ouvert' ? 'Close' : 'Open'}</button></td>
-          <td class="px-6 py-4  btn-view" data-id='${cargaison.numero}'> <i class="fas fa-plus"    style="font-size:48px;color:blue;">+</i></td>
-          <td class="px-6 py-4 "><button class=" text-blue-500 px-6 py-4 rounded btn-details" type="button" data-id="${cargaison.numero}" ><svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#2854C5"><path d="M453-280h60v-240h-60v240Zm26.98-314q14.02 0 23.52-9.2T513-626q0-14.45-9.48-24.22-9.48-9.78-23.5-9.78t-23.52 9.78Q447-640.45 447-626q0 13.6 9.48 22.8 9.48 9.2 23.5 9.2Zm.29 514q-82.74 0-155.5-31.5Q252-143 197.5-197.5t-86-127.34Q80-397.68 80-480.5t31.5-155.66Q143-709 197.5-763t127.34-85.5Q397.68-880 480.5-880t155.66 31.5Q709-817 763-763t85.5 127Q880-563 880-480.27q0 82.74-31.5 155.5Q817-252 763-197.68q-54 54.31-127 86Q563-80 480.27-80Zm.23-60Q622-140 721-239.5t99-241Q820-622 721.19-721T480-820q-141 0-240.5 98.81T140-480q0 141 99.5 240.5t241 99.5Zm-.5-340Z"/></svg></button></td>
+        <td class="px-4 py-2 ">${cargaison.numero}</td>
+        <td class="px-6 py-2 ">${cargaison.type}</td>
+        <td class="px-6 py-2 ">${cargaison.dateDepart}</td>
+        <td class="px-6 py-2 ">${cargaison.dateArrive}</td>
+          <td class="px-6 py-2 ">${cargaison.pointDepart}</td>
+          <td class="px-6 py-2 ">${cargaison.pointArrive}</td>
+          <td class="px-6 py-2 ">${cargaison.distance}</td>
+          <td class="px-6 py-2 text-blue-500" id="etat-${cargaison.numero}">${cargaison.etatGlobal}</td>
+
+          <td class="px-6 py-4" data-id="${cargaison.numero}">
+
+          <select class="btn-avancement" data-id="${cargaison.numero}">
+          <option value="en attente" ${cargaison.etatAvancement === 'en attente' ? 'selected' : ''}>en attente</option>
+          <option value="en cours" ${cargaison.etatAvancement === 'en cours' ? 'selected' : ''}>en cours</option>
+          <option value="arrivé" ${cargaison.etatAvancement === 'arrivé' ? 'selected' : ''}>arrivé</option>
+          <option value="perdue" ${cargaison.etatAvancement === 'perdue' ? 'selected' : ''}>perdue</option>
+        </select>
+
+          </td>
+          <td class="px-6 py-2"><button class="text-red-500 px-6 py-4 rounded toggle-state" style="font-size:30px;color:red;" data-id="${cargaison.numero}" data-state="${cargaison.etatGlobal}">${cargaison.etatGlobal === 'ouvert' ? 'Close' : 'Open'}</button></td>
+          <td class="px-6 py-2  btn-view" data-id='${cargaison.numero}'> <i class="fas fa-plus"    style="font-size:48px;color:blue;">+</i></td>
+          <td class="px-6 py-2"><button class=" text-blue-500 px-6 py-4 rounded btn-details" type="button" data-id="${cargaison.numero}" ><svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#2854C5"><path d="M453-280h60v-240h-60v240Zm26.98-314q14.02 0 23.52-9.2T513-626q0-14.45-9.48-24.22-9.48-9.78-23.5-9.78t-23.52 9.78Q447-640.45 447-626q0 13.6 9.48 22.8 9.48 9.2 23.5 9.2Zm.29 514q-82.74 0-155.5-31.5Q252-143 197.5-197.5t-86-127.34Q80-397.68 80-480.5t31.5-155.66Q143-709 197.5-763t127.34-85.5Q397.68-880 480.5-880t155.66 31.5Q709-817 763-763t85.5 127Q880-563 880-480.27q0 82.74-31.5 155.5Q817-252 763-197.68q-54 54.31-127 86Q563-80 480.27-80Zm.23-60Q622-140 721-239.5t99-241Q820-622 721.19-721T480-820q-141 0-240.5 98.81T140-480q0 141 99.5 240.5t241 99.5Zm-.5-340Z"/></svg></button></td>
           `;
-        row.className = `hover-scale transition transform duration-300 bg-blue-100 hover:bg-blue-200 cursor-pointer`;
+        /*   row.className=`hover-scale transition transform duration-300 bg-blue-100 hover:bg-blue-200 cursor-pointer`; */
+        row.className = `  bg-blue-100 hover:bg-blue-200 cursor-pointer`;
         cargaisonList.appendChild(row);
         // boutton ++++
         document.querySelectorAll('.btn-view').forEach(button => {
@@ -389,10 +407,21 @@ function afficherCargaisons(cargaisons, page = 1) {
             button.addEventListener('click', (event) => {
                 const target = event.target;
                 const parenttarget = target.parentNode;
-                idDetails = target.getAttribute('data-id');
-                console.log(target.getAttribute('data-id'));
+                console.log(target, parenttarget);
+                idDetails = parenttarget.getAttribute('data-id');
+                console.log(parenttarget.getAttribute('data-id'));
                 ouvrirModalDetails();
                 afficherDetailsCargaison(idDetails);
+            });
+        });
+        //select etat avancement
+        document.querySelectorAll('.btn-avancement').forEach(select => {
+            select.addEventListener('change', (event) => {
+                const target = event.target;
+                const id = target.getAttribute('data-id');
+                const etat = target.value;
+                console.log(target.getAttribute('data-id'), target.value);
+                changer_etat_avancement_cargo(id, etat);
             });
         });
     });
@@ -437,7 +466,7 @@ function ouvrirModalDetails() {
 const buttonClasses = [
     'py-1 px-3 bg-gray-300 rounded',
     'py-1 px-3 bg-blue-500 text-white rounded',
-    'py-1 px-3 bg-blue-300 rounded',
+    'py-1 px-3 bg-blue-300 rounded'
 ];
 /* ==============================================FETCH===================================== */
 async function fetchCargaisons() {
@@ -473,69 +502,82 @@ async function fetchProduit() {
         return [];
     }
 }
+/* =================toxicity input display================ */
+const SelectProTypre = document.getElementById('productType');
+SelectProTypre?.addEventListener('change', () => {
+    console.log(SelectProTypre.value);
+    if (SelectProTypre.value == "chimique") {
+        console.log(SelectProTypre.value);
+        document.getElementById('toxicDiv').style.display = "block";
+    }
+    else {
+        document.getElementById('toxicDiv').style.display = "none";
+    }
+});
 /* ==========recuperation et fetchage du produit========================== */
 const formProduct = document.getElementById('addProductForm');
 formProduct?.addEventListener('submit', function (event) {
     const addProduct = document.getElementById('addProduct');
     const productPoids = parseFloat(document.getElementById('productWeight').value);
-    const productPrice = document.getElementById('productPrice').value;
     const productType = document.getElementById('productType').value;
     const codeProduit = "SDBPRO" + Math.floor(Math.random() * 1000);
+    const frais = parseFloat(document.getElementById('fraisProduit').value);
     const clientFirstName = document.getElementById('clientFirstName').value;
     const clientLastName = document.getElementById('clientLastName').value;
-    const clientPhone = document.getElementById('clientPhone').value;
+    const clientPhone = parseFloat(document.getElementById('clientPhone').value);
     const clientAdress = document.getElementById('clientAddress').value;
+    const clientMail = document.getElementById('clientMail').value;
     const nomDestin = document.getElementById('nomDestin').value;
     const prenomDestin = document.getElementById('prenomDestin').value;
     const addressDestin = document.getElementById('addressDestin').value;
+    const mailDestin = document.getElementById('emailDestin').value;
+    const phoneDestin = parseFloat(document.getElementById('phoneDestin').value);
     const productName = document.getElementById('nomProduit').value;
     event?.preventDefault();
     let valid = true;
-    const produit = new Produit('ajoutProduit', codeProduit, productPoids, productName, productType, clientFirstName, clientLastName, parseFloat(clientPhone), clientAdress, nomDestin, prenomDestin, addressDestin);
+    let cl = { clientFirstName: clientFirstName, clientLastName: clientFirstName, clientPhone: clientPhone, clientAdress: clientAdress };
+    const produit = new Produit('ajoutProduit', codeProduit, productPoids, productName, productType, cl, clientFirstName, clientLastName, clientPhone, clientMail, clientAdress, nomDestin, prenomDestin, addressDestin, mailDestin, phoneDestin, frais, 'disponible');
     let sommepoids = 0;
     fetch('../api.php')
         .then(response => response.json())
         .then(data => {
         const cargaisons = data.cargaisons;
-        cargaisons.forEach(cargaison => {
-            if (cargaison.numero == idCargarg) {
-                console.log(cargaison.poidsMax, cargaison.produit);
+        /*  cargaisons.forEach(cargaison => { */
+        for (const cargaison of cargaisons) {
+            if (cargaison.numero === idCargarg) {
                 cargaison.produit.forEach((produit) => {
                     sommepoids += produit.poids;
                 });
-                console.log("somme des poids est :", sommepoids);
+                console.log("Somme des poids est :", sommepoids);
                 if (cargaison.poidsMax <= sommepoids) {
                     valid = false;
                     alert('la cargaison est pleine');
+                    return;
                 }
-                if (cargaison.type == 'maritime' && productType == 'fragile') {
+                if (cargaison.type === 'maritime' && productType === 'fragile') {
                     valid = false;
                     alert("ce type de produit ne peut etre transporter par cette cargaison");
                 }
-                else if (cargaison.type == 'aerienne' && productType == "chimique") {
+                else if (cargaison.type === 'aerienne' && productType === "chimique") {
                     valid = false;
                     alert("ce type de produit ne peut etre transporter par cette cargaison");
                 }
-                else if (cargaison.type == 'terrestre' && productType == "chimique") {
+                else if (cargaison.type === 'terrestre' && productType === "chimique") {
                     valid = false;
                     alert("ce type de produit ne peut etre transporter par cette cargaison");
                 }
-                if (cargaison.etatGlobal == 'fermé')
-                    valid = false;
-                alert('cargaison fermé');
-                if (cargaison.etatAvancement == 'en cours')
-                    alert('cargaison en cours');
-                return;
             }
-        });
+            break;
+        }
     });
-    const objectProduct = {
-        "produit": produit,
-        "action": "ajoutProduit",
-        "numero": idCargarg
-    };
     if (valid) {
+        const objectProduct = {
+            "produit": produit,
+            "action": "ajoutProduit",
+            "numero": idCargarg
+        };
         fetcher(objectProduct);
+        document.getElementById('addProductForm').reset();
     }
 });
 /*============================ fonction pour fetcher============ */
@@ -549,13 +591,25 @@ function fetcher(object) {
     })
         .then(response => response.json())
         .then(result => {
-        console.log(result);
         if (result.status === 'success') {
-            alert(result.message);
-            document.getElementById('addProductForm').reset();
+            /* alert(result.message); */
+            /* showAlert(result.message); */
+            Swal.fire({
+                title: "Good job!",
+                text: "You clicked the button!",
+                icon: "success"
+            });
+        }
+        else if (result.status === 'error') {
+            /*  showAlert(result.message); */
+            Swal.fire({
+                title: "Good job!",
+                text: "You clicked the button!",
+                icon: "success"
+            });
         }
         else {
-            alert('Erreur lors de l\'ajout de la cargaison');
+            showAlert('Erreur ');
         }
     })
         .catch(error => {
@@ -584,24 +638,38 @@ function ChangerEtatCargo(idcargo, currentState) {
             const etatElement = document.getElementById(`etat-${idcargo}`);
             if (etatElement)
                 etatElement.textContent = newState;
+            /* showAlert(result.message) */
+            Swal.fire({
+                title: result.message,
+                text: "l'etat est bien enregistre!",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 3000
+            });
             const toggleButton = document.querySelector(`.toggle-state[data-id="${idcargo}"]`);
             if (toggleButton) {
                 toggleButton.textContent = newState === 'ouvert' ? 'Close' : 'Open';
                 toggleButton.setAttribute('data-state', newState);
             }
         }
+        else if (result.status === 'error') {
+            /*  showAlert(result.message) */
+            Swal.fire({
+                title: result.message,
+                text: "Echec d'enregistrement",
+                icon: "error",
+                showConfirmButton: false,
+                timer: 3000
+            });
+        }
         else {
-            alert('Erreur lors de la mise à jour de l\'état de la cargaison');
+            showAlert('Erreur lors de la mise à jour de l\'état de la cargaison');
         }
     })
         .catch(error => console.error('Erreur:', error));
 }
 /* ==================fonction pour ajouter des produits============ */
 function afficherProduit(produit, page = 1, tbodyElement, idCargo) {
-    if (!tbodyElement) {
-        console.error('tbodyElement is not defined');
-        return;
-    }
     tbodyElement.innerHTML = '';
     const debutIndex = (page - 1) * cargaisonsParPage;
     const finIndex = debutIndex + cargaisonsParPage;
@@ -611,15 +679,31 @@ function afficherProduit(produit, page = 1, tbodyElement, idCargo) {
         row.innerHTML = `
     <td class="px-4 py-4 ">${produit.numero}</td>
     <td class="px-6 py-4 ">${produit.typeProduit}</td>
+    <td class="px-6 py-4">
+    <select class="btn-etatProduit" data-id="${produit.numero}">
+    <option value="disponible" ${produit.etat === 'disponible' ? 'selected' : ''}>disponible</option>
+    <option value="perdu" ${produit.etat === 'perdu' ? 'selected' : ''}>perdu</option>
+    <option value="archivé" ${produit.etat === 'archivé' ? 'selected' : ''}>archivé</option>
+   </select>
+    </td>
+    <td class="px-6 py-4 ">${produit.frais}</td>
     <td class="px-6 py-4 ">${produit.poids}</td>
     <td class="px-6 py-4 ">${produit.clientFirstName}</td>
     <td class="px-6 py-4 ">${produit.clientLastName}</td>
     <td class="px-6 py-4 ">${produit.nomDestin}</td>
     <td class="px-6 py-4 ">${produit.prenomDestin}</td>
-    <td class="px-6 py-4  btn-trash" data-id='${produit.numero}'> <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#EA3323"><path d="M261-120q-24.75 0-42.37-17.63Q201-155.25 201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 0h60v-399h-60v399ZM261-750v570-570Z"/></svg></td>
+    <td class="px-6 py-4  btn-trash" data-id='${produit.numero}'> <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" data-id='${produit.numero}' fill="#EA3323"><path data-id='${produit.numero}' d="M261-120q-24.75 0-42.37-17.63Q201-155.25 201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 0h60v-399h-60v399ZM261-750v570-570Z"/></svg></td>
     `;
-        row.className = `hover-scale transition transform duration-300 bg-blue-100 hover:bg-blue-200 cursor-pointer`;
+        /*  row.className=`hover-scale transition transform duration-300 bg-blue-100 hover:bg-blue-200 cursor-pointer`; */
         tbodyElement.appendChild(row);
+        document.querySelectorAll('.btn-etatProduit').forEach(btn => {
+            btn.addEventListener('change', function (event) {
+                const target = event.target;
+                const state = target.value;
+                console.log(target.getAttribute('data-id'), state);
+                changer_etat_produit(idCargo, produit.numero, state);
+            });
+        });
     });
     const pagination = document.getElementById('pagination');
     if (!pagination)
@@ -639,18 +723,10 @@ function afficherProduit(produit, page = 1, tbodyElement, idCargo) {
             const target = event.target;
             const parentNode = target.parentNode;
             const idproduit = parentNode.getAttribute('data-id');
-            console.log(idproduit);
             supprimerProduit(idCargo, idproduit);
             afficherDetailsCargaison(idCargo);
         });
     });
-    /* document.querySelectorAll('.btn-view').forEach(button => {
-      button.addEventListener('click', (event) => {
-        const target = event.currentTarget as HTMLElement;
-        let selectedCargaisonId = target.getAttribute('data-id');
-        ouvrirModal();  // Ouvrir le modal pour ajouter un produit
-      });
-    }); */
 }
 /* ============AFFICHAGE DES PRODUITS============== */
 const bodyProduit = document.getElementById('bodyProduit');
@@ -674,33 +750,44 @@ function afficherDetailsCargaison(cargaisonId) {
                 break;
             }
         }
+        const masseCargo = cargo.poidsMax;
+        let sommepoids = 0;
+        cargo?.produit.forEach((produit) => {
+            sommepoids += produit.poids;
+        });
+        const masseProduit = sommepoids;
+        const masseRestante = masseCargo - sommepoids;
+        document.getElementById('masseRestante').textContent = masseRestante.toString();
         const bodyDetails = document.getElementById('bodyDetailsCargo');
-        console.log(cargo?.produit, cargo?.numero);
+        document.getElementById('codecargo').textContent = cargaisonId;
+        document.getElementById('codecargo').style.color = "red";
+        document.getElementById('nombreProduit').textContent = cargo.produit.length.toString();
         afficherProduit(cargo.produit, page = 1, bodyDetails, cargo?.numero);
     });
 }
 /* ================Supression de produit============================= */
 function supprimerProduit(idcargo, codeProduit) {
-    fetch('../api.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            action: 'supprimer-produit',
-            idcargo: idcargo,
-            codeProduit: codeProduit,
-        }),
-    })
-        .then(response => response.json())
-        .then(result => {
-        if (result.status === 'success') {
-            alert(`Produit retiré avec succès`);
-            fetchCargaisons();
-        }
-        else {
-            alert('Erreur lors du retrait du produit');
-        }
-    })
-        .catch(error => console.error('Erreur:', error));
+    fetcher({ action: 'supprimer-produit', idcargo: idcargo, codeProduit: codeProduit });
 }
+/* ================>changer etat avancement<====================== */
+function changer_etat_avancement_cargo(cargaisonId, etat) {
+    fetcher({ action: 'changer_etat_avancement', idcargo: cargaisonId, newState: etat, });
+}
+/* ====================================changer etat produit========================== */
+function changer_etat_produit(idcargo, codeProduit, etat) {
+    console.log(idcargo, codeProduit, etat);
+    fetcher({ action: 'changerEtatProduit', id: idcargo, newetatProd: etat, codePro: codeProduit });
+}
+function showAlert(messag) {
+    const modal = document.getElementById('alertModal');
+    const showAlert = document.getElementById('showalert').textContent = messag;
+    if (modal) {
+        modal.style.display = "block";
+        setTimeout(() => {
+            modal.style.display = "none";
+        }, 3000); // Hide after 3 seconds
+    }
+}
+document.getElementById("bts")?.addEventListener('click', () => {
+    /* showAlert() */
+});

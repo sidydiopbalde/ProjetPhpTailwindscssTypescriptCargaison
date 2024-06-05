@@ -2,6 +2,8 @@
 class Cargaison {
     action;
     numero;
+    limite;
+    value;
     poidsMax;
     pointDepart;
     pointArrive;
@@ -12,9 +14,11 @@ class Cargaison {
     etatGlobal;
     etatAvancement;
     produit;
-    constructor(action, numero, poidsMax, pointDepart, pointArrive, dateDepart, dateArrive, distance, type, etatGlobal, etatAvancement, produit) {
+    constructor(action, numero, limite, value, poidsMax, pointDepart, pointArrive, dateDepart, dateArrive, distance, type, etatGlobal, etatAvancement, produit) {
         this.action = action;
         this.numero = numero;
+        this.limite = limite;
+        this.value = value;
         this.poidsMax = poidsMax;
         this.pointDepart = pointDepart;
         this.pointArrive = pointArrive;
@@ -45,33 +49,42 @@ export { Cargaison };
 class Produit {
     action;
     numero;
-    /* idCargo:string; */
     poids;
     nomProduit;
     typeProduit;
+    client;
     clientFirstName;
     clientLastName;
     clientPhone;
+    clientMail;
     clientAdress;
     nomDestin;
     prenomDestin;
     addressDestin;
-    constructor(action, numero, 
-    /*    idCargo:string, */
-    poids, nomProduit, typeProduit, clientFirstName, clientLastName, clientPhone, clientAdress, nomDestin, prenomDestin, addressDestin) {
+    mailDestin;
+    phoneDestin;
+    frais;
+    etat;
+    constructor(action, numero, poids, nomProduit, typeProduit, client, clientFirstName, clientLastName, clientPhone, clientMail, clientAdress, nomDestin, prenomDestin, addressDestin, mailDestin, phoneDestin, frais, etat) {
         this.action = action;
         this.numero = numero;
         /*   this.idCargo=idCargo; */
         this.poids = poids;
         this.nomProduit = nomProduit;
         this.typeProduit = typeProduit;
+        this.client = client;
         this.clientFirstName = clientFirstName;
         this.clientLastName = clientLastName;
         this.clientPhone = clientPhone;
+        this.clientMail = clientMail;
         this.clientAdress = clientAdress;
         this.nomDestin = nomDestin;
         this.prenomDestin = prenomDestin;
         this.addressDestin = addressDestin;
+        this.mailDestin = mailDestin;
+        this.phoneDestin = phoneDestin;
+        this.frais = frais;
+        this.etat = etat;
     }
 }
 export { Produit };

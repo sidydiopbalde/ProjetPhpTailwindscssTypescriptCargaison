@@ -1,7 +1,7 @@
 
 <div class="mb-4">
         <ul class="flex space-x-4">
-          <li><a href="#" class="font-bold text-blue-500">All Cargaisons</a></li>
+          <li><a href="#" class="font-bold text-blue-600">All Cargaisons</a></li>
           <li><a href="#" class="text-blue-500">EN Attente</a></li>
           <li><a href="#" class="text-blue-500"></a></li>
           <li><a href="#" class="text-blue-500">Arrivée</a></li>
@@ -25,34 +25,35 @@
                 <div>
                     <h3 class="text-md font-semibold text-gray-800 mb-2">Produit</h3>
                     <div class="mb-4">
-                        <label for="productName" class="block text-gray-700">Nom du produit</label>
+                        <label for="nomProduit" class="block text-gray-700">Nom du produit</label>
                         <input type="text" id="nomProduit" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <span class="nomProduitError" style="color:red">e</span>
                     </div>
                     <div class="mb-4">
                         <label for="productType" class="block text-gray-700">Type de produit</label>
                         <select id="productType" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="">Sélectionner</option>
                             <option value="alimentaire">Alimentaire</option>
-                            <option value="chimique">chimique</option>
-                            <option value="incassable">incassable</option>
-                            <option value="fragile">fragile</option>
+                            <option value="chimique">Chimique</option>
+                            <option value="incassable">Incassable</option>
+                            <option value="fragile">Fragile</option>
                         </select>
-                        <span>ce type de produit</span>
+                        <span class="productTypeError" style="color:red"></span>
                     </div>
-                    <div class="mb-4">
+                    <div class="mb-4 hidden " style="display:none" id="toxicDiv" >
                         <label for="productToxicity" class="block text-gray-700">Toxicity</label>
-                        <input type="text" id="productToxicity" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <span class="error">error</span>
+                        <input type="number" id="productToxicity" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <span class="productToxicityError" style="color:red"></span>
                     </div>
                     <div class="mb-4">
                         <label for="productWeight" class="block text-gray-700">Poids</label>
-                        <input type="text" id="productWeight" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <span class="error">error</span>
+                        <input type="number" id="productWeight" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <span class="productWeightError" style="color:red"></span>
                     </div>
                     <div class="mb-4">
-                        <label for="productPrice" class="block text-gray-700">Prix</label>
-                        <input type="text" id="productPrice" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <span class="error">error</span>
+                        <label for="fraisProduit" class="block text-gray-700">frais</label>
+                        <input type="number" id="fraisProduit" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <span class="fraisProduitError" style="color:red"></span>
                     </div>
                 </div>
                 <!-- Client Section -->
@@ -61,37 +62,57 @@
                     <div class="mb-4">
                         <label for="clientFirstName" class="block text-gray-700">Nom du client</label>
                         <input type="text" id="clientFirstName" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <span class="error">error</span>
+                        <span class="clientFirstNameError" style="color:red">e</span>
                     </div>
                     <div class="mb-4">
                         <label for="clientLastName" class="block text-gray-700">Prenom du client</label>
                         <input type="text" id="clientLastName" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <span class="error">error</span>
+                        <span class="clientLastNameError" style="color:red">e</span>
                     </div>
                     <div class="mb-4">
                         <label for="clientPhone" class="block text-gray-700">Numero de telephone</label>
                         <input type="text" id="clientPhone" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <span class="clientPhoneError" style="color:red">e</span>
+                    </div>
+                    <div class="mb-4">
+                        <label for="clientMail" class="block text-gray-700">E-mail</label>
+                        <input type="text" id="clientMail" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <span class="clientMailError" style="color:red"></span>
                     </div>
                     <div class="mb-4">
                         <label for="clientAddress" class="block text-gray-700">Adresse</label>
                         <input type="text" id="clientAddress" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <span class="error">error</span>
+                        <span class="clientAddressError" style="color:red">e</span>
+
                     </div>
                 </div>
                 <!-- Destinataire Section -->
                 <div>
                     <h3 class="text-md font-semibold text-gray-800 mb-2">Informations du destinataire</h3>
                     <div class="mb-4">
-                        <label for="recipientFirstName" class="block text-gray-700">Nom du destinataire</label>
+                        <label for="nomDestin" class="block text-gray-700">Nom du destinataire</label>
                         <input type="text" id="nomDestin" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <span class="nomDestinError" style="color:red">e</span>
                     </div>
                     <div class="mb-4">
-                        <label for="recipientLastName" class="block text-gray-700">Prenom du destinataire</label>
+                        <label for="prenomDestin" class="block text-gray-700">Prenom du destinataire</label>
                         <input type="text" id="prenomDestin" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <span class="prenomDestinError" style="color:red">e</span>
                     </div>
                     <div class="mb-4">
-                        <label for="recipientAddress" class="block text-gray-700">Adresse du destinataire</label>
+                        <label for="emailDestin" class="block text-gray-700">Email</label>
+                        <input type="text" id="emailDestin" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <span class="emailDestinError" style="color:red"></span>
+                    </div>
+                    <div class="mb-4">
+                        <label for="phoneDestin" class="block text-gray-700">Phone</label>
+                        <input type="text" id="phoneDestin" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <span class="phoneDestin" style="color:red"></span>
+                    </div>
+                    <div class="mb-4">
+                        <label for="addressDestin" class="block text-gray-700">Adresse du destinataire</label>
                         <input type="text" id="addressDestin" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <span class="addressDestinError" style="color:red">e</span>
                     </div>
                 </div>
             </div>
@@ -108,11 +129,24 @@
             <button class="btn">Close</button> 
         </form>
         <h2 class="text-lg font-semibold text-blue-500 mb-4 text-center">DETAILS CARGAISONS</h2>
+        <div>
+          <span>code Cargo:</span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="codecargo"></span> 
+
+        </div>
+        <div>
+          <span>Nombre de produits:</span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="nombreProduit"></span> 
+
+        </div>
+        <div>
+          <span>Masse Restante:</span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="masseRestante"></span> 
+
+        </div>
       <table>
       <thead class="bg-gray-200">
           <tr>
             <th class="py-2 px-4">Code</th>
             <th class="py-2 px-4">Type</th>
+            <th class="py-2 px-4">Etat</th>
             <th class="py-2 px-4">Poids</th>
             <th class="py-2 px-4">exp Nom</th>
             <th class="py-2 px-4">Exp Pren</th>
@@ -122,14 +156,21 @@
           </tr>
         </thead>
         <tbody id="bodyDetailsCargo">
-
+          <!-- body cargaison -->
         </tbody>
       </table>
      
     </div>
 </dialog>
-           <!-- filtre -->
-   <div id="blockfiltrer" class="py-4 m-[20%] flex justify-between" >
+<!-- alert message  -->
+<div id="alertModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 "
+ style="display:none; position:absolute; left:50rem ;color:red ; width:40rem ">
+        <div class="bg-white p-4 rounded shadow-lg text-center" id="showalert">
+            This is an alert message!
+        </div>
+    </div
+          <!--  filtre  -->
+   <div id="blockfiltrer" class="py-4  flex justify-between" >
     <div class="">
       <label for="filterNumero" class="text-blue-500">Filtrer par Code</label>
     <input type="text" class="py-4 rounded" id="filterNumero" style="padding:0.5rem" placeholder="Filtrer par numéro">

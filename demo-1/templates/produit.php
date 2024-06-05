@@ -15,6 +15,12 @@
 </head>
 
 <body class="bg-gray-100">
+<button class="bg-blue-500 text-white px-4 py-2 rounded" id="bts">Show Alert</button>
+    <div id="alertModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 " style="display:none">
+        <div class="bg-white p-4 rounded shadow-lg text-center" id="showalert">
+            This is an alert message!
+        </div>
+    </div>
   <div class="flex">
     
     <!-- Main Content -->
