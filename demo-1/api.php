@@ -4,6 +4,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use Twilio\Rest\Client;
+use TCPDF;
 require '/var/www/html/projettailwinTs/demo-1/vendor/autoload.php';
 
 function envoyerEmail($destinataire, $sujet, $message) {
@@ -34,7 +35,7 @@ function envoyerEmail($destinataire, $sujet, $message) {
         error_log("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
     }
 }
-function envoyerSMS($numero, $message) {
+/* function envoyerSMS($numero, $message) {
     $sid = 'votre-account-sid'; // Remplacez par votre SID Twilio
     $token = 'votre-auth-token'; // Remplacez par votre token d'authentification Twilio
     $twilioNumber = '784316538'; // Remplacez par votre numéro Twilio
@@ -52,7 +53,86 @@ function envoyerSMS($numero, $message) {
     } catch (Exception $e) {
         error_log("SMS could not be sent. Error: {$e->getMessage()}");
     }
+} */
+
+function generateReceipt($cargaison, $produit) {
+    $pdf = new TCPDF();
+
+    // Set document information
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetAuthor('SDB CARGO COMPANY');
+    $pdf->SetTitle('Reçu de Cargaison');
+    $pdf->SetSubject('Reçu de Cargaison');
+    $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+    // Add a page
+    $pdf->AddPage();
+
+    // Title
+    $pdf->SetFont('helvetica', 'B', 20);
+    $pdf->Cell(0, 15, 'Reçu de Cargaison', 0, 1, 'C');
+
+    // Cargaison Info
+    $pdf->SetFont('helvetica', '', 12);
+    $html = '<h3>Informations de la Cargaison</h3>';
+    $html .= '<p>Numéro: ' . $cargaison['numero'] . '</p>';
+    $html .= '<p>Poids Max: ' . $cargaison['poidsMax'] . ' kg</p>';
+    $html .= '<p>Point de Départ: ' . $cargaison['pointDepart'] . '</p>';
+    $html .= '<p>Point d\'Arrivée: ' . $cargaison['pointArrive'] . '</p>';
+    $html .= '<p>Date de Départ: ' . $cargaison['dateDepart'] . '</p>';
+    $html .= '<p>Date d\'Arrivée: ' . $cargaison['dateArrive'] . '</p>';
+    $html .= '<p>Distance: ' . $cargaison['distance'] . ' km</p>';
+    $html .= '<p>Type: ' . $cargaison['type'] . '</p>';
+
+    // Produit Info
+    $html .= '<h3>Informations du Produit</h3>';
+    $html .= '<p>Numéro: ' . $produit['numero'] . '</p>';
+    $html .= '<p>Nom: ' . $produit['nomProduit'] . '</p>';
+    $html .= '<p>Poids: ' . $produit['poids'] . ' kg</p>';
+    $html .= '<p>Type: ' . $produit['typeProduit'] . '</p>';
+
+    $pdf->writeHTML($html, true, false, true, false, '');
+
+    // Save PDF to a file
+    $filename = __DIR__ . '/pdf/recu_' . $cargaison['numero'] . '_' . $produit['numero'] . '.pdf';
+    $pdf->Output($filename, 'F');
+
+    return $filename;
 }
+
+function sendEmailWithReceipt($clientEmail, $pdfFilename) {
+    $mail = new PHPMailer(true);
+
+    try {
+        // Paramètres du serveur
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com'; // Remplacez par le serveur SMTP de votre fournisseur
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'sididiop53@gmail.com'; // Votre adresse email SMTP
+        $mail->Password   = 'mzfi infx ftba afki'; // Votre mot de passe SMTP
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587; // Port SMTP
+
+        // Destinataires
+        $mail->setFrom('sididiop53@gmail.com', 'Sidy Diop Balde');
+        $mail->addAddress($clientEmail);
+
+        // Pièce jointe
+        $mail->addAttachment($pdfFilename);
+
+        // Contenu de l'email
+        $mail->isHTML(true);
+        $mail->Subject = 'Reçu de votre Cargaison';
+        $mail->Body    = 'Veuillez trouver ci-joint le reçu de votre cargaison.';
+
+        $mail->send();
+        echo 'Le reçu a été envoyé avec succès';
+        return true;
+    } catch (Exception $e) {
+        echo "Le message n'a pas pu être envoyé. Erreur: {$mail->ErrorInfo}";
+    }
+}
+
 
 function lireJSON($filename) {
     $json_data = file_get_contents($filename);
@@ -116,77 +196,89 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     } 
     else if($data['action'] === 'ajoutProduit') {
+
         $idCargo = $data['numero'];
         
         $newProduct = $data['produit']; 
 
         $currentData = lireJSON('data.json');
 
-        if ($currentData === null) {
-            error_log("Erreur de décodage JSON pour le fichier data.json");
-            echo json_encode(["status" => "error", "message" => "Erreur de lecture des données existantes"]);
-            exit;
-        }
+        // /* if ($currentData === null) {
+        //     error_log("Erreur de décodage JSON pour le fichier data.json");
+        //     echo json_encode(["status" => "error", "message" => "Erreur de lecture des données existantes"]);
+        //     exit;
+        // }
        
-        $poids=0;
-        foreach($cargaison['produit'] as $produit){
-            $poids += $produit['poids'];
-        }
+        // $poids=0;
+        // foreach($cargaison['produit'] as $produit){
+        //     $poids += $produit['poids'];
+        // } */
         
-        foreach ($currentData['cargaisons'] as &$cargaison) {
+         foreach ($currentData['cargaisons'] as &$cargaison) {
             if ($cargaison['numero'] === $idCargo) {
                 
-                if($cargaison['etatGlobal'] === 'fermé' ){
+        //        /*  if($cargaison['etatGlobal'] === 'fermé' ){
                   
-                    echo json_encode(["status" => "error", "message" => " cargaison 🔐"]);
-                    exit;
-                }
-                if($cargaison['etatAvancement'] === 'en cours' ){
+        //             echo json_encode(["status" => "error", "message" => " cargaison 🔐"]);
+        //             exit;
+        //         }
+        //         if($cargaison['etatAvancement'] === 'en cours' ){
                   
-                    echo json_encode(["status" => "error", "message" => "la cargaison est en cours!!!!!"]);
-                    exit;
-                }
-                if($cargaison['etatAvancement'] === 'perdue' ){
+        //             echo json_encode(["status" => "error", "message" => "la cargaison est en cours!!!!!"]);
+        //             exit;
+        //         }
+        //         if($cargaison['etatAvancement'] === 'perdue' ){
                   
-                    echo json_encode(["status" => "error", "message" => "impossible!!! cargaison perdue"]);
-                    exit;
-                }
+        //             echo json_encode(["status" => "error", "message" => "impossible!!! cargaison perdue"]);
+        //             exit;
+        //         }
                 
-                if($cargaison['poidsMax'] <= $poids){
-                    echo json_encode(["status" => "error", "message" => "la cargaison est en pleine"]);
-                    exit;
-                }
-                if($newProduct['typeProduit'] === 'maritime' && $cargaison['type'] === 'fragile'){
-                    echo json_decode(["status" => "error", "message" => "Ce produit ne peut etre transporté par cette cargaison"]);
-                    exit;
-                }
+        //         if($cargaison['poidsMax'] <= $poids){
+        //             echo json_encode(["status" => "error", "message" => "la cargaison est en pleine"]);
+        //             exit;
+        //         }
+        //         if($newProduct['typeProduit'] === 'maritime' && $cargaison['type'] === 'fragile'){
+        //             echo json_decode(["status" => "error", "message" => "Ce produit ne peut etre transporté par cette cargaison"]);
+        //             exit;
+        //         } */
 
 
-                $cargaison['produit'][] = $newProduct;
+             $cargaison['produit'][] = $newProduct;
                 
-                ecrireJSON('data.json', $currentData);
                 $clientemail= $newProduct['clientMail'];
-                //envoie de mail
-            /*     $message = "Votre cargaison avec le numéro{$cargaison['numero']} est maintenant arrivé.";
+                
+               $pdfFilename = generateReceipt($cargaison, $newProduct);
+               ecrireJSON('data.json', $currentData);
+        //         // Envoyer le reçu par email
+              $result= sendEmailWithReceipt($clientemail, $pdfFilename);
+             
+              //  echo json_encode($newProduct['clientMail']);
+        //         // if(!$result){
+        //         //     echo json_decode(["status" => "error", "message" => "erreur lors de l'envoie"]);
+        //         //     exit;
+        //         // }
+        //         //envoie de mail
+                 $message = " Bonjour! M/Mme {$newProduct['clientFirstName']} {$newProduct['clientLastName']} Votre produit a été ajouté avec succés dans la cargaison numéro {$cargaison['numero']}.
+                 Voici le code de votre produit {$newProduct['numero']} .Cordialement SDB CArgo Company ";
 
-                $result= envoyerEmail($clientemail,'Evolution de la cargaison',$message); */
-               /*  if($result ===true){
-                    echo json_decode(["status" => "success", "message" => "le mail est bien envoyé"]);
-                }else{
-                    echo json_decode(["status" => "error", "message" => "erreur d'envoie mail"]);
+                $result= envoyerEmail($clientemail,'Evolution de la cargaison',$message); 
+          if($result ===true){
+                 echo json_decode(["status" => "success", "message" => "le mail est bien envoyé"]);
+             }else{
+                   echo json_decode(["status" => "error", "message" => "erreur d'envoie mail"]);
                     
-                } */
-                break;
+        //         } */
+        //         break;
             }
         }
+    }
 
+        // // Re-lire le fichier pour vérifier
+        // $verifData = lireJSON('data.json');
+        // error_log("Données après écriture: " . print_r($verifData, true));
 
-        // Re-lire le fichier pour vérifier
-        $verifData = lireJSON('data.json');
-        error_log("Données après écriture: " . print_r($verifData, true));
-
-        echo json_encode(["status" => "success", "message" => "Produit ajouté avec succès"]);
-        exit;
+        // echo json_encode(["status" => "success", "message" => "Produit ajouté avec succès"]);
+        // exit;
 
     } elseif ($data['action'] === 'changerEtatCargo') {
         $idCargo = $data['idcargo'];

@@ -79,7 +79,7 @@ export interface client{
   poids: number;
   nomProduit: string;
   typeProduit: string;
-  client:client;
+/*   client:client; */
   clientFirstName:string;
   clientLastName:string;
   clientPhone: number;
@@ -98,7 +98,7 @@ export interface client{
     poids: number,
     nomProduit: string,
     typeProduit: string,
-    client:client,
+   /*  client:client, */
     clientFirstName:string,
     clientLastName:string,
     clientPhone: number,
@@ -119,7 +119,7 @@ export interface client{
     this.poids = poids;
     this.nomProduit = nomProduit;
     this.typeProduit = typeProduit;
-    this.client=client;
+   /*  this.client=client; */
     this.clientFirstName=clientFirstName;
     this.clientLastName=clientLastName;
     this.clientPhone=clientPhone;

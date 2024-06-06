@@ -52,7 +52,7 @@ class Produit {
     poids;
     nomProduit;
     typeProduit;
-    client;
+    /*   client:client; */
     clientFirstName;
     clientLastName;
     clientPhone;
@@ -65,14 +65,16 @@ class Produit {
     phoneDestin;
     frais;
     etat;
-    constructor(action, numero, poids, nomProduit, typeProduit, client, clientFirstName, clientLastName, clientPhone, clientMail, clientAdress, nomDestin, prenomDestin, addressDestin, mailDestin, phoneDestin, frais, etat) {
+    constructor(action, numero, poids, nomProduit, typeProduit, 
+    /*  client:client, */
+    clientFirstName, clientLastName, clientPhone, clientMail, clientAdress, nomDestin, prenomDestin, addressDestin, mailDestin, phoneDestin, frais, etat) {
         this.action = action;
         this.numero = numero;
         /*   this.idCargo=idCargo; */
         this.poids = poids;
         this.nomProduit = nomProduit;
         this.typeProduit = typeProduit;
-        this.client = client;
+        /*  this.client=client; */
         this.clientFirstName = clientFirstName;
         this.clientLastName = clientLastName;
         this.clientPhone = clientPhone;

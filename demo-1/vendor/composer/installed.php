@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '556cd0e7f85c97d27b839204b18a1aaa7b152b28',
+        'reference' => '0d8bc084ed5c17224ded3455c07b40f7f2f14468',
         'name' => '__root__',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '556cd0e7f85c97d27b839204b18a1aaa7b152b28',
+            'reference' => '0d8bc084ed5c17224ded3455c07b40f7f2f14468',
             'dev_requirement' => false,
         ),
         'phpmailer/phpmailer' => array(
@@ -26,6 +26,15 @@
             'install_path' => __DIR__ . '/../phpmailer/phpmailer',
             'aliases' => array(),
             'reference' => '039de174cd9c17a8389754d3b877a2ed22743e18',
+            'dev_requirement' => false,
+        ),
+        'tecnickcom/tcpdf' => array(
+            'pretty_version' => '6.7.5',
+            'version' => '6.7.5.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../tecnickcom/tcpdf',
+            'aliases' => array(),
+            'reference' => '951eabf0338ec2522bd0d5d9c79b08a3a3d36b36',
             'dev_requirement' => false,
         ),
         'twilio/sdk' => array(

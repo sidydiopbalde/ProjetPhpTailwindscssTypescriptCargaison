@@ -13,14 +13,14 @@
       </div>
       <!-- ajout produit -->
       <dialog id="mymodal1" class="modal"> 
-    <div class="bg-white p-6 rounded-lg shadow-lg border" style="width:60%">
+    <div class="bg-white p-6 rounded-lg shadow-lg border" style="width:60% ;height:80%; overflow:scroll">
         <form method="dialog" class="border-none">
             <!-- if there is a button in form, it will close the modal -->
             <button class="btn">Close</button> 
         </form>
         <h2 class="text-lg font-semibold text-blue-500 mb-4 text-center">Ajouter Produit</h2>
         <form id="addProductForm" class="" style="width:100%">
-            <div class="flex flex-col space-y-10 gap-3">
+            <div class="flex flex-col space-y-10 gap-2">
                 <!-- Produit Section -->
                 <div>
                     <h3 class="text-md font-semibold text-gray-800 mb-2">Produit</h3>
@@ -170,7 +170,7 @@
         </div>
     </div
           <!--  filtre  -->
-   <div id="blockfiltrer" class="py-4  flex justify-between" >
+   <div id="blockfiltrer" class="py-4  flex justify-between gap-1" >
     <div class="">
       <label for="filterNumero" class="text-blue-500">Filtrer par Code</label>
     <input type="text" class="py-4 rounded" id="filterNumero" style="padding:0.5rem" placeholder="Filtrer par numéro">
@@ -277,7 +277,7 @@
                <label for="pointArrive" class="block text-gray-700">lieu d'arrivée</label>
                <input type="text" id="pointArrive" name="pointArrive"
                 class="w-[50%] px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <span id="pointArriveError" style="color:red" ></span>
+                <span id="po intArriveError" style="color:red" ></span>
              </div>
           </div>
              
@@ -285,7 +285,7 @@
           </form>
         </div>
       </dialog>
-      <table class="w-full bg-white shadow rounded-lg overflow-hidden">
+      <table class="w-[90%] bg-white shadow rounded-lg overflow-hidden">
         <thead class="bg-gray-200">
           <tr>
             <th class="py-2 px-4">Code</th>

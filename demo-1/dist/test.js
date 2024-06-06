@@ -367,15 +367,15 @@ function afficherCargaisons(cargaisons, page = 1) {
         const row = document.createElement('tr');
         row.innerHTML = `
         <td class="px-4 py-2 ">${cargaison.numero}</td>
-        <td class="px-6 py-2 ">${cargaison.type}</td>
-        <td class="px-6 py-2 ">${cargaison.dateDepart}</td>
+        <td class="px-4 py-2 ">${cargaison.type}</td>
+        <td class="px-4 py-2 ">${cargaison.dateDepart}</td>
         <td class="px-6 py-2 ">${cargaison.dateArrive}</td>
-          <td class="px-6 py-2 ">${cargaison.pointDepart}</td>
-          <td class="px-6 py-2 ">${cargaison.pointArrive}</td>
-          <td class="px-6 py-2 ">${cargaison.distance}</td>
-          <td class="px-6 py-2 text-blue-500" id="etat-${cargaison.numero}">${cargaison.etatGlobal}</td>
+          <td class="px-4 py-2 ">${cargaison.pointDepart}</td>
+          <td class="px-4 py-2 ">${cargaison.pointArrive}</td>
+          <td class="px-4 py-2 ">${cargaison.distance}</td>
+          <td class="px-4 py-2 text-blue-500" id="etat-${cargaison.numero}">${cargaison.etatGlobal}</td>
 
-          <td class="px-6 py-4" data-id="${cargaison.numero}">
+          <td class="px-4 py-4" data-id="${cargaison.numero}">
 
           <select class="btn-avancement" data-id="${cargaison.numero}">
           <option value="en attente" ${cargaison.etatAvancement === 'en attente' ? 'selected' : ''}>en attente</option>
@@ -385,9 +385,9 @@ function afficherCargaisons(cargaisons, page = 1) {
         </select>
 
           </td>
-          <td class="px-6 py-2"><button class="text-red-500 px-6 py-4 rounded toggle-state" style="font-size:30px;color:red;" data-id="${cargaison.numero}" data-state="${cargaison.etatGlobal}">${cargaison.etatGlobal === 'ouvert' ? 'Close' : 'Open'}</button></td>
-          <td class="px-6 py-2  btn-view" data-id='${cargaison.numero}'> <i class="fas fa-plus"    style="font-size:48px;color:blue;">+</i></td>
-          <td class="px-6 py-2"><button class=" text-blue-500 px-6 py-4 rounded btn-details" type="button" data-id="${cargaison.numero}" ><svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#2854C5"><path d="M453-280h60v-240h-60v240Zm26.98-314q14.02 0 23.52-9.2T513-626q0-14.45-9.48-24.22-9.48-9.78-23.5-9.78t-23.52 9.78Q447-640.45 447-626q0 13.6 9.48 22.8 9.48 9.2 23.5 9.2Zm.29 514q-82.74 0-155.5-31.5Q252-143 197.5-197.5t-86-127.34Q80-397.68 80-480.5t31.5-155.66Q143-709 197.5-763t127.34-85.5Q397.68-880 480.5-880t155.66 31.5Q709-817 763-763t85.5 127Q880-563 880-480.27q0 82.74-31.5 155.5Q817-252 763-197.68q-54 54.31-127 86Q563-80 480.27-80Zm.23-60Q622-140 721-239.5t99-241Q820-622 721.19-721T480-820q-141 0-240.5 98.81T140-480q0 141 99.5 240.5t241 99.5Zm-.5-340Z"/></svg></button></td>
+          <td class="px-4 py-2"><button class="text-red-500 px-6 py-4 rounded toggle-state" style="font-size:30px;color:red;" data-id="${cargaison.numero}" data-state="${cargaison.etatGlobal}">${cargaison.etatGlobal === 'ouvert' ? 'Close' : 'Open'}</button></td>
+          <td class="px-4 py-2  btn-view" data-id='${cargaison.numero}'> <i class="fas fa-plus"    style="font-size:48px;color:blue;">+</i></td>
+          <td class="px-4 py-2"><button class=" text-blue-500 px-6 py-4 rounded btn-details" type="button" data-id="${cargaison.numero}" ><svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#2854C5"><path d="M453-280h60v-240h-60v240Zm26.98-314q14.02 0 23.52-9.2T513-626q0-14.45-9.48-24.22-9.48-9.78-23.5-9.78t-23.52 9.78Q447-640.45 447-626q0 13.6 9.48 22.8 9.48 9.2 23.5 9.2Zm.29 514q-82.74 0-155.5-31.5Q252-143 197.5-197.5t-86-127.34Q80-397.68 80-480.5t31.5-155.66Q143-709 197.5-763t127.34-85.5Q397.68-880 480.5-880t155.66 31.5Q709-817 763-763t85.5 127Q880-563 880-480.27q0 82.74-31.5 155.5Q817-252 763-197.68q-54 54.31-127 86Q563-80 480.27-80Zm.23-60Q622-140 721-239.5t99-241Q820-622 721.19-721T480-820q-141 0-240.5 98.81T140-480q0 141 99.5 240.5t241 99.5Zm-.5-340Z"/></svg></button></td>
           `;
         /*   row.className=`hover-scale transition transform duration-300 bg-blue-100 hover:bg-blue-200 cursor-pointer`; */
         row.className = `  bg-blue-100 hover:bg-blue-200 cursor-pointer`;
@@ -516,6 +516,7 @@ SelectProTypre?.addEventListener('change', () => {
 });
 /* ==========recuperation et fetchage du produit========================== */
 const formProduct = document.getElementById('addProductForm');
+let distance;
 formProduct?.addEventListener('submit', function (event) {
     const addProduct = document.getElementById('addProduct');
     const productPoids = parseFloat(document.getElementById('productWeight').value);
@@ -535,8 +536,8 @@ formProduct?.addEventListener('submit', function (event) {
     const productName = document.getElementById('nomProduit').value;
     event?.preventDefault();
     let valid = true;
-    let cl = { clientFirstName: clientFirstName, clientLastName: clientFirstName, clientPhone: clientPhone, clientAdress: clientAdress };
-    const produit = new Produit('ajoutProduit', codeProduit, productPoids, productName, productType, cl, clientFirstName, clientLastName, clientPhone, clientMail, clientAdress, nomDestin, prenomDestin, addressDestin, mailDestin, phoneDestin, frais, 'disponible');
+    /* let cl:client={clientFirstName:clientFirstName,clientLastName:clientFirstName,clientPhone:clientPhone,clientAdress:clientAdress}; */
+    const produit = new Produit('ajoutProduit', codeProduit, productPoids, productName, productType, clientFirstName, clientLastName, clientPhone, clientMail, clientAdress, nomDestin, prenomDestin, addressDestin, mailDestin, phoneDestin, frais, 'disponible');
     let sommepoids = 0;
     fetch('../api.php')
         .then(response => response.json())
@@ -592,21 +593,10 @@ function fetcher(object) {
         .then(response => response.json())
         .then(result => {
         if (result.status === 'success') {
-            /* alert(result.message); */
-            /* showAlert(result.message); */
-            Swal.fire({
-                title: "Good job!",
-                text: "You clicked the button!",
-                icon: "success"
-            });
+            showAlert1(result.message, 'success');
         }
         else if (result.status === 'error') {
-            /*  showAlert(result.message); */
-            Swal.fire({
-                title: "Good job!",
-                text: "You clicked the button!",
-                icon: "success"
-            });
+            showAlert1(result.message, 'error');
         }
         else {
             showAlert('Erreur ');
@@ -614,6 +604,20 @@ function fetcher(object) {
     })
         .catch(error => {
         console.error('Erreur:', error);
+    });
+}
+/*  (document.getElementById('productWeight') as HTMLInputElement).addEventListener('input',function(){
+   ((document.getElementById('fraisProduit') as HTMLInputElement).value)=
+   (document.getElementById('productWeight') as HTMLInputElement).value * distance;
+ }) */
+//fonction pour afficher Alert
+function showAlert1(message, icone) {
+    Swal.fire({
+        title: "change",
+        text: message,
+        icon: icone,
+        showConfirmButton: false,
+        timer: 3000
     });
 }
 /*======================= changement de l'etat d'une cargaison================ */
@@ -638,14 +642,7 @@ function ChangerEtatCargo(idcargo, currentState) {
             const etatElement = document.getElementById(`etat-${idcargo}`);
             if (etatElement)
                 etatElement.textContent = newState;
-            /* showAlert(result.message) */
-            Swal.fire({
-                title: result.message,
-                text: "l'etat est bien enregistre!",
-                icon: "success",
-                showConfirmButton: false,
-                timer: 3000
-            });
+            showAlert1(result.message, 'success');
             const toggleButton = document.querySelector(`.toggle-state[data-id="${idcargo}"]`);
             if (toggleButton) {
                 toggleButton.textContent = newState === 'ouvert' ? 'Close' : 'Open';
@@ -653,14 +650,7 @@ function ChangerEtatCargo(idcargo, currentState) {
             }
         }
         else if (result.status === 'error') {
-            /*  showAlert(result.message) */
-            Swal.fire({
-                title: result.message,
-                text: "Echec d'enregistrement",
-                icon: "error",
-                showConfirmButton: false,
-                timer: 3000
-            });
+            showAlert1(result.message, 'error');
         }
         else {
             showAlert('Erreur lors de la mise à jour de l\'état de la cargaison');
@@ -677,22 +667,22 @@ function afficherProduit(produit, page = 1, tbodyElement, idCargo) {
     cargaisonsPage.forEach(produit => {
         const row = document.createElement('tr');
         row.innerHTML = `
-    <td class="px-4 py-4 ">${produit.numero}</td>
-    <td class="px-6 py-4 ">${produit.typeProduit}</td>
-    <td class="px-6 py-4">
+    <td class="px-3 py-4 ">${produit.numero}</td>
+    <td class="px-3 py-4 ">${produit.typeProduit}</td>
+    <td class="px-3 py-4">
     <select class="btn-etatProduit" data-id="${produit.numero}">
     <option value="disponible" ${produit.etat === 'disponible' ? 'selected' : ''}>disponible</option>
     <option value="perdu" ${produit.etat === 'perdu' ? 'selected' : ''}>perdu</option>
     <option value="archivé" ${produit.etat === 'archivé' ? 'selected' : ''}>archivé</option>
    </select>
     </td>
-    <td class="px-6 py-4 ">${produit.frais}</td>
-    <td class="px-6 py-4 ">${produit.poids}</td>
-    <td class="px-6 py-4 ">${produit.clientFirstName}</td>
-    <td class="px-6 py-4 ">${produit.clientLastName}</td>
-    <td class="px-6 py-4 ">${produit.nomDestin}</td>
-    <td class="px-6 py-4 ">${produit.prenomDestin}</td>
-    <td class="px-6 py-4  btn-trash" data-id='${produit.numero}'> <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" data-id='${produit.numero}' fill="#EA3323"><path data-id='${produit.numero}' d="M261-120q-24.75 0-42.37-17.63Q201-155.25 201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 0h60v-399h-60v399ZM261-750v570-570Z"/></svg></td>
+    <td class="px-3 py-4 ">${produit.frais}</td>
+   
+    <td class="px-3 py-4 ">${produit.clientFirstName}</td>
+    <td class="px-3 py-4 ">${produit.clientLastName}</td>
+    <td class="px-3 py-4 ">${produit.nomDestin}</td>
+    <td class="px-3 py-4 ">${produit.prenomDestin}</td>
+    <td class="px-3 py-4  btn-trash" data-id='${produit.numero}'> <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" data-id='${produit.numero}' fill="#EA3323"><path data-id='${produit.numero}' d="M261-120q-24.75 0-42.37-17.63Q201-155.25 201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 0h60v-399h-60v399ZM261-750v570-570Z"/></svg></td>
     `;
         /*  row.className=`hover-scale transition transform duration-300 bg-blue-100 hover:bg-blue-200 cursor-pointer`; */
         tbodyElement.appendChild(row);
