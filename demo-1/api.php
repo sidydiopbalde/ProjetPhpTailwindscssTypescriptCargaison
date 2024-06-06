@@ -209,40 +209,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //     exit;
         // }
        
-        // $poids=0;
-        // foreach($cargaison['produit'] as $produit){
-        //     $poids += $produit['poids'];
-        // } */
+         $poids=0;
+         foreach($cargaison['produit'] as $produit){
+           $poids += $produit['poids'];
+         } 
         
          foreach ($currentData['cargaisons'] as &$cargaison) {
             if ($cargaison['numero'] === $idCargo) {
                 
-        //        /*  if($cargaison['etatGlobal'] === 'fermé' ){
+                if($cargaison['etatGlobal'] === 'fermé' ){
                   
-        //             echo json_encode(["status" => "error", "message" => " cargaison 🔐"]);
-        //             exit;
-        //         }
-        //         if($cargaison['etatAvancement'] === 'en cours' ){
+                    echo json_encode(["status" => "error", "message" => " cargaison 🔐"]);
+                    exit;
+                }
+                if($cargaison['etatAvancement'] === 'en cours' ){
                   
-        //             echo json_encode(["status" => "error", "message" => "la cargaison est en cours!!!!!"]);
-        //             exit;
-        //         }
-        //         if($cargaison['etatAvancement'] === 'perdue' ){
+                    echo json_encode(["status" => "error", "message" => "la cargaison est en cours!!!!!"]);
+                    exit;
+                }
+                if($cargaison['etatAvancement'] === 'perdue' ){
                   
-        //             echo json_encode(["status" => "error", "message" => "impossible!!! cargaison perdue"]);
-        //             exit;
-        //         }
+                    echo json_encode(["status" => "error", "message" => "impossible!!! cargaison perdue"]);
+                    exit;
+                }
                 
-        //         if($cargaison['poidsMax'] <= $poids){
-        //             echo json_encode(["status" => "error", "message" => "la cargaison est en pleine"]);
-        //             exit;
-        //         }
-        //         if($newProduct['typeProduit'] === 'maritime' && $cargaison['type'] === 'fragile'){
-        //             echo json_decode(["status" => "error", "message" => "Ce produit ne peut etre transporté par cette cargaison"]);
-        //             exit;
-        //         } */
-
-
+                if($cargaison['poidsMax'] <= $poids){
+                    echo json_encode(["status" => "error", "message" => "la cargaison est en pleine"]);
+                    exit;
+                }
+                if($newProduct['typeProduit'] === 'maritime' && $cargaison['type'] === 'fragile'){
+                    echo json_decode(["status" => "error", "message" => "Ce produit ne peut etre transporté par cette cargaison"]);
+                    exit;
+                } 
+                /* foreach($cargaison['produit'] as $produit){
+                    $poids += $produit['poids'];
+                  } 
+                  if($cargaison['poidsMax'] <= $poids){
+                    echo json_decode(["status" => "error", "message" => "La cargaison est pleine"]);
+                    exit;
+                }  */
              $cargaison['produit'][] = $newProduct;
                 
                 $clientemail= $newProduct['clientMail'];
@@ -263,7 +268,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 $result= envoyerEmail($clientemail,'Evolution de la cargaison',$message); 
           if($result ===true){
-                 echo json_decode(["status" => "success", "message" => "le mail est bien envoyé"]);
+                 echo json_decode(["status" => "success", "message" => "Produit ajouté!! et le mail est bien envoyé"]);
+                 exit;
              }else{
                    echo json_decode(["status" => "error", "message" => "erreur d'envoie mail"]);
                     
@@ -380,32 +386,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $idCargo = $data['id'];
         $newState = $data['newetatProd'];
         $codeProduit=$data['codePro'];
+        /* echo json_encode($data); */
 
         $currentData = lireJSON('data.json');
-        if ($currentData === null) {
+       /*  if ($currentData === null) {
             error_log("Erreur de décodage JSON pour le fichier data.json");
             echo json_encode(["status" => "error", "message" => "Erreur de lecture des données existantes"]);
             exit;
-        }
+        } */
 
         foreach ($currentData['cargaisons'] as &$cargaison) {
-           
             if ($cargaison['numero'] === $idCargo) {
-
-              foreach($_cargaison['produit'] as $produit){
-                if($produit['numero'] === $codeProduit){
-                    $produit['etat'] = $newState;
-                    break;
+                foreach ($cargaison['produit'] as &$produit) {
+                    if ($produit['numero'] === $codeProduit) {
+                        $produit['etat'] = $newState;
+                        break; // Sortir de la boucle une fois le produit trouvé et mis à jour
+                    }
                 }
-              }    
-               
+                break; // Sortir de la boucle une fois la cargaison trouvée et mise à jour
             }
         }
     
         ecrireJSON('data.json', $currentData);
 
         echo json_encode(["status" => "success", "message" => "produit mis en etat ".$newState]);
-        exit;
+        exit; 
     }
     else {
         echo json_encode(["status" => "error", "message" => "Action non reconnue"]);

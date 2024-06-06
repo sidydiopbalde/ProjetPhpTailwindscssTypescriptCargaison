@@ -170,38 +170,24 @@
         </div>
     </div
           <!--  filtre  -->
-   <div id="blockfiltrer" class="py-4  flex justify-between gap-1" >
-    <div class="">
-      <label for="filterNumero" class="text-blue-500">Filtrer par Code</label>
-    <input type="text" class="py-4 rounded" id="filterNumero" style="padding:0.5rem" placeholder="Filtrer par numéro">
-    </div>
-    <div>
-
-      <label for="filterPointDepart" class="text-blue-500">filtrer depart</label>
-      <input type="text" id="filterPointDepart" style="padding:0.5rem"  placeholder="Filtrer par point de départ">
-    </div>
-    <div>
-
-      <label for="filtrer Arrivée" class="text-blue-500">point Arrivé</label>
-    <input type="text" id="filterPointArrive" style="padding:0.5rem" placeholder="Filtrer par point d'arrivée">
-    </div>
-    <div>
-
-      <label for="filterType" class="text-blue-500">filtrer type</label>
-    <input type="text" id="filterType" style="padding:0.5rem" placeholder="Filtrer par type">
-    </div>
-    <div>
-
-<label for="filterPointDepart" class="text-blue-500">filtrer date dpt</label>
-<input type="text" id="filterdateDepart" style="padding:0.5rem" placeholder="Filtrer par point de départ">
-</div>
-<div>
-
-<label for="filtrer Arrivée" class="text-blue-500">point date  Arrivé</label>
-<input type="text" id="filterdateArrive" style="padding:0.5rem" placeholder="Filtrer par point d'arrivée">
-</div>
-  <button id="filterBtn" class="bg-blue-500 rounded-lg text-white">Filtrer</button>
-</div> 
+      <div id="blockfiltrer" class="py-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <label for="selectFilter" class="text-blue-500">Filtrer par :</label>
+        <div class="flex items-center justify-evenly gap-5 max-w-full">
+          <select id="selectFilter"
+            class="w-32 py-2 rounded border border-gray-300 focus:outline-none focus:border-blue-500">
+            <option value="">Sélectionner</option>
+            <option value="all">Tous</option>
+            <option value="filterNumero">Code</option>
+            <option value="filterPointDepart">Départ</option>
+            <option value="filterPointArrive">Arrivée</option>
+            <option value="filterType">Type</option>
+            <option value="filterdateDepart">Date de départ</option>
+            <option value="filterdateArrive">Date d'arrivée</option>
+          </select>
+          <div id="selectedFilterInput" class="flex items-center gap-3"></div>
+          <button id="filterBtn" class="w-20 bg-blue-500 rounded-lg text-white py-2">Filtrer</button>
+        </div>
+      </div>
       <!-- Modal -->
       <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
         <div class="bg-white p-6 rounded-lg shadow-lg border min-h-14 overflow-scroll" style="width: 50%;" >

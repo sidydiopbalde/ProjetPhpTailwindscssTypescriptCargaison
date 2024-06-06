@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="../public/tailwind.css">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.11.1/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+
+</head>
+
+<body class="bg-gray-100 w-full h-full">
+  <div class="flex">
+    <!-- Sidebar -->
+    <div id="sidebar"
+      class="w-1/5 bg-blue-500 text-white min-h-screen p-4 transition-transform transform duration-300 -translate-x-full lg:translate-x-0 lg:relative fixed">
+      <h1 class="text-2xl font-bold mb-8">SDB-Cargo-Company</h1>
+      <ul>
+        <li class="mb-4">
+          <a href="#" class="flex items-center py-2 px-4 hover:text-blue-500 rounded-full">
+            <img src="../public/logo.png" class="h-[50vh]" alt="logo">
+          </a>
+        </li>
+        <li class="mb-4">
+          <a href="?page=dashboard" class="flex items-center py-2 px-4 hover:bg-white hover:text-blue-500 rounded">
+            <span class="material-icons mr-2">dashboard</span>
+            Dashboard
+          </a>
+        </li>
+        <li class="mb-4">
+          <a href="?page=cargaison"
+            class="flex items-center py-2 px-4 bg-blue-600 hover:bg-white hover:text-blue-500 rounded">
+            CARGAISONS
+          </a>
+        </li>
+        <li class="mb-4">
+          <a href="?page=produit" class="flex items-center py-2 px-4 hover:bg-white hover:text-blue-500 rounded">
+            PRODUITS/COLIS
+          </a>
+        </li>
+        <li class="mb-4">
+          <a href="?page=produit" class="flex items-center py-2 px-4 hover:bg-white hover:text-blue-500 rounded">
+            <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#EA3323">
+              <path
+                d="m388-80-20-126q-19-7-40-19t-37-25l-118 54-93-164 108-79q-2-9-2.5-20.5T185-480q0-9 .5-20.5T188-521L80-600l93-164 118 54q16-13 37-25t40-18l20-127h184l20 126q19 7 40.5 18.5T669-710l118-54 93 164-108 77q2 10 2.5 21.5t.5 21.5q0 10-.5 21t-2.5 21l108 78-93 164-118-54q-16 13-36.5 25.5T592-206L572-80H388Zm48-60h88l14-112q33-8 62.5-25t53.5-41l106 46 40-72-94-69q4-17 6.5-33.5T715-480q0-17-2-33.5t-7-33.5l94-69-40-72-106 46q-23-26-52-43.5T538-708l-14-112h-88l-14 112q-34 7-63.5 24T306-642l-106-46-40 72 94 69q-4 17-6.5 33.5T245-480q0 17 2.5 33.5T254-413l-94 69 40 72 106-46q24 24 53.5 41t62.5 25l14 112Zm44-210q54 0 92-38t38-92q0-54-38-92t-92-38q-54 0-92 38t-38 92q0 54 38 92t92 38Zm0-130Z" />
+            </svg>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="flex-1 p-8 lg:ml-1/5 transition-all duration-300">
+      <div class="flex justify-between items-center mb-4">
+        <button id="toggleSidebar" class="lg:hidden bg-blue-500 text-white p-2 rounded">☰</button>
+        <h1 class="text-2xl font-bold text-blue-500">SIDY</h1>
+        <div class="flex items-center space-x-4">
+          <div class="relative">
+            <span class="material-icons absolute top-2 left-2 text-gray-400">notifications</span>
+            <input type="text" class="p-2 pl-8 border rounded" placeholder="">
+          </div>
+          <img src="https://via.placeholder.com/40" alt="User Avatar" class="rounded-full">
+        </div>
+      </div>
+      <div id="blockfiltrer" class="py-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <label for="selectFilter" class="text-blue-500">Filtrer par :</label>
+        <div class="flex items-center justify-evenly gap-5 w-full border">
+          <select id="selectFilter"
+            class="w-32 py-2 rounded border border-gray-300 focus:outline-none focus:border-blue-500">
+            <option value="">Sélectionner</option>
+            <option value="all">Tous</option>
+            <option value="filterNumero">Code</option>
+            <option value="filterPointDepart">Départ</option>
+            <option value="filterPointArrive">Arrivée</option>
+            <option value="filterType">Type</option>
+            <option value="filterdateDepart">Date de départ</option>
+            <option value="filterdateArrive">Date d'arrivée</option>
+          </select>
+          <div id="selectedFilterInput" class="flex items-center gap-3"></div>
+          <button id="filterBtn" class="w-20 bg-blue-500 rounded-lg text-white py-2">Filtrer</button>
+        </div>
+      </div>
+
+
+      <div class="mb-4">
+        <ul class="flex space-x-4">
+          <li><a href="#" class="font-bold text-blue-600">All Cargaisons</a></li>
+          <li><a href="#" class="text-blue-500">EN Attente</a></li>
+          <li><a href="#" class="text-blue-500"></a></li>
+          <li><a href="#" class="text-blue-500">Arrivée</a></li>
+          <li><button class="bg-blue-500 text-white rounded-full p-1" onclick="my_modal_5.showModal()">ADD
+              CARGO</button></li>
+        </ul>
+      </div>
+      <!-- ajout produit -->
+      <dialog id="mymodal1" class="modal">
+        <div class="bg-white p-6 rounded-lg shadow-lg border" style="width:60% ;height:80%; overflow:scroll">
+          <form method="dialog" class="border-none">
+            <button class="btn">Close</button>
+          </form>
+          <h2 class="text-lg font-semibold text-blue-500 mb-4 text-center">Ajouter Produit</h2>
+          <form id="addProductForm" class="" style="width:100%">
+            <div class="flex flex-col space-y-10 gap-2">
+              <!-- Produit Section -->
+              <div>
+                <h3 class="text-md font-semibold text-gray-800 mb-2">Produit</h3>
+                <div class="mb-4">
+                  <label for="nomProduit" class="block text-gray-700">Nom du produit</label>
+                  <input type="text" id="nomProduit"
+                    class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <span class="nomProduitError" style="color:red">e</span>
+                </div>
+                <div class="mb-4">
+                  <label for="productType" class="block text-gray-700">Type de produit</label>
+                  <select id="productType"
+                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">Sélectionner</option>
+                    <option value="alimentaire">Alimentaire</option>
+                    <option value="chimique">Chimique</option>
+                    <option value="incassable">Incassable</option>
+                    <option value="fragile">Fragile</option>
+                  </select>
+                  <span class="productTypeError" style="color:red"></span>
+                </div>
+                <div class="mb-4 hidden" style="display:none" id="toxicDiv">
+                  <label for="productToxicity" class="block text-gray-700">Toxicity</label>
+                  <input type="number" id="productToxicity"
+                    class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <span class="productToxicityError" style="color:red"></span>
+                </div>
+                <div class="mb-4">
+                  <label for="productWeight" class="block text-gray-700">Poids</label>
+                  <input type="number" id="productWeight"
+                    class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <span class="productWeightError" style="color:red"></span>
+                </div>
+                <div class="mb-4">
+                  <label for="productVolume" class="block text-gray-700">Volume</label>
+                  <input type="number" id="productVolume"
+                    class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <span class="productVolumeError" style="color:red"></span>
+                </div>
+              </div>
+              <!-- Colis Section -->
+              <div>
+                <h3 class="text-md font-semibold text-gray-800 mb-2">Colis</h3>
+                <div class="mb-4">
+                  <label for="colisValue" class="block text-gray-700">Valeur</label>
+                  <input type="number" id="colisValue"
+                    class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <span class="colisValueError" style="color:red"></span>
+                </div>
+                <div class="mb-4">
+                  <label for="colisOrigin" class="block text-gray-700">Origine</label>
+                  <input type="text" id="colisOrigin"
+                    class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <span class="colisOriginError" style="color:red"></span>
+                </div>
+                <div class="mb-4">
+                  <label for="colisDestination" class="block text-gray-700">Destination</label>
+                  <input type="text" id="colisDestination"
+                    class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <span class="colisDestinationError" style="color:red"></span>
+                </div>
+              </div>
+            </div>
+            <div class="mt-6">
+              <button type="button" id="addProductButton"
+                class="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Ajouter</button>
+            </div>
+          </form>
+        </div>
+      </dialog>
+      <!-- table for produits and colis -->
+      <div class="overflow-x-auto">
+        <table class="table-auto w-full">
+          <thead>
+            <tr class="bg-gray-200">
+              <th class="px-4 py-2">ID</th>
+              <th class="px-4 py-2">Nom</th>
+              <th class="px-4 py-2">Poids</th>
+              <th class="px-4 py-2">Volume</th>
+              <th class="px-4 py-2">Type</th>
+              <th class="px-4 py-2">Valeur</th>
+              <th class="px-4 py-2">Origine</th>
+              <th class="px-4 py-2">Destination</th>
+              <th class="px-4 py-2">Toxicité</th>
+            </tr>
+          </thead>
+          <tbody id="productTableBody">
+            <!-- Dynamic rows will be added here -->
+          </tbody>
+        </table>
+      </div>
+      <!-- End table for produits and colis -->
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-o7eMORRjZ1tr9qJzmrU1c1ERU9FcwXjhdEFg1vzmy+I=" crossorigin=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="../public/toggleSidebar.js"></script>
+  <script>
+    document.getElementById("productType").addEventListener("change", function () {
+      var toxicDiv = document.getElementById("toxicDiv");
+      if (this.value === "chimique") {
+        toxicDiv.style.display = "block";
+      } else {
+        toxicDiv.style.display = "none";
+      }
+    });
+
+    document.getElementById("addProductButton").addEventListener("click", function () {
+      var nomProduit = document.getElementById("nomProduit").value;
+      var productType = document.getElementById("productType").value;
+      var productWeight = document.getElementById("productWeight").value;
+      var productVolume = document.getElementById("productVolume").value;
+      var productToxicity = document.getElementById("productToxicity").value;
+      var colisValue = document.getElementById("colisValue").value;
+      var colisOrigin = document.getElementById("colisOrigin").value;
+      var colisDestination = document.getElementById("colisDestination").value;
+
+      if (!nomProduit || !productType || !productWeight || !productVolume || (productType === "chimique" && !productToxicity) || !colisValue || !colisOrigin || !colisDestination) {
+        alert("Please fill in all required fields.");
+        return;
+      }
+
+      var tableBody = document.getElementById("productTableBody");
+
+      var newRow = document.createElement("tr");
+      newRow.classList.add("bg-white");
+
+      var cellId = document.createElement("td");
+      cellId.classList.add("border", "px-4", "py-2");
+      cellId.innerText = tableBody.rows.length + 1;
+
+      var cellName = document.createElement("td");
+      cellName.classList.add("border", "px-4", "py-2");
+      cellName.innerText = nomProduit;
+
+      var cellWeight = document.createElement("td");
+      cellWeight.classList.add("border", "px-4", "py-2");
+      cellWeight.innerText = productWeight;
+
+      var cellVolume = document.createElement("td");
+      cellVolume.classList.add("border", "px-4", "py-2");
+      cellVolume.innerText = productVolume;
+
+      var cellType = document.createElement("td");
+      cellType.classList.add("border", "px-4", "py-2");
+      cellType.innerText = productType;
+
+      var cellValue = document.createElement("td");
+      cellValue.classList.add("border", "px-4", "py-2");
+      cellValue.innerText = colisValue;
+
+      var cellOrigin = document.createElement("td");
+      cellOrigin.classList.add("border", "px-4", "py-2");
+      cellOrigin.innerText = colisOrigin;
+
+      var cellDestination = document.createElement("td");
+      cellDestination.classList.add("border", "px-4", "py-2");
+      cellDestination.innerText = colisDestination;
+
+      var cellToxicity = document.createElement("td");
+      cellToxicity.classList.add("border", "px-4", "py-2");
+      cellToxicity.innerText = productType === "chimique" ? productToxicity : "N/A";
+
+      newRow.appendChild(cellId);
+      newRow.appendChild(cellName);
+      newRow.appendChild(cellWeight);
+      newRow.appendChild(cellVolume);
+      newRow.appendChild(cellType);
+      newRow.appendChild(cellValue);
+      newRow.appendChild(cellOrigin);
+      newRow.appendChild(cellDestination);
+      newRow.appendChild(cellToxicity);
+
+      tableBody.appendChild(newRow);
+
+      document.getElementById("addProductForm").reset();
+      document.getElementById("toxicDiv").style.display = "none";
+    });
+
+    document.getElementById("toggleSidebar").addEventListener("click", function () {
+      var sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("-translate-x-full");
+    });
+
+    document.getElementById("selectFilter").addEventListener("change", function () {
+      var selectedFilter = this.value;
+      var selectedFilterInput = document.getElementById("selectedFilterInput");
+
+      // Réinitialiser les champs de saisie précédents
+      selectedFilterInput.innerHTML = '';
+
+      if (selectedFilter !== "") {
+        if (selectedFilter === "all") {
+          // Ajouter tous les champs de saisie dans le conteneur flex
+          var filterOptions = this.options;
+          for (var i = 0; i < filterOptions.length; i++) {
+            if (filterOptions[i].value !== "") {
+              var inputElement = document.createElement("input");
+              inputElement.setAttribute("type", "text");
+              inputElement.setAttribute("class", "w-32 ml-5 py-2 rounded border border-gray-300 focus:outline-none focus:border-blue-500");
+              inputElement.setAttribute("id", filterOptions[i].value + "Input");
+              inputElement.setAttribute("placeholder", "Filtrer par " + filterOptions[i].text);
+              selectedFilterInput.appendChild(inputElement);
+            }
+          }
+        } else {
+          // Ajouter un champ de saisie pour l'option sélectionnée
+          var inputElement = document.createElement("input");
+          inputElement.setAttribute("type", "text");
+          inputElement.setAttribute("class", "w-32 py-2 rounded border border-gray-300 focus:outline-none focus:border-blue-500");
+          inputElement.setAttribute("id", selectedFilter + "Input");
+          inputElement.setAttribute("placeholder", "Filtrer par " + this.options[this.selectedIndex].text);
+          selectedFilterInput.appendChild(inputElement);
+        }
+      }
+    });
+
+
+  </script>
+</body>
+
+</html>

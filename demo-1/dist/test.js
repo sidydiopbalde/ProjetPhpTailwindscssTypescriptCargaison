@@ -462,6 +462,12 @@ function ouvrirModalDetails() {
         modal.showModal();
     }
 }
+function fermerModalDetatils() {
+    const modal = document.getElementById('mymodal2');
+    if (modal) {
+        modal.classList.add('hidden');
+    }
+}
 /* =========>tableau de class tailwinds des buttons pgt=============== */
 const buttonClasses = [
     'py-1 px-3 bg-gray-300 rounded',
@@ -593,6 +599,7 @@ function fetcher(object) {
         .then(response => response.json())
         .then(result => {
         if (result.status === 'success') {
+            /*   fermerModalDetatils()  */
             showAlert1(result.message, 'success');
         }
         else if (result.status === 'error') {
@@ -764,9 +771,9 @@ function changer_etat_avancement_cargo(cargaisonId, etat) {
     fetcher({ action: 'changer_etat_avancement', idcargo: cargaisonId, newState: etat, });
 }
 /* ====================================changer etat produit========================== */
-function changer_etat_produit(idcargo, codeProduit, etat) {
-    console.log(idcargo, codeProduit, etat);
-    fetcher({ action: 'changerEtatProduit', id: idcargo, newetatProd: etat, codePro: codeProduit });
+function changer_etat_produit(cargaisonId, codeProduit, etat) {
+    console.log({ action: 'changerEtatProduit', id: cargaisonId, newetatProd: etat, codePro: codeProduit });
+    fetcher({ action: 'changerEtatProduit', id: cargaisonId, newetatProd: etat, codePro: codeProduit });
 }
 function showAlert(messag) {
     const modal = document.getElementById('alertModal');

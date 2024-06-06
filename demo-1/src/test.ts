@@ -576,6 +576,13 @@ function ouvrirModalDetails(): void {
     modal.showModal();
   }
 }
+function fermerModalDetatils():void{
+  const modal = document.getElementById('mymodal2') as HTMLDialogElement;
+  if (modal) {
+    
+    modal.classList.add('hidden');
+  }
+}
 
 /* =========>tableau de class tailwinds des buttons pgt=============== */
 const buttonClasses = [
@@ -764,7 +771,7 @@ formProduct?.addEventListener('submit',function(event){
     .then(result => {
     
       if (result.status === 'success') {
-        
+      /*   fermerModalDetatils()  */
         showAlert1(result.message,'success');
       }else if(result.status === 'error'){
         showAlert1(result.message, 'error')
@@ -973,10 +980,10 @@ function changer_etat_avancement_cargo(cargaisonId:string | null , etat:string |
 
 
 /* ====================================changer etat produit========================== */
- function changer_etat_produit(idcargo:string | undefined, codeProduit:string | null,etat:string):void{
-console.log(idcargo,codeProduit,etat)
+ function changer_etat_produit(cargaisonId:string | undefined, codeProduit:string | null,etat:string):void{
+console.log({action:'changerEtatProduit', id:cargaisonId, newetatProd:etat,codePro:codeProduit})
 
-fetcher({action:'changerEtatProduit', id:idcargo, newetatProd:etat,codePro:codeProduit}) 
+fetcher({action:'changerEtatProduit', id:cargaisonId, newetatProd:etat,codePro:codeProduit}) 
 } 
 
 

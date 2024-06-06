@@ -3,7 +3,7 @@
         {
             "idcargo": "665f2c2715581",
             "numero": "SDB146",
-            "poidsMax": 120000,
+            "poidsMax": 200,
             "pointDepart": "Altamira",
             "pointArrive": "Tchad",
             "dateDepart": "2024-06-04",
@@ -11,7 +11,7 @@
             "distance": 8253,
             "type": "terrestre",
             "etatGlobal": "ouvert",
-            "etatAvancement": "en attente",
+            "etatAvancement": "en cours",
             "produit": [
                 {
                     "action": "ajoutProduit",
@@ -41,7 +41,7 @@
                 {
                     "action": "ajoutProduit",
                     "numero": "SDBPRO741",
-                    "poids": 12,
+                    "poids": 8,
                     "nomProduit": "banana",
                     "typeProduit": "alimentaire",
                     "clientFirstName": "sidy",
@@ -93,6 +93,44 @@
                     "mailDestin": "babaissa@gmail.com",
                     "phoneDestin": 762895563,
                     "frais": 12,
+                    "etat": "archiv\u00e9"
+                },
+                {
+                    "action": "ajoutProduit",
+                    "numero": "SDBPRO558",
+                    "poids": 12,
+                    "nomProduit": "Harum repudiandae ad",
+                    "typeProduit": "incassable",
+                    "clientFirstName": "Sidy",
+                    "clientLastName": "Burks",
+                    "clientPhone": null,
+                    "clientMail": "serignembayet@gmail.com",
+                    "clientAdress": "Molestias quia eiusm",
+                    "nomDestin": "Serigne",
+                    "prenomDestin": "BABA",
+                    "addressDestin": "Ouakam",
+                    "mailDestin": "serignembayet@gmail.com",
+                    "phoneDestin": 76289556,
+                    "frais": 1,
+                    "etat": "disponible"
+                },
+                {
+                    "action": "ajoutProduit",
+                    "numero": "SDBPRO826",
+                    "poids": 50,
+                    "nomProduit": "Hp173",
+                    "typeProduit": "incassable",
+                    "clientFirstName": "Adji",
+                    "clientLastName": "Mbaw Ndiaye",
+                    "clientPhone": 221,
+                    "clientMail": "adjindiaye1425@gmail.com",
+                    "clientAdress": "Ouakam",
+                    "nomDestin": "Sidy",
+                    "prenomDestin": "Diop Balde",
+                    "addressDestin": "Soprim",
+                    "mailDestin": "sididiop53@gmail.com",
+                    "phoneDestin": 762895563,
+                    "frais": 20000,
                     "etat": "disponible"
                 }
             ],
