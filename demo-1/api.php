@@ -232,6 +232,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     echo json_encode(["status" => "error", "message" => "impossible!!! cargaison perdue"]);
                     exit;
                 }
+                if($cargaison['etatAvancement'] === 'archivé' ){
+                  
+                    echo json_encode(["status" => "error", "message" => "impossible!!! cargaison archivée!"]);
+                    exit;
+                }
                 
                 if($cargaison['poidsMax'] <= $poids){
                     echo json_encode(["status" => "error", "message" => "la cargaison est en pleine"]);
@@ -248,7 +253,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     echo json_decode(["status" => "error", "message" => "La cargaison est pleine"]);
                     exit;
                 }  */
-             $cargaison['produit'][] = $newProduct;
+                 $cargaison['produit'][] = $newProduct;
                 
                 $clientemail= $newProduct['clientMail'];
                 
@@ -281,9 +286,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // // Re-lire le fichier pour vérifier
         // $verifData = lireJSON('data.json');
-        // error_log("Données après écriture: " . print_r($verifData, true));
+         error_log("Données après écriture: " . print_r($verifData, true));
 
-        // echo json_encode(["status" => "success", "message" => "Produit ajouté avec succès"]);
+         echo json_encode(["status" => "success", "message" => "Produit ajouté avec succès"]);
         // exit;
 
     } elseif ($data['action'] === 'changerEtatCargo') {
@@ -307,11 +312,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
                 if($cargaison['etatAvancement'] === 'perdue' ){
                   
-                    echo json_encode(["status" => "error", "message" => "cargaison perdue"]);
+                    echo json_encode(["status" => "error", "message" => "la cargaison est perdue"]);
                     exit;
                 }
 
-                if($cargaison['etatAvancement']=== 'perdue')
+                
                 $cargaison['etatGlobal'] = $newState;
                 break;
             }
@@ -338,6 +343,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if($newState === 'en attente' && $cargaison['etatAvancement'] === 'en cours'){
                 echo json_encode(["status" => "error", "message" => "la cargaison est en  route"]);
                 exit;
+                }
+                if($cargaison['etatGlobal'] === 'ouvert' && $newState === 'en cours' ){
+                    echo json_encode(["status" => "error", "message" => "ferme d'abord la cargaison"]);
+                    exit;
+                    }
+                  
+                if($newState === 'perdue'){
+                    foreach ($cargaison['produit'] as &$produit) {
+                        $produit['etat']= $newState;
+                    }
                 }
 
                 $cargaison['etatAvancement'] = $newState;
@@ -389,16 +404,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         /* echo json_encode($data); */
 
         $currentData = lireJSON('data.json');
-       /*  if ($currentData === null) {
+        if ($currentData === null) {
             error_log("Erreur de décodage JSON pour le fichier data.json");
             echo json_encode(["status" => "error", "message" => "Erreur de lecture des données existantes"]);
             exit;
-        } */
+        } 
 
         foreach ($currentData['cargaisons'] as &$cargaison) {
             if ($cargaison['numero'] === $idCargo) {
                 foreach ($cargaison['produit'] as &$produit) {
                     if ($produit['numero'] === $codeProduit) {
+
+
+                        if($cargaison['etatGlobal'] === 'fermé' || $cargaison['etatAvancement']=== 'en attente'){
+
+                            echo json_encode(["status" => "error", "message" => "Erreur de lecture des données existantes"]);
+                            exit;
+                        }
+
+
+
                         $produit['etat'] = $newState;
                         break; // Sortir de la boucle une fois le produit trouvé et mis à jour
                     }

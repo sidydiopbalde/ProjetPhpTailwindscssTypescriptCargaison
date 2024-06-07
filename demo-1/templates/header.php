@@ -39,7 +39,21 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 
-
+    <style>
+    .hover-scale:hover {
+      transform: scale(1.05);
+    }
+    #map{
+      width: 100%;
+      height: 300px;
+    }
+    body{
+      overflow:scroll;
+    }
+    #divColis{
+      display:none;
+    }
+  </style>
 </head>
 
 <body class="bg-gray-100 w-full h-full">

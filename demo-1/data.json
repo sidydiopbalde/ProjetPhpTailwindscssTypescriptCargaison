@@ -1,6 +1,77 @@
 {
     "cargaisons": [
         {
+            "idcargo": "6662e40e90ebc",
+            "numero": "SDB706",
+            "poidsMax": 12000,
+            "pointDepart": "Niger",
+            "pointArrive": "Trair\u00e3o",
+            "dateDepart": "2024-06-07",
+            "dateArrive": "2024-06-08",
+            "distance": 7515,
+            "type": "aerien",
+            "etatGlobal": "ouvert",
+            "etatAvancement": "en cours",
+            "produit": [],
+            "limit": "poids",
+            "value": 12000
+        },
+        {
+            "idcargo": "66624db1d29f4",
+            "numero": "SDB980",
+            "poidsMax": 12000,
+            "pointDepart": "Dakar",
+            "pointArrive": "Dakar",
+            "dateDepart": "2024-06-07",
+            "dateArrive": "2024-06-08",
+            "distance": 23,
+            "type": "aerien",
+            "etatGlobal": "ouvert",
+            "etatAvancement": "en cours",
+            "produit": [
+                {
+                    "action": "ajoutProduit",
+                    "numero": "SDBPRO813",
+                    "poids": 12,
+                    "nomProduit": "koka ",
+                    "typeProduit": "chimique",
+                    "clientFirstName": "Sidy",
+                    "clientLastName": "BALDE",
+                    "clientPhone": 7887876789,
+                    "clientMail": "sididiop53@gmail.com",
+                    "clientAdress": "Parcelles",
+                    "nomDestin": "Serigne",
+                    "prenomDestin": "BABA",
+                    "addressDestin": "Ouakam",
+                    "mailDestin": "serignembayet@gmail.com",
+                    "phoneDestin": 762895563,
+                    "frais": 38,
+                    "etat": "perdue"
+                },
+                {
+                    "action": "ajoutProduit",
+                    "numero": "SDBPRO441",
+                    "poids": 2,
+                    "nomProduit": "Accusantium hic ut e",
+                    "typeProduit": "incassable",
+                    "clientFirstName": "Sidy",
+                    "clientLastName": "BALDE",
+                    "clientPhone": 1,
+                    "clientMail": "sididiop53@gmail.com",
+                    "clientAdress": "Molestias do rerum d",
+                    "nomDestin": "Elit qui deserunt c",
+                    "prenomDestin": "Adipisci ipsa sit v",
+                    "addressDestin": "Ouakam",
+                    "mailDestin": "serignembayet@gmail.com",
+                    "phoneDestin": 76289556,
+                    "frais": 223,
+                    "etat": "perdue"
+                }
+            ],
+            "limit": "poids",
+            "value": 12000
+        },
+        {
             "idcargo": "665f2c2715581",
             "numero": "SDB146",
             "poidsMax": 200,
@@ -10,7 +81,7 @@
             "dateArrive": "2024-06-04",
             "distance": 8253,
             "type": "terrestre",
-            "etatGlobal": "ouvert",
+            "etatGlobal": "ferm\u00e9",
             "etatAvancement": "en cours",
             "produit": [
                 {
@@ -36,7 +107,7 @@
                     "mailDestin": "babaissa@gmail.com",
                     "phoneDestin": 762895563,
                     "frais": 12,
-                    "etat": "disponible"
+                    "etat": "perdue"
                 },
                 {
                     "action": "ajoutProduit",
@@ -55,7 +126,7 @@
                     "mailDestin": "serignembayet@gmail.com",
                     "phoneDestin": 1,
                     "frais": 42,
-                    "etat": "disponible"
+                    "etat": "perdue"
                 },
                 {
                     "action": "ajoutProduit",
@@ -74,7 +145,7 @@
                     "mailDestin": "sididiop53@gmail.com",
                     "phoneDestin": 762895563,
                     "frais": 200000,
-                    "etat": "disponible"
+                    "etat": "perdue"
                 },
                 {
                     "action": "ajoutProduit",
@@ -93,7 +164,7 @@
                     "mailDestin": "babaissa@gmail.com",
                     "phoneDestin": 762895563,
                     "frais": 12,
-                    "etat": "archiv\u00e9"
+                    "etat": "perdue"
                 },
                 {
                     "action": "ajoutProduit",
@@ -112,7 +183,7 @@
                     "mailDestin": "serignembayet@gmail.com",
                     "phoneDestin": 76289556,
                     "frais": 1,
-                    "etat": "disponible"
+                    "etat": "perdue"
                 },
                 {
                     "action": "ajoutProduit",
@@ -131,6 +202,25 @@
                     "mailDestin": "sididiop53@gmail.com",
                     "phoneDestin": 762895563,
                     "frais": 20000,
+                    "etat": "perdue"
+                },
+                {
+                    "action": "ajoutProduit",
+                    "numero": "SDBPRO846",
+                    "poids": 120,
+                    "nomProduit": "sijdsn,",
+                    "typeProduit": "alimentaire",
+                    "clientFirstName": "Sidy",
+                    "clientLastName": "BALDE",
+                    "clientPhone": 7887876789,
+                    "clientMail": "sididiop53@gmail.com",
+                    "clientAdress": "Parcelles",
+                    "nomDestin": "Serigne",
+                    "prenomDestin": "BABA",
+                    "addressDestin": "Ouakam",
+                    "mailDestin": "serignembayet@gmail.com",
+                    "phoneDestin": 762895563,
+                    "frais": 1200000,
                     "etat": "disponible"
                 }
             ],
@@ -162,7 +252,7 @@
             "distance": 7415,
             "type": "terrestre",
             "etatGlobal": "ferm\u00e9",
-            "etatAvancement": "perdue",
+            "etatAvancement": "arriv\u00e9",
             "produit": []
         },
         {
@@ -176,7 +266,7 @@
             "distance": 6415,
             "type": "maritime",
             "etatGlobal": "ferm\u00e9",
-            "etatAvancement": "perdue",
+            "etatAvancement": "en cours",
             "produit": []
         },
         {
@@ -190,7 +280,7 @@
             "distance": 10286,
             "type": "maritime",
             "etatGlobal": "ferm\u00e9",
-            "etatAvancement": "en attente",
+            "etatAvancement": "perdue",
             "produit": []
         },
         {

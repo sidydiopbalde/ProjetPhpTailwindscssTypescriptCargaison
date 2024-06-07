@@ -21,7 +21,32 @@ function readDataUser(){
     return $donnee;
 }
 
+ function searchColis1($codeColis){
 
+    $chemin = '/var/www/html/projettailwinTs/demo-1/data.json';
+    $jsondata = file_get_contents($chemin);
+    $data=json_decode($jsondata, true);
+    $bool=false;
+
+    foreach ($data['cargaisons'] as $cargo) {
+        foreach($cargo['produit'] as $produit){
+            if($produit['numero'] === $codeColis){
+
+                $bool=true;
+                $prod=$produit;
+                break;
+            }
+            
+        }
+    }
+    if (($bool)) {
+      return [$bool,$prod];
+        
+    } else {
+        return false;
+       
+    }
+} 
 //fonction de lecture de fichier json
 /* function readDatajson(){
     $chemin = '/var/www/html/Projet/data/authentification.json';

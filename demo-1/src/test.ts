@@ -85,44 +85,6 @@ interface CargaisonMap {
 const cargaisons1: CargaisonMap = {};
 const cargaisonss: Cargaison[] = [];
 
-/* const ajouterCargaisonBtn = document.getElementById('valider') as HTMLButtonElement;
-console.log(ajouterCargaisonBtn);
-
-ajouterCargaisonBtn?.addEventListener("click", function (event) {
-console.log("sidy");
-
-    const libelleCargaisonInput = document.getElementById('libelleCargaison') as HTMLInputElement;
-    const typeCargaisonSelect = document.getElementById('type') as HTMLSelectElement;
-    const capaciteCargaisonInput = document.getElementById('poidsCargaison') as HTMLInputElement;
-  
-    const libelleCargaison = libelleCargaisonInput.value;
-    const typeCargaison = typeCargaisonSelect.value;
-    const capaciteCargaison = parseFloat(capaciteCargaisonInput.value);
-  
-    if (!libelleCargaison || isNaN(capaciteCargaison) || capaciteCargaison <= 0) {
-      alert("Veuillez entrer des informations valides pour la cargaison.");
-      return;
-    }
-  
-    let cargaison: Cargaison; */
-/*   
-    switch (typeCargaison) {
-      case 'aerienne':
-        cargaison = new Aerienne(capaciteCargaison, []);
-        break;
-      case 'maritime':
-        cargaison = new Maritime(capaciteCargaison, []);
-        break;
-      case 'terrestre':
-        cargaison = new Terrestre(capaciteCargaison, []);
-        break;
-      default:
-        return;
-    }; */
-
-
-
-
 
 const addProductFormContainer = document.getElementById('contentformProduct');
 
@@ -251,14 +213,6 @@ document.getElementById("limiteCargaison")?.addEventListener("change", function 
     filtrerCargaison(filtre);
   });
   
-
-
-
-/* ====================>Click du  button filter<====================== */
-
-
-
-
 //=============== Fonction pour afficher un message d'erreur============================
 function showError(elementId: string, message: string) {
   const errorElement = document.getElementById(elementId + 'Error');
@@ -441,7 +395,7 @@ if(valid){
 /* ========================fonction de pagination==================== */
 var idCargarg:string | null;
 var idDetails:string | null;
-const cargaisonsParPage = 7; // Définir le nombre de cargaisons par page
+const cargaisonsParPage = 5; // Définir le nombre de cargaisons par page
 
 function afficherCargaisons(cargaisons:Cargaison[],page = 1): void {
  
@@ -478,7 +432,7 @@ function afficherCargaisons(cargaisons:Cargaison[],page = 1): void {
 
           </td>
           <td class="px-4 py-2"><button class="text-red-500 px-6 py-4 rounded toggle-state" style="font-size:30px;color:red;" data-id="${cargaison.numero}" data-state="${cargaison.etatGlobal}">${cargaison.etatGlobal === 'ouvert' ? 'Close' : 'Open'}</button></td>
-          <td class="px-4 py-2  btn-view" data-id='${cargaison.numero}'> <i class="fas fa-plus"    style="font-size:48px;color:blue;">+</i></td>
+          <td class="px-4 py-2  btn-view " data-id='${cargaison.numero}'> <i class="fas fa-plus"    style="font-size:48px;color:blue;">+</i></td>
           <td class="px-4 py-2"><button class=" text-blue-500 px-6 py-4 rounded btn-details" type="button" data-id="${cargaison.numero}" ><svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#2854C5"><path d="M453-280h60v-240h-60v240Zm26.98-314q14.02 0 23.52-9.2T513-626q0-14.45-9.48-24.22-9.48-9.78-23.5-9.78t-23.52 9.78Q447-640.45 447-626q0 13.6 9.48 22.8 9.48 9.2 23.5 9.2Zm.29 514q-82.74 0-155.5-31.5Q252-143 197.5-197.5t-86-127.34Q80-397.68 80-480.5t31.5-155.66Q143-709 197.5-763t127.34-85.5Q397.68-880 480.5-880t155.66 31.5Q709-817 763-763t85.5 127Q880-563 880-480.27q0 82.74-31.5 155.5Q817-252 763-197.68q-54 54.31-127 86Q563-80 480.27-80Zm.23-60Q622-140 721-239.5t99-241Q820-622 721.19-721T480-820q-141 0-240.5 98.81T140-480q0 141 99.5 240.5t241 99.5Zm-.5-340Z"/></svg></button></td>
           `;
         /*   row.className=`hover-scale transition transform duration-300 bg-blue-100 hover:bg-blue-200 cursor-pointer`; */
@@ -491,7 +445,7 @@ function afficherCargaisons(cargaisons:Cargaison[],page = 1): void {
           const target = event.target as HTMLElement;
             const parenttarget=target.parentNode as HTMLElement
               idCargarg= parenttarget!.getAttribute('data-id');
-              console.log(idCargarg);
+            
               ouvrirModal();
             });
           }); 
@@ -666,7 +620,7 @@ formProduct?.addEventListener('submit',function(event){
   const clientPhone = parseFloat((document.getElementById('clientPhone') as HTMLInputElement).value);
   const clientAdress = (document.getElementById('clientAddress') as HTMLInputElement).value;
   const clientMail = (document.getElementById('clientMail') as HTMLInputElement).value;
-  
+  const frais1:number =productPoids * 10000;
   
   const nomDestin = (document.getElementById('nomDestin') as HTMLInputElement).value;
   const prenomDestin = (document.getElementById('prenomDestin') as HTMLInputElement).value;
@@ -680,6 +634,10 @@ formProduct?.addEventListener('submit',function(event){
   let valid : boolean = true;
 /* let cl:client={clientFirstName:clientFirstName,clientLastName:clientFirstName,clientPhone:clientPhone,clientAdress:clientAdress}; */
  
+if(!productName){
+  showError('nomProduit', 'le champ ne doit pas etre vide');
+  
+}
 
  const produit = new Produit(
    'ajoutProduit',
@@ -697,7 +655,7 @@ formProduct?.addEventListener('submit',function(event){
       addressDestin,
       mailDestin,
       phoneDestin,
-      frais,
+      frais1,
       'disponible'
 )
     let sommepoids:number=0;
@@ -708,7 +666,7 @@ formProduct?.addEventListener('submit',function(event){
 
       const cargaisons: Cargaison[] = data.cargaisons;
 
-     /*  cargaisons.forEach(cargaison => { */
+     
         for( const cargaison of cargaisons){
 
         if(cargaison.numero === idCargarg){
@@ -804,8 +762,11 @@ function showAlert1(message:string,icone:string){
 
 function ChangerEtatCargo(idcargo: string | null, currentState: string | null): void {
   if (!idcargo || !currentState) return;
+  console.log(idcargo,currentState);
   
   const newState = currentState === 'ouvert' ? 'fermé' : 'ouvert';
+  console.log(newState);
+  
   fetch('../api.php', {
     method: 'POST',
     headers: {
@@ -848,7 +809,7 @@ function ChangerEtatCargo(idcargo: string | null, currentState: string | null): 
 function afficherProduit(produit:Produit[],page = 1,tbodyElement?:HTMLElement,idCargo?:string): void {
  
 
-  tbodyElement!.innerHTML = '';
+ /*  tbodyElement!.innerHTML = ''; */
   
   const debutIndex:number = (page - 1) * cargaisonsParPage;
   const finIndex:number = debutIndex + cargaisonsParPage;
@@ -882,7 +843,7 @@ function afficherProduit(produit:Produit[],page = 1,tbodyElement?:HTMLElement,id
       btn.addEventListener('change',function(event){
         const target=event.target as HTMLSelectElement;
         const state=target.value;
-        console.log(target.getAttribute('data-id'),state);
+     
         changer_etat_produit(idCargo, produit.numero,state)
       })
     })
