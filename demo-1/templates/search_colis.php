@@ -21,7 +21,7 @@ function searchColis($codeColis){
         }
     }
     if (($bool)) {
-      return [$bool,$prod];
+      return [$bool,$prod,$cargo];
         
     } else {
         return false;
@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      if (!empty($search)) {
         $colis = searchColis($search);
         if ($colis[0] === true) {
-            echo json_encode(["success" => true, "message" => "Colis trouvé : " . json_encode($colis[1])]);
+            echo json_encode(["success" => true, "message" => "Colis trouvé :Date arrivée prévue le : " . json_encode($colis[2]['dateArrive'])]);
         } else {
             echo json_encode(["success" => false, "message" => "Colis non trouvé."]);
         }

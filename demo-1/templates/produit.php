@@ -15,13 +15,9 @@
 </head>
 
 <body class="bg-gray-100">
-<button class="bg-blue-500 text-white px-4 py-2 rounded" id="bts">Show Alert</button>
-    <div id="alertModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 " style="display:none">
-        <div class="bg-white p-4 rounded shadow-lg text-center" id="showalert">
-            This is an alert message!
-        </div>
-    </div>
-  <div class="flex">
+
+    
+  <div class="block">
     
     <!-- Main Content -->
     
@@ -30,6 +26,8 @@
           <tr>
             <th class="py-2 px-4">Code</th>
             <th class="py-2 px-4">Type</th>
+            <th class="py-2 px-4">Etat</th>
+
             <th class="py-2 px-4">Poids(kg)</th>
             <th class="py-2 px-4">Prenom du client</th>
             <th class="py-2 px-4">Nom du client</th>
@@ -106,7 +104,7 @@
         </tbody>
       </table>
       <div class="flex justify-between mt-4">
-        <div>Showing 06-12 of 28</div>
+    
         <div id="pagination">
           <button class="py-1 px-3 bg-gray-300 rounded">1</button>
           <button class="py-1 px-3 bg-blue-500 text-white rounded">2</button>

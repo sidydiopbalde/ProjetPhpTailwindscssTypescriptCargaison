@@ -5,8 +5,42 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use Twilio\Rest\Client;
 use TCPDF;
-require '/var/www/html/projettailwinTs/demo-1/vendor/autoload.php';
 
+require '/var/www/html/projettailwinTs/demo-1/vendor/autoload.php';
+/* require 'test.php'; */
+use Vonage\Client\Credentials\Basic;
+/* use Vonage\Client;  */
+use Vonage\SMS\Message\SMS;
+
+$basic  = new \Vonage\Client\Credentials\Basic("1b8466a1", "znHkZvMpAo4uxMUC");
+$client = new \Vonage\Client($basic);
+
+function sendSMS($to, $message, $from = 'SDB_CARGO_COMPANY') {
+    $key = '1b8466a1';
+    $secret = 'znHkZvMpAo4uxMUC';
+
+    try {
+        $basic = new Basic($key, $secret);
+        $client = new Client($basic);
+
+        $response = $client->sms()->send(
+            new SMS($to, $from, $message)
+        );
+
+        $message = $response->current();
+
+        if ($message->getStatus() == 0) {
+            error_log("SMS sent successfully to $to");
+            return "The message was sent successfully\n";
+        } else {
+            error_log("Failed to send SMS to $to with status: " . $message->getStatus());
+            return "The message failed with status: " . $message->getStatus() . "\n";
+        }
+    } catch (Exception $e) {
+        error_log("Error sending SMS: " . $e->getMessage());
+        return "An error occurred: " . $e->getMessage() . "\n";
+    }
+}
 function envoyerEmail($destinataire, $sujet, $message) {
     $mail = new PHPMailer(true);
     try {
@@ -74,9 +108,8 @@ function generateReceipt($cargaison, $produit) {
 
     // Cargaison Info
     $pdf->SetFont('helvetica', '', 12);
-    $html = '<h3>Informations de la Cargaison</h3>';
+    $html = '<h1>Informations de la Cargaison</h1>';
     $html .= '<p>Numéro: ' . $cargaison['numero'] . '</p>';
-    $html .= '<p>Poids Max: ' . $cargaison['poidsMax'] . ' kg</p>';
     $html .= '<p>Point de Départ: ' . $cargaison['pointDepart'] . '</p>';
     $html .= '<p>Point d\'Arrivée: ' . $cargaison['pointArrive'] . '</p>';
     $html .= '<p>Date de Départ: ' . $cargaison['dateDepart'] . '</p>';
@@ -90,7 +123,9 @@ function generateReceipt($cargaison, $produit) {
     $html .= '<p>Nom: ' . $produit['nomProduit'] . '</p>';
     $html .= '<p>Poids: ' . $produit['poids'] . ' kg</p>';
     $html .= '<p>Type: ' . $produit['typeProduit'] . '</p>';
-
+    $html .= '<p>Type: ' . $produit['frais'] .'FCFA </p>';
+    $html .= '<a href="http://www.sidy.diop.balde:8010/projettailwinTs/demo-1/public/index.php?page=connexion">Suivre mon colis</a>';
+    $html .= '<h1> SDB Cargo Company: Sénegal , Tel: +221 78-431-65-38</h1>';
     $pdf->writeHTML($html, true, false, true, false, '');
 
     // Save PDF to a file
@@ -203,89 +238,89 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $currentData = lireJSON('data.json');
 
-        // /* if ($currentData === null) {
-        //     error_log("Erreur de décodage JSON pour le fichier data.json");
-        //     echo json_encode(["status" => "error", "message" => "Erreur de lecture des données existantes"]);
-        //     exit;
-        // }
+        if ($currentData === null) {
+            error_log("Erreur de décodage JSON pour le fichier data.json");
+            echo json_encode(["status" => "error", "message" => "Erreur de lecture des données existantes"]);
+            exit;
+        }
        
          $poids=0;
-         foreach($cargaison['produit'] as $produit){
-           $poids += $produit['poids'];
-         } 
+        
         
          foreach ($currentData['cargaisons'] as &$cargaison) {
-            if ($cargaison['numero'] === $idCargo) {
-                
-                if($cargaison['etatGlobal'] === 'fermé' ){
-                  
-                    echo json_encode(["status" => "error", "message" => " cargaison 🔐"]);
-                    exit;
-                }
-                if($cargaison['etatAvancement'] === 'en cours' ){
-                  
-                    echo json_encode(["status" => "error", "message" => "la cargaison est en cours!!!!!"]);
-                    exit;
-                }
-                if($cargaison['etatAvancement'] === 'perdue' ){
-                  
-                    echo json_encode(["status" => "error", "message" => "impossible!!! cargaison perdue"]);
-                    exit;
-                }
-                if($cargaison['etatAvancement'] === 'archivé' ){
-                  
-                    echo json_encode(["status" => "error", "message" => "impossible!!! cargaison archivée!"]);
-                    exit;
-                }
-                
-                if($cargaison['poidsMax'] <= $poids){
-                    echo json_encode(["status" => "error", "message" => "la cargaison est en pleine"]);
-                    exit;
-                }
-                if($newProduct['typeProduit'] === 'maritime' && $cargaison['type'] === 'fragile'){
-                    echo json_decode(["status" => "error", "message" => "Ce produit ne peut etre transporté par cette cargaison"]);
-                    exit;
-                } 
-                /* foreach($cargaison['produit'] as $produit){
-                    $poids += $produit['poids'];
-                  } 
-                  if($cargaison['poidsMax'] <= $poids){
-                    echo json_decode(["status" => "error", "message" => "La cargaison est pleine"]);
-                    exit;
-                }  */
-                 $cargaison['produit'][] = $newProduct;
-                
-                $clientemail= $newProduct['clientMail'];
-                
-               $pdfFilename = generateReceipt($cargaison, $newProduct);
-               ecrireJSON('data.json', $currentData);
-        //         // Envoyer le reçu par email
-              $result= sendEmailWithReceipt($clientemail, $pdfFilename);
-             
-              //  echo json_encode($newProduct['clientMail']);
-        //         // if(!$result){
-        //         //     echo json_decode(["status" => "error", "message" => "erreur lors de l'envoie"]);
-        //         //     exit;
-        //         // }
-        //         //envoie de mail
-                 $message = " Bonjour! M/Mme {$newProduct['clientFirstName']} {$newProduct['clientLastName']} Votre produit a été ajouté avec succés dans la cargaison numéro {$cargaison['numero']}.
-                 Voici le code de votre produit {$newProduct['numero']} .Cordialement SDB CArgo Company ";
-
-                $result= envoyerEmail($clientemail,'Evolution de la cargaison',$message); 
-          if($result ===true){
-                 echo json_decode(["status" => "success", "message" => "Produit ajouté!! et le mail est bien envoyé"]);
-                 exit;
-             }else{
-                   echo json_decode(["status" => "error", "message" => "erreur d'envoie mail"]);
+                if ($cargaison['numero'] === $idCargo) {
                     
-        //         } */
-        //         break;
-            }
+                    if($cargaison['etatGlobal'] === 'fermé' ){
+                    
+                        echo json_encode(["status" => "error", "message" => " cargaison 🔐"]);
+                        exit;
+                    }
+                    if($cargaison['etatAvancement'] === 'en cours' ){
+                    
+                        echo json_encode(["status" => "error", "message" => "la cargaison est en cours!!!!!"]);
+                        exit;
+                    }
+                    if($cargaison['etatAvancement'] === 'perdue' ){
+                    
+                        echo json_encode(["status" => "error", "message" => "impossible!!! cargaison perdue"]);
+                        exit;
+                    }
+                    if($cargaison['etatAvancement'] === 'archivé' ){
+                    
+                        echo json_encode(["status" => "error", "message" => "impossible!!! cargaison archivée!"]);
+                        exit;
+                    }
+                
+                    if($newProduct['typeProduit'] === 'maritime' && $cargaison['type'] === 'fragile'){
+                        echo json_decode(["status" => "error", "message" => "Ce produit ne peut etre transporté par cette cargaison"]);
+                        exit;
+                    } 
+
+                    foreach($cargaison['produit'] as $produit){
+                        $poids += $produit['poids'];
+                    } 
+                    if($cargaison['poidsMax'] <= $poids){
+                        echo json_decode(["status" => "error", "message" => "La cargaison est pleine"]);
+                        exit;
+                    }  
+
+                    $cargaison['produit'][] = $newProduct;
+                    ecrireJSON('data.json', $currentData);
+                    
+                    $clientemail= $newProduct['emeteur']['Mail'];
+                    $numeroClient = '+221784316538';
+                    $destinataireMail=$newProduct['destinataire']['Mail'];
+
+                    $pdfFilename = generateReceipt($cargaison, $newProduct);
+                    // Envoyer le reçu par email
+                    $result= sendEmailWithReceipt($clientemail, $pdfFilename);
+                    sendEmailWithReceipt($destinataireMail,$pdfFilename);
+
+                    //envoie de mail
+                   $message = " Bonjour! M/Mme {$newProduct['clientFirstName']} {$newProduct['clientLastName']} Votre produit a été ajouté avec succés dans la cargaison numéro {$cargaison['numero']}.
+                   Voici le code de votre produit {$newProduct['numero']} .Cordialement SDB CArgo Company ";
+                   //envoie de sms
+                  /*   sendSms($numeroClient, $message ); */
+                
+                    if(!$result){
+                        echo json_decode(["status" => "error", "message" => "erreur lors de l'envoie"]);
+                        exit;
+                    }
+
+                    $result= envoyerEmail($clientemail,'Evolution de la cargaison',$message); 
+                    if($result ===true){
+                        echo json_decode(["status" => "success", "message" => "Produit ajouté!! et le mail est bien envoyé"]);
+                        exit;
+                    }else{
+                        echo json_decode(["status" => "error", "message" => "erreur d'envoie mail"]);
+                            
+                        break;
+                    }
         }
     }
 
         // // Re-lire le fichier pour vérifier
-        // $verifData = lireJSON('data.json');
+         $verifData = lireJSON('data.json');
          error_log("Données après écriture: " . print_r($verifData, true));
 
          echo json_encode(["status" => "success", "message" => "Produit ajouté avec succès"]);
@@ -330,31 +365,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $newState = $data['newState'];
 
         $currentData = lireJSON('data.json');
+
         if ($currentData === null) {
             error_log("Erreur de décodage JSON pour le fichier data.json");
             echo json_encode(["status" => "error", "message" => "Erreur de lecture des données existantes"]);
             exit;
         }
-
+        
         foreach ($currentData['cargaisons'] as &$cargaison) {
            
             if ($cargaison['numero'] === $idCargo) {
 
+               
                 if($newState === 'en attente' && $cargaison['etatAvancement'] === 'en cours'){
-                echo json_encode(["status" => "error", "message" => "la cargaison est en  route"]);
+                echo json_encode(["status" => "error", "message" => "Attention !la cargaison est en  route"]);
                 exit;
                 }
-                if($cargaison['etatGlobal'] === 'ouvert' && $newState === 'en cours' ){
+               /*  if($cargaison['etatGlobal'] === 'ouvert' && $newState === 'en cours' ){
                     echo json_encode(["status" => "error", "message" => "ferme d'abord la cargaison"]);
                     exit;
-                    }
-                  
+                } */
+                if(($newState === 'en attente' || $newState === 'en cours') && $cargaison['etatAvancement'] === 'arrivé'){
+                    echo json_encode(["status" => "error", "message" => "Attention !la cargaison est déjà arrivée"]);
+                    exit;
+                }
+
+                if(($newState === 'en attente' || $newState === 'en cours') && $cargaison['etatAvancement'] === 'perdue'){
+                    echo json_encode(["status" => "error", "message" => "Attention !la cargaison est est perdue"]);
+                    exit;
+                }
+                
                 if($newState === 'perdue'){
                     foreach ($cargaison['produit'] as &$produit) {
                         $produit['etat']= $newState;
                     }
                 }
+               /*  if($newState 'en cours' && $cargaison['produit'] == 0){
+                    
+                } */
+                if($newState === 'en cours'){
+                    $cargaison['etatGlobal']='fermé';
+                }
+                if($newState === 'arrivé'){
+                    foreach($cargaison['produit'] as $produit){
+                        $message = " Bonjour! M/Mme {$produit['emeteur']['FirstName']} {$produit['emeteur']['LastName']} la cargaison {$cargaison['numero']}.
+                        contenant votre colis {$produit['numero']} .Cordialement SDB CArgo Company ";
 
+                        /* envoyerEmail($produit['emeteur']['Mail'],'Evolution de la cargaison',$message); */
+                    }
+                    
+                 }
                 $cargaison['etatAvancement'] = $newState;
                
                 break;
@@ -376,10 +436,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         foreach ($currentData['cargaisons'] as &$cargaison) {
-            if($cargaison['etatAvancement'] === 'en cours' || $cargaison['etatGlobal'] === 'fermé'){
+           /*  if($cargaison['etatAvancement'] === 'en cours' || $cargaison['etatGlobal'] === 'fermé'){
                 echo json_encode(["status" => "error", "message" => "impossible! cargaison hors d'etat de retrait"]);
                  exit;
-            }
+            } */
 
             if ($cargaison['numero'] === $data['idcargo'] && $cargaison['etatGlobal'] === 'ouvert' && $cargaison['etatAvancement'] === 'en attente') {
                 foreach ($cargaison['produit'] as $key => $produit) {
@@ -415,20 +475,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 foreach ($cargaison['produit'] as &$produit) {
                     if ($produit['numero'] === $codeProduit) {
 
+                        if($cargaison['etatGlobal'] === 'fermé' || $cargaison['etatAvancement'] === 'en cours'){
 
-                        if($cargaison['etatGlobal'] === 'fermé' || $cargaison['etatAvancement']=== 'en attente'){
-
-                            echo json_encode(["status" => "error", "message" => "Erreur de lecture des données existantes"]);
+                            echo json_encode(["status" => "error", "message" => "impossible de changer l'etat "]);
                             exit;
                         }
 
-
-
                         $produit['etat'] = $newState;
-                        break; // Sortir de la boucle une fois le produit trouvé et mis à jour
+                        break; 
                     }
                 }
-                break; // Sortir de la boucle une fois la cargaison trouvée et mise à jour
+                break; 
             }
         }
     

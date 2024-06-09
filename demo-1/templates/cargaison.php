@@ -27,7 +27,7 @@
                     <div class="mb-4">
                         <label for="nomProduit" class="block text-gray-700">Nom du produit</label>
                         <input type="text" id="nomProduit" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <span class="nomProduitError" style="color:red"></span>
+                        <span id="nomProduitError" style="color:red"></span>
                     </div>
                     <div class="mb-4">
                         <label for="productType" class="block text-gray-700">Type de produit</label>
@@ -38,23 +38,19 @@
                             <option value="incassable">Incassable</option>
                             <option value="fragile">Fragile</option>
                         </select>
-                        <span class="productTypeError" style="color:red"></span>
+                        <span id="productTypeError" style="color:red"></span>
                     </div>
                     <div class="mb-4 hidden " style="display:none" id="toxicDiv" >
                         <label for="productToxicity" class="block text-gray-700">Toxicity</label>
                         <input type="number" id="productToxicity" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <span class="productToxicityError" style="color:red"></span>
+                        <span id="productToxicityError" style="color:red"></span>
                     </div>
                     <div class="mb-4">
                         <label for="productWeight" class="block text-gray-700">Poids</label>
                         <input type="number" id="productWeight" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <span class="productWeightError" style="color:red"></span>
+                        <span id="productWeightError" style="color:red"></span>
                     </div>
-                    <div class="mb-4">
-                        <label for="fraisProduit" class="block text-gray-700">frais</label>
-                        <input type="number" id="fraisProduit" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <span class="fraisProduitError" style="color:red"></span>
-                    </div>
+                   
                 </div>
                 <!-- Client Section -->
                 <div>
@@ -62,27 +58,27 @@
                     <div class="mb-4">
                         <label for="clientFirstName" class="block text-gray-700">Nom du client</label>
                         <input type="text" id="clientFirstName" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <span class="clientFirstNameError" style="color:red"></span>
+                        <span id="clientFirstNameError" style="color:red"></span>
                     </div>
                     <div class="mb-4">
                         <label for="clientLastName" class="block text-gray-700">Prenom du client</label>
                         <input type="text" id="clientLastName" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <span class="clientLastNameError" style="color:red"></span>
+                        <span id="clientLastNameError" style="color:red"></span>
                     </div>
                     <div class="mb-4">
                         <label for="clientPhone" class="block text-gray-700">Numero de telephone</label>
                         <input type="text" id="clientPhone" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <span class="clientPhoneError" style="color:red"></span>
+                        <span id="clientPhoneError" style="color:red"></span>
                     </div>
                     <div class="mb-4">
                         <label for="clientMail" class="block text-gray-700">E-mail</label>
                         <input type="text" id="clientMail" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <span class="clientMailError" style="color:red"></span>
+                        <span id="clientMailError" style="color:red"></span>
                     </div>
                     <div class="mb-4">
                         <label for="clientAddress" class="block text-gray-700">Adresse</label>
                         <input type="text" id="clientAddress" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <span class="clientAddressError" style="color:red"></span>
+                        <span id="clientAddressError" style="color:red"></span>
 
                     </div>
                 </div>
@@ -92,38 +88,38 @@
                     <div class="mb-4">
                         <label for="nomDestin" class="block text-gray-700">Nom du destinataire</label>
                         <input type="text" id="nomDestin" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <span class="nomDestinError" style="color:red"></span>
+                        <span id="nomDestinError" style="color:red"></span>
                     </div>
                     <div class="mb-4">
                         <label for="prenomDestin" class="block text-gray-700">Prenom du destinataire</label>
                         <input type="text" id="prenomDestin" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <span class="prenomDestinError" style="color:red"></span>
+                        <span id="prenomDestinError" style="color:red"></span>
                     </div>
                     <div class="mb-4">
                         <label for="emailDestin" class="block text-gray-700">Email</label>
                         <input type="text" id="emailDestin" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <span class="emailDestinError" style="color:red"></span>
+                        <span id="emailDestinError" style="color:red"></span>
                     </div>
                     <div class="mb-4">
                         <label for="phoneDestin" class="block text-gray-700">Phone</label>
                         <input type="text" id="phoneDestin" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <span class="phoneDestin" style="color:red"></span>
+                        <span id="phoneDestinError" style="color:red"></span>
                     </div>
                     <div class="mb-4">
                         <label for="addressDestin" class="block text-gray-700">Adresse du destinataire</label>
                         <input type="text" id="addressDestin" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <span class="addressDestinError" style="color:red">e</span>
+                        <span id="addressDestinError" style="color:red">e</span>
                     </div>
                 </div>
             </div>
-            <button type="submit" id="addProduct" class="w-full text-blue-600   py-2 rounded-lg mt-6">Ajouter</button>
+            <button type="submit" id="addProduct" class="w-full bg-blue-500 text-blue-500  py-2 rounded-lg mt-6">Ajouter</button>
         </form>
     </div>
 </dialog>
 
 <!-- modal details cargaison -->
 <dialog id="mymodal2" class="modal"> 
-    <div class="bg-white p-6 rounded-lg shadow-lg border" style="width:60%">
+    <div class="bg-white p-6 rounded-lg shadow-lg border" style="width:60% ;overflow:scroll">
         <form method="dialog" class="border-none">
             <!-- if there is a button in form, it will close the modal -->
             <button class="btn">Close</button> 
@@ -171,55 +167,39 @@
         </div>
     </div
           <!--  filtre  -->
-      <!-- <div id="blockfiltrer" class="py-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <label for="selectFilter" class="text-blue-500">Filtrer par :</label>
-        <div class="flex items-center justify-evenly gap-3 w-full">
-          <select id="selectFilter"
-            class="w-32 py-2 rounded border border-gray-300 focus:outline-none focus:border-blue-500">
-            <option value="">Sélectionner</option>
-            <option value="all">Tous</option>
-            <option value="filterNumero">Code</option>
-            <option value="filterPointDepart">Départ</option>
-            <option value="filt erPointArrive">Arrivée</option>
-            <option value="filterType">Type</option>
-            <option value="filterdateDepart">Date de départ</option>
-            <option value="filterdateArrive">Date d'arrivée</option>
-          </select>
-          <div id="selectedFilterInput" class="flex items-center gap-3"></div>
-          <button id="filterBtn" class="w-20 bg-blue-500 rounded-lg text-white py-2">Filtrer</button>
-        </div>
-      </div> -->
+   
       <div id="blockfiltrer" class="py-2 w-4/5 flex justify-between gap-1" >
     <div class="">
       <label for="filterNumero" class="text-blue-500">Filtrer par Code</label>
-    <input type="text" class="py-4 rounded px-2 "  style="width: 150px"id="filterNumero" style="padding:0.5rem" placeholder="Filtrer par numéro">
+    <input type="text" class="py-4 rounded px-2 "  style="padding:0.5rem;width:150px" id="filterNumero" style="padding:0.5rem" placeholder="enter code">
     </div>
     <div>
 
-      <label for="filterPointDepart" class="text-blue-500">filtrer depart</label>
-      <input type="text" id="filterPointDepart" style="padding:0.5rem; width: 150px"  placeholder="Filtrer par point de départ">
+      <label for="filterPointDepart" class="text-blue-500">filtrer point depart</label>
+      <input type="text" id="filterPointDepart" style="padding:0.5rem; width: 150px"  placeholder="enter départ">
     </div>
     <div>
 
-      <label for="filtrer Arrivée" class="text-blue-500">point Arrivé</label>
-    <input type="text" id="filterPointArrive" style="padding:0.5rem ; width: 150px"  placeholder="Filtrer par point d'arrivée">
+      <label for="filterPointArrive" class="text-blue-500">point point Arrivé</label>
+    <input type="text" id="filterPointArrive" style="padding:0.5rem ; width: 150px"  placeholder="enterarrivée">
+    </div>
+
+    <div>
+
+    <label for="filterType" class="text-blue-500">filtrer type</label>
+    <input type="text" id="filterType" style="padding:0.5rem; width: 150px"  placeholder="enter type">
     </div>
     <div>
 
-      <label for="filterType" class="text-blue-500">filtrer type</label>
-    <input type="text" id="filterType" style="padding:0.5rem; width: 150px"  placeholder="Filtrer par type">
-    </div>
-    <div>
-
-<label for="filterPointDepart" class="text-blue-500">filtrer date dpt</label>
-<input type="text" id="filterdateDepart" style="padding:0.5rem ;width: 150px"  placeholder="Filtrer par point de départ">
+<label for="filterdateDepart" class="text-blue-500">filtrer date dpt</label>
+<input type="text" id="filterdateDepart" style="padding:0.5rem ;width: 150px"  placeholder="enter date de départ">
 </div>
 <div>
 
-<label for="filtrer Arrivée" class="text-blue-500">point date  Arrivé</label>
-<input type="text" id="filterdateArrive" style="padding:0.5rem ;width: 150px"  placeholder="Filtrer par point d'arrivée">
+<label for="filterdateArrive" class="text-blue-500">point date  Arrivé</label>
+<input type="text" id="filterdateArrive" style="padding:0.5rem ;width: 150px; color:blue"  placeholder="enter date d'arrivée">
 </div>
-  <button id="filterBtn" class="bg-blue-500 rounded-lg text-white">Filtrer</button>
+  <button id="filterBtn" class="bg-blue-500 rounded-lg text-white flex"><svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#FFFFFF"><path d="M673-446.67H160v-66.66h513l-240-240L480-800l320 320-320 320-47-46.67 240-240Z"/></svg>filtrer</button>
 </div> 
       <!-- Modal -->
       <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">

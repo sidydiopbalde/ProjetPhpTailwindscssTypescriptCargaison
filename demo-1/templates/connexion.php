@@ -44,22 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: http://www.sidy.diop.balde:8010/projettailwinTs/demo-1/public/index.php?page=cargaison");
             exit; 
         }  
-    } /* elseif (isset($_POST['search'])) {
-        include '/var/www/html/projettailwinTs/demo-1/public/authentification.php';
-     
-        
-        $search = $_POST['search'] ?? '';
-    if(!empty($search)){
-    $colis = searchColis($search);
-   
-
-    if ($colis[0]=== true) {
-        $searchMessage = "Colis trouvé : " . json_encode($colis) ;
-    } else {
-        $searchMessage = "Colis non trouvé.";
-    } 
-}
-} */
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -70,14 +55,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <title>Page de connexion</title>
+    <script>
+        window.history.pushState(null, "", window.location.href);
+        window.onpopstate = function () {
+            window.history.pushState(null, "", window.location.href);
+        };
+    </script>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div class="w-full max-w-md bg-white shadow-lg rounded-lg p-8" id="selectionSection">
-        <button onclick="showAdminLogin()" class="w-full bg-blue-600 text-white py-2 rounded-md text-xl hover:bg-blue-700 mb-4">Admin Login</button>
-        <button onclick="showClientSearch()" class="w-full bg-green-600 text-white py-2 rounded-md text-xl hover:bg-green-700">Client Search</button>
-    </div>
+    
+
+      
+        <div class="w-full max-w-md bg-white shadow-lg rounded-lg p-8" id="selectionSection">
+            <button onclick="showAdminLogin()" class="w-full bg-blue-600 text-white py-2 rounded-md text-xl hover:bg-blue-700 mb-4">Admin Login</button>
+            <button onclick="showClientSearch()" class="w-full bg-green-600 text-white py-2 rounded-md text-xl hover:bg-green-700">Suivre mon colis</button>
+        </div>
+  
     <div class="w-full max-w-md bg-white shadow-lg rounded-lg p-8 hidden" id="adminLoginSection">
-        <form method="post" action="" class="space-y-6">
+        <form method="post" action="" class="space-y-6" id="formAmdinLogin">
             <div class="flex justify-center">
                 <img src="../public/logo.png" alt="SDB CARGO COMPANY" class="w-40 h-50">
             </div>
@@ -108,20 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </form>
     </div>
-   <!--  <div class="w-full max-w-md bg-white shadow-lg rounded-lg p-8 hidden" id="clientSearchSection">
-        <form method="post" action="" class="space-y-6">
-            <div class="flex justify-center">
-                <img src="../public/logo.png" alt="SDB CARGO COMPANY" class="w-40 h-50">
-            </div>
-            <div>
-                <label for="search" class="block text-gray-700">Search Colis <span class="text-red-500">*</span></label>
-                <input type="text" name="search" class="block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="Enter colis number*">
-            </div>
-            <div>
-                <button type="submit" class="w-full bg-green-600 text-white py-2 rounded-md text-xl hover:bg-green-700">Search</button>
-            </div>
-        </form>
-    </div> -->
+  
     <div class="w-full max-w-md bg-white shadow-lg rounded-lg p-8 hidden" id="clientSearchSection">
         <form id="searchForm" method="post" action="javascript:void(0);" class="space-y-6">
             <div class="flex justify-center">
@@ -147,7 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             document.getElementById('selectionSection').classList.add('hidden');
             document.getElementById('clientSearchSection').classList.remove('hidden');
         }
-
+        
         document.getElementById('searchForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const searchValue = document.getElementById('search').value;
@@ -167,6 +149,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             .then(data => {
                 console.log("Response data:", data);
                 if (data.success) {
+                    console.log(data.message);
                     searchMessage.innerHTML = data.message;
                     searchMessage.classList.remove('text-red-500');
                     searchMessage.classList.add('text-green-500');
@@ -182,10 +165,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 searchMessage.classList.add('text-red-500');
             }); 
         });
-        /* fetch('../data.json')
-        .then(response => response.json())
-        .then(data => {
-        console.log(data);}) */
+       
         </script>
 </body>
 </html>

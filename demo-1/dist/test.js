@@ -1,6 +1,4 @@
-/* import { Produit } from "./Model/Produit.js"; */
-import { Cargaison } from "./Model/Cargaison.js";
-import { Produit } from "./Model/Cargaison.js";
+import { Cargaison, Produit1, Alimentaire, Chimique, Fragile, Incassable } from "./Model/Cargaison.js";
 /* const terrestre = new Terrestre(5000, []);
 const terrestre1 = new Terrestre(4000, []);
 const aerienne = new Aerienne(1000, []);
@@ -167,6 +165,7 @@ document.getElementById('filterBtn')?.addEventListener('click', () => {
 //=============== Fonction pour afficher un message d'erreur============================
 function showError(elementId, message) {
     const errorElement = document.getElementById(elementId + 'Error');
+    console.log(errorElement);
     if (errorElement) {
         errorElement.textContent = message;
     }
@@ -296,25 +295,21 @@ document.getElementById('addCargoForm')?.addEventListener('submit', (event) => {
         })
             .then(response => response.json())
             .then(result => {
-            console.log(result);
             if (result.status === 'success') {
-                alert(result.message);
+                showAlert1(result.message, 'success');
                 document.getElementById('addCargoForm').reset();
             }
             else {
-                alert('Erreur lors de l\'ajout de la cargaison');
+                showAlert1('Erreur lors de l\'ajout de la cargaison', 'error');
             }
         })
             .catch(error => {
             console.error('Erreur:', error);
         });
     }
-});
-/* ===============valider button===================== */
-document.getElementById('addCargoForm')?.addEventListener('submit', () => {
     displaydata();
 });
-/* ========================fonction de pagination==================== */
+//========================fonction de pagination==================== 
 var idCargarg;
 var idDetails;
 const cargaisonsParPage = 5; // Définir le nombre de cargaisons par page
@@ -331,18 +326,16 @@ function afficherCargaisons(cargaisons, page = 1) {
     cargaisonsPage.forEach(cargaison => {
         const row = document.createElement('tr');
         row.innerHTML = `
-        <td class="px-4 py-2 ">${cargaison.numero}</td>
-        <td class="px-4 py-2 ">${cargaison.type}</td>
-        <td class="px-4 py-2 ">${cargaison.dateDepart}</td>
-        <td class="px-6 py-2 ">${cargaison.dateArrive}</td>
+          <td class="px-4 py-2 ">${cargaison.numero}</td>
+          <td class="px-4 py-2 ">${cargaison.type}</td>
+          <td class="px-4 py-2 ">${cargaison.dateDepart}</td>
+          <td class="px-6 py-2 ">${cargaison.dateArrive}</td>
           <td class="px-4 py-2 ">${cargaison.pointDepart}</td>
           <td class="px-4 py-2 ">${cargaison.pointArrive}</td>
           <td class="px-4 py-2 ">${cargaison.distance}</td>
           <td class="px-4 py-2 text-blue-500" id="etat-${cargaison.numero}">${cargaison.etatGlobal}</td>
-
           <td class="px-4 py-4" data-id="${cargaison.numero}">
-
-          <select class="btn-avancement" data-id="${cargaison.numero}">
+          <select class="btn-avancement shadow-lg select-bordered" data-id="${cargaison.numero}">
           <option value="en attente" ${cargaison.etatAvancement === 'en attente' ? 'selected' : ''}>en attente</option>
           <option value="en cours" ${cargaison.etatAvancement === 'en cours' ? 'selected' : ''}>en cours</option>
           <option value="arrivé" ${cargaison.etatAvancement === 'arrivé' ? 'selected' : ''}>arrivé</option>
@@ -350,13 +343,20 @@ function afficherCargaisons(cargaisons, page = 1) {
         </select>
 
           </td>
-          <td class="px-4 py-2"><button class="text-red-500 px-6 py-4 rounded toggle-state" style="font-size:30px;color:red;" data-id="${cargaison.numero}" data-state="${cargaison.etatGlobal}">${cargaison.etatGlobal === 'ouvert' ? 'Close' : 'Open'}</button></td>
-          <td class="px-4 py-2  btn-view " data-id='${cargaison.numero}'> <i class="fas fa-plus"    style="font-size:48px;color:blue;">+</i></td>
+          <td class="px-4 py-2"><button class="text-red-500 px-6 py-4 rounded toggle-state" style="font-size:25px;color:red;" data-id="${cargaison.numero}" data-state="${cargaison.etatGlobal}">${cargaison.etatGlobal === 'ouvert' ? 'Close' : 'Open'}</button></td>
+          <td class="px-4 py-2 btn-view ${cargaison.etatGlobal === 'fermé' ? 'none' : ''}" data-id='${cargaison.numero}'>
+          <i class="fas fa-plus ${cargaison.etatGlobal === 'fermé' ? 'none' : ''}" style="font-size:30px;color:blue;">+</i>
+      </td>
           <td class="px-4 py-2"><button class=" text-blue-500 px-6 py-4 rounded btn-details" type="button" data-id="${cargaison.numero}" ><svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#2854C5"><path d="M453-280h60v-240h-60v240Zm26.98-314q14.02 0 23.52-9.2T513-626q0-14.45-9.48-24.22-9.48-9.78-23.5-9.78t-23.52 9.78Q447-640.45 447-626q0 13.6 9.48 22.8 9.48 9.2 23.5 9.2Zm.29 514q-82.74 0-155.5-31.5Q252-143 197.5-197.5t-86-127.34Q80-397.68 80-480.5t31.5-155.66Q143-709 197.5-763t127.34-85.5Q397.68-880 480.5-880t155.66 31.5Q709-817 763-763t85.5 127Q880-563 880-480.27q0 82.74-31.5 155.5Q817-252 763-197.68q-54 54.31-127 86Q563-80 480.27-80Zm.23-60Q622-140 721-239.5t99-241Q820-622 721.19-721T480-820q-141 0-240.5 98.81T140-480q0 141 99.5 240.5t241 99.5Zm-.5-340Z"/></svg></button></td>
           `;
-        /*   row.className=`hover-scale transition transform duration-300 bg-blue-100 hover:bg-blue-200 cursor-pointer`; */
+        row.className = `hover-scale transition transform duration-300 bg-blue-100 hover:bg-blue-200 cursor-pointer`;
         row.className = `  bg-blue-100 hover:bg-blue-200 cursor-pointer`;
         cargaisonList.appendChild(row);
+        if (cargaison.etatGlobal === 'fermé' || cargaison.etatAvancement === 'perdue'
+            || cargaison.etatAvancement === 'arrivé' || cargaison.etatAvancement === 'en cours') {
+            const plusButton = row.querySelector('.fas');
+            plusButton.style.display = 'none';
+        }
         // boutton ++++
         document.querySelectorAll('.btn-view').forEach(button => {
             button.addEventListener('click', (event) => {
@@ -371,9 +371,7 @@ function afficherCargaisons(cargaisons, page = 1) {
             button.addEventListener('click', (event) => {
                 const target = event.target;
                 const parenttarget = target.parentNode;
-                console.log(target, parenttarget);
                 idDetails = parenttarget.getAttribute('data-id');
-                console.log(parenttarget.getAttribute('data-id'));
                 ouvrirModalDetails();
                 afficherDetailsCargaison(idDetails);
             });
@@ -414,6 +412,11 @@ function afficherCargaisons(cargaisons, page = 1) {
     });
 }
 /* =================modal ajout produit============================= */
+/* document.getElementById('addProduct')?.addEventListener('click',function(){
+  console.log("click");
+  
+  fermerModalAjout();
+}) */
 function ouvrirModal() {
     const modal = document.getElementById('mymodal1');
     if (modal) {
@@ -430,6 +433,12 @@ function fermerModalDetatils() {
     const modal = document.getElementById('mymodal2');
     if (modal) {
         modal.classList.add('hidden');
+    }
+}
+function fermerModalAjout() {
+    const modal = document.getElementById('mymodal1');
+    if (modal) {
+        modal.style.display = "none";
     }
 }
 /* =========>tableau de class tailwinds des buttons pgt=============== */
@@ -484,15 +493,20 @@ SelectProTypre?.addEventListener('change', () => {
         document.getElementById('toxicDiv').style.display = "none";
     }
 });
-/* ==========recuperation et fetchage du produit========================== */
+/* ==========recuperation et fetch du produit========================== */
+/* function showError(elementId: string, message: string) {
+  const errorElement = document.getElementById(elementId + 'Error');
+  if (errorElement) {
+    errorElement.textContent = message;
+  }
+} */
 const formProduct = document.getElementById('addProductForm');
-let distance;
 formProduct?.addEventListener('submit', function (event) {
     const addProduct = document.getElementById('addProduct');
     const productPoids = parseFloat(document.getElementById('productWeight').value);
+    const productToxicity = parseFloat(document.getElementById('productToxicity').value);
     const productType = document.getElementById('productType').value;
     const codeProduit = "SDBPRO" + Math.floor(Math.random() * 1000);
-    const frais = parseFloat(document.getElementById('fraisProduit').value);
     const clientFirstName = document.getElementById('clientFirstName').value;
     const clientLastName = document.getElementById('clientLastName').value;
     const clientPhone = parseFloat(document.getElementById('clientPhone').value);
@@ -502,43 +516,155 @@ formProduct?.addEventListener('submit', function (event) {
     const nomDestin = document.getElementById('nomDestin').value;
     const prenomDestin = document.getElementById('prenomDestin').value;
     const addressDestin = document.getElementById('addressDestin').value;
-    const mailDestin = document.getElementById('emailDestin').value;
+    const emailDestin = document.getElementById('emailDestin').value;
     const phoneDestin = parseFloat(document.getElementById('phoneDestin').value);
     const productName = document.getElementById('nomProduit').value;
     event?.preventDefault();
     let valid = true;
-    /* let cl:client={clientFirstName:clientFirstName,clientLastName:clientFirstName,clientPhone:clientPhone,clientAdress:clientAdress}; */
+    const emetteur = { FirstName: clientFirstName, LastName: clientLastName, Phone: clientPhone, Adress: clientAdress, Mail: clientMail };
+    const destinataire = { FirstName: nomDestin, LastName: prenomDestin, Phone: clientPhone, Adress: addressDestin, Mail: emailDestin };
+    const prod = new Produit1(codeProduit, productPoids, productName, productType, frais1, 'disponible', emetteur, destinataire);
+    let prod1;
+    if (productType === 'alimentaire') {
+        prod1 = new Alimentaire(codeProduit, productPoids, productName, productType, frais1, 'disponible', emetteur, destinataire);
+    }
+    if (productType === 'chimique') {
+        prod1 = new Chimique(codeProduit, productPoids, productName, productType, frais1, 'disponible', emetteur, destinataire, productToxicity);
+    }
+    if (productType === 'incassable') {
+        prod1 = new Incassable(codeProduit, productPoids, productName, productType, frais1, 'disponible', emetteur, destinataire);
+    }
+    if (productType === 'fragile') {
+        prod1 = new Fragile(codeProduit, productPoids, productName, productType, frais1, 'disponible', emetteur, destinataire);
+    }
     if (!productName) {
         showError('nomProduit', 'le champ ne doit pas etre vide');
+        console.log("rama");
+        valid = false;
     }
-    const produit = new Produit('ajoutProduit', codeProduit, productPoids, productName, productType, clientFirstName, clientLastName, clientPhone, clientMail, clientAdress, nomDestin, prenomDestin, addressDestin, mailDestin, phoneDestin, frais1, 'disponible');
+    if (!productType) {
+        showError('productType', 'Type de produit est requis');
+        valid = false;
+    }
+    else {
+        showError('productType', "");
+        valid = true;
+    }
+    if (!clientFirstName) {
+        showError('clientFirstName', 'prenom client est requis');
+        valid = false;
+    }
+    else {
+        showError('clientFirstName', "");
+        valid = true;
+    }
+    if (!clientLastName) {
+        showError('clientLastName', 'prenom client est requis');
+        valid = false;
+    }
+    else {
+        showError('clientLastName', "");
+        valid = true;
+    }
+    if (!clientPhone) {
+        showError('clientPhone', 'prenom client est requis');
+        valid = false;
+    }
+    else {
+        showError('clientPhone', "");
+        valid = true;
+    }
+    if (!clientAdress) {
+        showError('clientAdress', 'prenom client est requis');
+        valid = false;
+    }
+    else {
+        showError('clientAdress', "");
+        valid = true;
+    }
+    if (!clientMail) {
+        showError('clientMail', 'prenom client est requis');
+        valid = false;
+    }
+    else {
+        showError('clientMail', "");
+        valid = true;
+    }
+    if (!nomDestin) {
+        showError('nomDestin', 'prenom client est requis');
+        valid = false;
+    }
+    else {
+        showError('nomDestin', "");
+        valid = true;
+    }
+    if (!prenomDestin) {
+        showError('prenomDestin', 'prenom client est requis');
+        valid = false;
+    }
+    else {
+        showError('prenomDestin', "");
+        valid = true;
+    }
+    if (!addressDestin) {
+        showError('addressDestin', 'prenom client est requis');
+        valid = false;
+    }
+    else {
+        showError('addressDestin', "");
+        valid = true;
+    }
+    if (!prenomDestin) {
+        showError('prenomDestin', 'prenom client est requis');
+        valid = false;
+    }
+    else {
+        showError('prenomDestin', "");
+        valid = true;
+    }
+    if (!emailDestin) {
+        showError('emailDestin', 'prenom client est requis');
+        valid = false;
+    }
+    else {
+        showError('emailDestin', "");
+        valid = true;
+    }
+    if (!productPoids) {
+        showError('productWeight', 'prenom client est requis');
+        valid = false;
+    }
+    else {
+        showError('productWeight', "");
+        valid = true;
+    }
+    if (!phoneDestin) {
+        showError('phoneDestin', 'prenom client est requis');
+        valid = false;
+    }
+    else {
+        showError('phoneDestin', "");
+        valid = true;
+    }
     let sommepoids = 0;
     fetch('../api.php')
         .then(response => response.json())
         .then(data => {
         const cargaisons = data.cargaisons;
+        const msg = "ce type de produit ne peut etre transporter par cette cargaison";
         for (const cargaison of cargaisons) {
             if (cargaison.numero === idCargarg) {
-                cargaison.produit.forEach((produit) => {
-                    sommepoids += produit.poids;
-                });
-                console.log("Somme des poids est :", sommepoids);
-                if (cargaison.poidsMax <= sommepoids) {
-                    valid = false;
-                    alert('la cargaison est pleine');
-                    return;
-                }
                 if (cargaison.type === 'maritime' && productType === 'fragile') {
                     valid = false;
-                    alert("ce type de produit ne peut etre transporter par cette cargaison");
+                    showAlert1(msg, 'error');
                 }
                 else if (cargaison.type === 'aerienne' && productType === "chimique") {
                     valid = false;
-                    alert("ce type de produit ne peut etre transporter par cette cargaison");
+                    showAlert1(msg, 'error');
                 }
                 else if (cargaison.type === 'terrestre' && productType === "chimique") {
                     valid = false;
-                    alert("ce type de produit ne peut etre transporter par cette cargaison");
+                    showAlert1(msg, 'error');
                 }
             }
             break;
@@ -546,7 +672,7 @@ formProduct?.addEventListener('submit', function (event) {
     });
     if (valid) {
         const objectProduct = {
-            "produit": produit,
+            "produit": prod,
             "action": "ajoutProduit",
             "numero": idCargarg
         };
@@ -566,24 +692,19 @@ function fetcher(object) {
         .then(response => response.json())
         .then(result => {
         if (result.status === 'success') {
-            /*   fermerModalDetatils()  */
             showAlert1(result.message, 'success');
         }
         else if (result.status === 'error') {
             showAlert1(result.message, 'error');
         }
         else {
-            showAlert('Erreur ');
+            showAlert1('Erreur ', 'error');
         }
     })
         .catch(error => {
         console.error('Erreur:', error);
     });
 }
-/*  (document.getElementById('productWeight') as HTMLInputElement).addEventListener('input',function(){
-   ((document.getElementById('fraisProduit') as HTMLInputElement).value)=
-   (document.getElementById('productWeight') as HTMLInputElement).value * distance;
- }) */
 //fonction pour afficher Alert
 function showAlert1(message, icone) {
     Swal.fire({
@@ -600,7 +721,6 @@ function ChangerEtatCargo(idcargo, currentState) {
         return;
     console.log(idcargo, currentState);
     const newState = currentState === 'ouvert' ? 'fermé' : 'ouvert';
-    console.log(newState);
     fetch('../api.php', {
         method: 'POST',
         headers: {
@@ -636,31 +756,34 @@ function ChangerEtatCargo(idcargo, currentState) {
 }
 /* ==================fonction pour ajouter des produits============ */
 function afficherProduit(produit, page = 1, tbodyElement, idCargo) {
-    /*  tbodyElement!.innerHTML = ''; */
+    tbodyElement.innerHTML = '';
     const debutIndex = (page - 1) * cargaisonsParPage;
     const finIndex = debutIndex + cargaisonsParPage;
     const cargaisonsPage = produit.slice(debutIndex, finIndex);
-    cargaisonsPage.forEach(produit => {
+    produit.forEach(produit => {
         const row = document.createElement('tr');
         row.innerHTML = `
     <td class="px-3 py-4 ">${produit.numero}</td>
     <td class="px-3 py-4 ">${produit.typeProduit}</td>
+
     <td class="px-3 py-4">
-    <select class="btn-etatProduit" data-id="${produit.numero}">
+    <select class="btn-etatProduit shadow-lg select-bordered" data-id="${produit.numero}">
     <option value="disponible" ${produit.etat === 'disponible' ? 'selected' : ''}>disponible</option>
     <option value="perdu" ${produit.etat === 'perdu' ? 'selected' : ''}>perdu</option>
+    <option value="recuperée" ${produit.etat === 'recuperée' ? 'selected' : ''}>recuperée</option>
     <option value="archivé" ${produit.etat === 'archivé' ? 'selected' : ''}>archivé</option>
    </select>
     </td>
     <td class="px-3 py-4 ">${produit.frais}</td>
    
-    <td class="px-3 py-4 ">${produit.clientFirstName}</td>
-    <td class="px-3 py-4 ">${produit.clientLastName}</td>
-    <td class="px-3 py-4 ">${produit.nomDestin}</td>
-    <td class="px-3 py-4 ">${produit.prenomDestin}</td>
+    <td class="px-3 py-4 ">${produit.poids}</td>
+    <td class="px-3 py-4 ">${produit.emeteur.FirstName}</td>
+    <td class="px-3 py-4 ">${produit.emeteur.LastName}</td>
+    <td class="px-3 py-4 ">${produit.destinataire.FirstName}</td>
+    <td class="px-3 py-4 ">${produit.destinataire.LastName}</td>
     <td class="px-3 py-4  btn-trash" data-id='${produit.numero}'> <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" data-id='${produit.numero}' fill="#EA3323"><path data-id='${produit.numero}' d="M261-120q-24.75 0-42.37-17.63Q201-155.25 201-180v-570h-41v-60h188v-30h264v30h188v60h-41v570q0 24-18 42t-42 18H261Zm438-630H261v570h438v-570ZM367-266h60v-399h-60v399Zm166 0h60v-399h-60v399ZM261-750v570-570Z"/></svg></td>
     `;
-        /*  row.className=`hover-scale transition transform duration-300 bg-blue-100 hover:bg-blue-200 cursor-pointer`; */
+        row.className = `hover-scale transition transform duration-300 bg-blue-100 hover:bg-blue-200 cursor-pointer`;
         tbodyElement.appendChild(row);
         document.querySelectorAll('.btn-etatProduit').forEach(btn => {
             btn.addEventListener('change', function (event) {
@@ -740,7 +863,6 @@ function changer_etat_avancement_cargo(cargaisonId, etat) {
 }
 /* ====================================changer etat produit========================== */
 function changer_etat_produit(cargaisonId, codeProduit, etat) {
-    console.log({ action: 'changerEtatProduit', id: cargaisonId, newetatProd: etat, codePro: codeProduit });
     fetcher({ action: 'changerEtatProduit', id: cargaisonId, newetatProd: etat, codePro: codeProduit });
 }
 function showAlert(messag) {

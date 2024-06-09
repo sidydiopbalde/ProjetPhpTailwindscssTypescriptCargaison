@@ -25,3 +25,4 @@
           <img src="https://via.placeholder.com/40" alt="User Avatar" class="rounded-full">
         </div>
       </div>
+      
